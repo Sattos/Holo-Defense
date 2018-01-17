@@ -119,6 +119,27 @@ namespace HoloToolkit.Unity
             [In] float minFacingClearance,
             [In] int locationCount,             // Pass in the space allocated in locationData
             [In, Out] IntPtr locationData);     // TopologyResult
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="topLeft"></param>
+        /// <param name="topRight"></param>
+        /// <param name="bottomLeft"></param>
+        /// <param name="bottomRight"></param>
+        /// <param name="requestType"></param>
+        /// <param name="surfaceType"></param>
+        /// <param name="locationData"></param>
+        /// <returns></returns>
+        [DllImport("SpatialUnderstanding")]
+        public static extern bool QueryTopology_IsValidRect(
+            [In] Vector3 topLeft,
+            [In] Vector3 topRight,
+            [In] Vector3 bottomLeft,
+            [In] Vector3 bottomRight,
+            [In] int requestType,
+            [In] int surfaceType,
+            [In, Out] IntPtr locationData);
     }
 
 }

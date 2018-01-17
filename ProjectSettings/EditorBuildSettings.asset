@@ -4,4 +4,7 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/SpatialUnderstandingExample.unity
+    guid: 5f4533d4a8b401e4793b658b30cb05c0
