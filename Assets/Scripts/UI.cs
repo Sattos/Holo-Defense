@@ -214,13 +214,19 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             // Topology queries
             ButtonPanels[(int)Panels.Topology].Button.GetComponentInChildren<Text>().text = "Topology Queries";
             ButtonPanels[(int)Panels.Topology].Button.onClick.AddListener(() => { SetActiveTab(Panels.Topology); });
-            AddButton("Position on wall", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindPositionOnWall(); timeLastQuery = DateTime.MinValue; });
-            AddButton("Large positions on wall", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindLargePositionsOnWalls(); timeLastQuery = DateTime.MinValue; });
-            AddButton("Largest wall", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindLargeWall(); timeLastQuery = DateTime.MinValue; });
-            AddButton("Positions on floor", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindPositionsOnFloor(); timeLastQuery = DateTime.MinValue; });
-            AddButton("Large positions on floor", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindLargestPositionsOnFloor(); timeLastQuery = DateTime.MinValue; });
-            AddButton("Place objects positions", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindPositionsPlaceable(); timeLastQuery = DateTime.MinValue; });
-            AddButton("Place object", Panels.Topology, () => { AppState.Instance.PlaceObjects(0.2f, 0.2f, 0.0f, 0.0f); timeLastQuery = DateTime.MinValue; });
+            //AddButton("Position on wall", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindPositionOnWall(); timeLastQuery = DateTime.MinValue; });
+            //AddButton("Large positions on wall", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindLargePositionsOnWalls(); timeLastQuery = DateTime.MinValue; });
+            //AddButton("Largest wall", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindLargeWall(); timeLastQuery = DateTime.MinValue; });
+            //AddButton("Positions on floor", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindPositionsOnFloor(); timeLastQuery = DateTime.MinValue; });
+            //AddButton("Large positions on floor", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindLargestPositionsOnFloor(); timeLastQuery = DateTime.MinValue; });
+            //AddButton("Place objects positions", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindPositionsPlaceable(); timeLastQuery = DateTime.MinValue; });
+            //AddButton("Place object", Panels.Topology, () => { AppState.Instance.PlaceObjects(0.2f, 0.2f, 0.0f, 0.0f); timeLastQuery = DateTime.MinValue; });
+
+            AddButton("Place", Panels.Topology, () => { ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.cube); timeLastQuery = DateTime.MinValue; });
+            AddButton("Cancel", Panels.Topology, () => { ObjectPlacer.Instance.CancelPlacement(); timeLastQuery = DateTime.MinValue; });
+            //AddButton("Place turret 1", Panels.Topology, () => { AppState.Instance.PlaceObjects(0.2f, 0.2f, 0.0f, 0.0f); timeLastQuery = DateTime.MinValue; });
+            //AddButton("Place turret 2", Panels.Topology, () => { AppState.Instance.PlaceObjects(0.2f, 0.2f, 0.0f, 0.0f); timeLastQuery = DateTime.MinValue; });
+            //AddButton("Place turret 3", Panels.Topology, () => { AppState.Instance.PlaceObjects(0.2f, 0.2f, 0.0f, 0.0f); timeLastQuery = DateTime.MinValue; });
 
             // Shape queries
             ButtonPanels[(int)Panels.Shapes].Button.GetComponentInChildren<Text>().text = "Shape Queries";

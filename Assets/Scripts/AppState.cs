@@ -17,6 +17,15 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
 {
     public class AppState : Singleton<AppState>, ISourceStateHandler, IInputClickHandler
     {
+        public enum GameStates
+        {
+            MainMenu,
+            Game,
+            PlaceObject
+        }
+
+        public GameStates currentGameState = GameStates.Game;
+
         // Consts
         public float kMinAreaForStats = 5.0f;
         public float kMinAreaForComplete = 50.0f;
@@ -297,12 +306,16 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             {
                 SpatialUnderstanding.Instance.RequestFinishScan();
             }
-        }
-
-        public void PlaceObjects(float minHeightOfWallSpace, float minWidthOfWallSpace, float minHeightAboveFloor, float minFacingClearance)
-        {
-            SpatialUnderstandingCursor.Instance.CreateTopology(minHeightOfWallSpace, minWidthOfWallSpace, minHeightAboveFloor, minFacingClearance);
-            place = true;
+            switch(currentGameState)
+            {
+                case GameStates.MainMenu:
+                    break;
+                case GameStates.Game:
+                    break;
+                case GameStates.PlaceObject:
+                    ObjectPlacer.Instance.FinalizePlacement();
+                    break;
+            }
         }
     }
 }

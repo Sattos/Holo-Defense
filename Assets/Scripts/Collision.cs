@@ -38,4 +38,14 @@ public class Collision : MonoBehaviour {
         //this.gameObject.SetActive(false);
         GetComponent<Renderer>().material = green;
     }
+
+    public void testGreen()
+    {
+        GetComponent<Renderer>().material = green;
+    }
+
+    public void testRed()
+    {
+        GetComponent<Renderer>().material = red;
+    }
 }

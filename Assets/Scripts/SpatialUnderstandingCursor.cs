@@ -51,32 +51,6 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         private float minHeight;
         private float halfLength;
 
-        public void CreateTopology(float minHeightOfWallSpace, float minWidthOfWallSpace, float minHeightAboveFloor, float minFacingClearance)
-        {
-            //Wall
-            IntPtr resultsTopologyWallPtr = SpatialUnderstanding.Instance.UnderstandingDLL.PinObject(resultsTopologyWall);
-            locationCountWall = SpatialUnderstandingDllTopology.QueryTopology_FindPositionsOnWalls(
-                minHeightOfWallSpace, minWidthOfWallSpace, minHeightAboveFloor, minFacingClearance,
-                resultsTopologyWall.Length, resultsTopologyWallPtr);
-            Debug.Log("Wall" + locationCountWall);
-            //Floor
-            IntPtr resultsTopologyFloorPtr = SpatialUnderstanding.Instance.UnderstandingDLL.PinObject(resultsTopologyFloor);
-            locationCountFloor = SpatialUnderstandingDllTopology.QueryTopology_FindPositionsOnFloor(
-                minWidthOfWallSpace, minHeightOfWallSpace,
-                resultsTopologyFloor.Length, resultsTopologyFloorPtr);
-            Debug.Log("Floor" + locationCountFloor);
-
-            halfHeight = minHeightOfWallSpace / 2.0f;
-            halfWidth = minWidthOfWallSpace / 2.0f;
-            minHeight = minHeightAboveFloor;
-            halfLength = 0.2f;
-
-            for(int i =0; i<locationCountWall;i++)
-            {
-                //Debug.Log(resultsTopologyFloor[i].normal);
-            }
-        }
-
         // Functions
         protected override RaycastResult CalculateRayIntersect()
         {
@@ -163,101 +137,11 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             return false;
         }
 
-        private void CheckPlacement()
-        {
-            if ((rayCastResult.SurfaceType == SpatialUnderstandingDll.Imports.RaycastResult.SurfaceTypes.Floor
-                    || rayCastResult.SurfaceType == SpatialUnderstandingDll.Imports.RaycastResult.SurfaceTypes.FloorLike
-                    || rayCastResult.SurfaceType == SpatialUnderstandingDll.Imports.RaycastResult.SurfaceTypes.Platform
-                    || rayCastResult.SurfaceType == SpatialUnderstandingDll.Imports.RaycastResult.SurfaceTypes.Ceiling) && AppState.Instance.place)
-            {
-                bool flag = false;
-                int pos = 0;
-                //Debug.Log(rayCastResult.IntersectPoint.x);
-                //Debug.Log(rayCastResult.IntersectPoint.z);
-                for (int i = 0; i < locationCountFloor; i++)
-                {
-
-                    if ((Mathf.Abs(rayCastResult.IntersectPoint.x - resultsTopologyFloor[i].position.x) > 0.1f))
-                    {
-                        //Debug.Log(i);
-                        continue;
-                    }
-                    if ((Mathf.Abs(rayCastResult.IntersectPoint.z - resultsTopologyFloor[i].position.z) > 0.1f))
-                    {
-                        //Debug.Log("2 " + i);
-                        continue;
-                    }
-                    if ((Mathf.Abs(rayCastResult.IntersectPoint.y - resultsTopologyFloor[i].position.y) > halfHeight))
-                    {
-                        //Debug.Log("2 " + i);
-                        continue;
-                    }
-                    Debug.Log(i);
-                    flag = true;
-                    pos = i;
-                    break;
-                }
-                if (flag)
-                {
-                    Vector3 position = resultsTopologyFloor[pos].position;
-                    Quaternion quat = Quaternion.LookRotation(Vector3.forward, resultsTopologyFloor[pos].normal);
-                    //position.TransformPoint(Vector3.up * 0.2f, quat, Vector3.one);
-                    cubePosition.transform.SetPositionAndRotation(position, Quaternion.identity);
-                    cube.SetActive(true);
-                }
-            }
-            else if ((rayCastResult.SurfaceType == SpatialUnderstandingDll.Imports.RaycastResult.SurfaceTypes.WallExternal
-                        || rayCastResult.SurfaceType == SpatialUnderstandingDll.Imports.RaycastResult.SurfaceTypes.WallLike) && AppState.Instance.place)
-            {
-                bool flag = false;
-                int pos = 0;
-                //Debug.Log(rayCastResult.IntersectPoint.x);
-                //Debug.Log(rayCastResult.IntersectPoint.z);
-                for (int i = 0; i < locationCountWall; i++)
-                {
-
-                    if ((Mathf.Abs(rayCastResult.IntersectPoint.x - resultsTopologyWall[i].position.x) > halfWidth))
-                    {
-                        //Debug.Log(i);
-                        continue;
-                    }
-                    if ((Mathf.Abs(rayCastResult.IntersectPoint.z - resultsTopologyWall[i].position.z) > halfHeight))
-                    {
-                        //Debug.Log("2 " + i);
-                        continue;
-                    }
-                    if ((Mathf.Abs(rayCastResult.IntersectPoint.y - resultsTopologyWall[i].position.y) > halfHeight))
-                    {
-                        //Debug.Log("2 " + i);
-                        continue;
-                    }
-                    Debug.Log(i);
-                    flag = true;
-                    pos = i;
-                    break;
-                }
-                if (flag)
-                {
-                    Vector3 position = resultsTopologyWall[pos].position;
-                    Quaternion quat = Quaternion.LookRotation(Vector3.up, resultsTopologyWall[pos].normal);
-                    position.TransformPoint(Vector3.up * 0.2f, quat, Vector3.one);
-                    cubePosition.transform.SetPositionAndRotation(position, quat);
-                    cube.SetActive(true);
-                }
-            }
-            else
-            {
-                cube.SetActive(false);
-            }
-        }
-
         public float refreshRate = 0.5f;
         private float nextRefresh = 0.0f;
 
         private void TestPlacment()
         {
-            //if (rayCastResult.SurfaceType != SpatialUnderstandingDll.Imports.RaycastResult.SurfaceTypes.Floor) return;
-
             if(Time.time < nextRefresh)
             {
                 return;
@@ -271,10 +155,31 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             testRes.length = 0.2f;
             testRes.width = 0.2f;
 
-            //Vector3 a, b, c, d;
-            //a = testRes.position;
             Quaternion quat = Quaternion.LookRotation(CameraCache.Main.transform.forward, testRes.normal);
-            quat = Quaternion.LookRotation(Vector3.Scale(CameraCache.Main.transform.forward, (Vector3.one - testRes.normal)), testRes.normal);
+            
+
+            switch ((int)rayCastResult.SurfaceType)
+            {
+                case 0://invalid
+                    break;
+                case 1://other
+                    break;
+                case 2://floor
+                case 3://floorlike
+                case 4://platform
+                    quat = Quaternion.LookRotation(Vector3.Scale(CameraCache.Main.transform.forward, (Vector3.one - testRes.normal)), testRes.normal);
+                    break;
+                case 5://ceiling
+                    quat = Quaternion.LookRotation(Vector3.Scale(CameraCache.Main.transform.forward, (-Vector3.one - testRes.normal)), testRes.normal);
+                    break;
+                case 6://wallexternal
+                case 7://walllike
+                    quat = Quaternion.LookRotation(Vector3.Scale(CameraCache.Main.transform.forward, (Vector3.one - testRes.normal)), testRes.normal);
+                    break;
+                default:
+                    break;
+            }
+            
             //if (rayCastResult.SurfaceType != SpatialUnderstandingDll.Imports.RaycastResult.SurfaceTypes.Floor)
             {
                 Debug.Log(Vector3.Scale(CameraCache.Main.transform.forward, (Vector3.one - testRes.normal)));
@@ -288,20 +193,18 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
 
             Debug.Log("ray:"+testRes.position + "\nnorm" + testRes.normal + "\nTL:" + topLeft + "\nTR:" + topRight + "\nBR:" + bottomRight + "\nBL:" + bottomLeft);
 
-            bool b = SpatialUnderstandingDllTopology.QueryTopology_IsValidRect(topLeft, topRight, bottomLeft, bottomRight, requestType, (int)rayCastResult.SurfaceType, test);
+            bool isValidRect = SpatialUnderstandingDllTopology.QueryTopology_IsValidRect(topLeft, topRight, bottomLeft, bottomRight, requestType, (int)rayCastResult.SurfaceType, test);
 
-            //bool b = SpatialUnderstandingDllTopology.QueryTopology_IsValidFloorRect(topLeft, topRight, bottomLeft, bottomRight, requestType, test);
-            if (b)
+            if (isValidRect)
             {
-                CursorText.text = "ok";
                 cubePosition.transform.SetPositionAndRotation(testRes.position, quat);
                 cube.SetActive(true);
             }
             else
             {
-                CursorText.text = "no";
                 cube.SetActive(false);
             }
+            CursorText.text = rayCastResult.SurfaceType.ToString();
         }
 
         protected override void LateUpdate()
@@ -328,85 +231,10 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                 (rayCastResult.SurfaceType != SpatialUnderstandingDll.Imports.RaycastResult.SurfaceTypes.Invalid))
             {
                 CursorText.gameObject.SetActive(true);
-                //CursorText.text = rayCastResult.SurfaceType.ToString();
 
-                TestPlacment();
-
-                //CheckPlacement();
-
-                //if((rayCastResult.SurfaceType == SpatialUnderstandingDll.Imports.RaycastResult.SurfaceTypes.Platform) && AppState.Instance.place)
-                //{
-                //    bool flag = false;
-                //    int pos = 0;
-                //    Debug.Log(rayCastResult.IntersectPoint.x);
-                //    Debug.Log(rayCastResult.IntersectPoint.z);
-                //    for (int i = 0; i < locationCountFloor; i++)
-                //    {
-
-                //        if ((Mathf.Abs(rayCastResult.IntersectPoint.x - resultsTopologyFloor[i].position.x) > 0.1f))
-                //        {
-                //            //Debug.Log(i);
-                //            continue;
-                //        }
-                //        if ((Mathf.Abs(rayCastResult.IntersectPoint.z - resultsTopologyFloor[i].position.z) > 0.1f))
-                //        {
-                //            //Debug.Log("2 " + i);
-                //            continue;
-                //        }
-                //        Debug.Log(i);
-                //        flag = true;
-                //        pos = i;
-                //        break;
-                //    }
-                //    if(flag)
-                //    {
-                //        cube.transform.SetPositionAndRotation(resultsTopologyFloor[pos].position, cube.transform.rotation);
-                //        cube.SetActive(true);
-                //    }
-                //}
-                //else if ((rayCastResult.SurfaceType == SpatialUnderstandingDll.Imports.RaycastResult.SurfaceTypes.WallExternal
-                //            || rayCastResult.SurfaceType == SpatialUnderstandingDll.Imports.RaycastResult.SurfaceTypes.WallLike) && AppState.Instance.place)
-                //{
-                //    bool flag = false;
-                //    int pos = 0;
-                //    Debug.Log(rayCastResult.IntersectPoint.x);
-                //    Debug.Log(rayCastResult.IntersectPoint.z);
-                //    for (int i = 0; i < locationCountWall; i++)
-                //    {
-
-                //        if ((Mathf.Abs(rayCastResult.IntersectPoint.x - resultsTopologyWall[i].position.x) > halfWidth))
-                //        {
-                //            //Debug.Log(i);
-                //            continue;
-                //        }
-                //        if ((Mathf.Abs(rayCastResult.IntersectPoint.z - resultsTopologyWall[i].position.z) > halfHeight))
-                //        {
-                //            //Debug.Log("2 " + i);
-                //            continue;
-                //        }
-                //        if ((Mathf.Abs(rayCastResult.IntersectPoint.y - resultsTopologyWall[i].position.y) > halfHeight))
-                //        {
-                //            //Debug.Log("2 " + i);
-                //            continue;
-                //        }
-                //        Debug.Log(i);
-                //        flag = true;
-                //        pos = i;
-                //        break;
-                //    }
-                //    if (flag)
-                //    {
-                //        Vector3 position = resultsTopologyWall[pos].position;
-                //        Quaternion quat = Quaternion.LookRotation(Vector3.up, resultsTopologyWall[pos].normal);
-                //        position.TransformPoint(Vector3.up * 0.2f, quat, Vector3.one);
-                //        cube.transform.SetPositionAndRotation(position, quat);
-                //        cube.SetActive(true);
-                //    }
-                //}
-                //else
-                //{
-                //    cube.SetActive(false);
-                //}
+                //TestPlacment();
+                if(AppState.Instance.currentGameState == AppState.GameStates.PlaceObject)
+                    ObjectPlacer.Instance.CheckPlacement(rayCastResult);
 
                 CursorText.transform.rotation = Quaternion.LookRotation(CameraCache.Main.transform.forward, Vector3.up);
                 CursorText.transform.position = transform.position + CameraCache.Main.transform.right * 0.05f;
@@ -421,6 +249,11 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             Button hitButton;
             float textAlpha = RayCastUI(out hitPos, out hitNormal, out hitButton) ? 0.15f : 1.0f;
             CursorText.color = new Color(1.0f, 1.0f, 1.0f, textAlpha);
+        }
+
+        public void test()
+        {
+            Debug.Log("test");
         }
     }
 }
