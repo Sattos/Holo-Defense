@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectPlacer : Singleton<ObjectPlacer>
 {
@@ -27,6 +28,8 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
     public int requestType = 8;
 
+    public Canvas TurretInfoCanvas;
+
     public GameObject cube;// = Resources.Load<GameObject>("Prefabs/GameObject");
 
     public PlaceableObject curretObject;
@@ -45,6 +48,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         AppState.Instance.currentGameState = AppState.GameStates.PlaceObject;
         curretObject = Objects[(int)id];
         objectToPlace = Instantiate(curretObject.obj);
+        
     }
 
     public void FinalizePlacement()
@@ -60,6 +64,11 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         AppState.Instance.currentGameState = AppState.GameStates.Game;
     }
 
+    public void ClickTurret(GameObject obj)
+    {
+        TurretInfoCanvas.transform.position = obj.transform.position + obj.transform.rotation * new Vector3(0, 0.5f, 0);
+        TurretInfoCanvas.gameObject.SetActive(true);
+    }
 
     public float refreshRate = 0.0f;
     private float nextRefresh = 0.0f;
@@ -139,6 +148,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
     void Start()
     {
         Objects = new PlaceableObject[] { new PlaceableObject(cube, 0.2f, 0.2f, 0.4f) };
+        TurretInfoCanvas.gameObject.SetActive(false);
         //Instantiate(Objects[0].obj);
     }
 

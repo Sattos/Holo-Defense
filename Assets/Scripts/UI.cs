@@ -327,6 +327,12 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     transform.rotation = MenuAnimatedBox.Rotation * Quaternion.AngleAxis(360.0f * MenuAnimatedBox.AnimRotation.Evaluate(MenuAnimatedBox.Time), Vector3.up);
                 }
             }
+            if(ObjectPlacer.Instance.TurretInfoCanvas.isActiveAndEnabled)
+            {
+                Vector3 lookDirTarget = CameraCache.Main.transform.position - ObjectPlacer.Instance.TurretInfoCanvas.transform.position;
+                lookDirTarget = (new Vector3(lookDirTarget.x, 0.0f, lookDirTarget.z)).normalized;
+                ObjectPlacer.Instance.TurretInfoCanvas.transform.rotation = Quaternion.Slerp(ObjectPlacer.Instance.TurretInfoCanvas.transform.rotation, Quaternion.LookRotation(-lookDirTarget), Time.deltaTime * 10.0f);
+            }
         }
     }
 }
