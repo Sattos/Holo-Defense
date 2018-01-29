@@ -250,10 +250,5 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             float textAlpha = RayCastUI(out hitPos, out hitNormal, out hitButton) ? 0.15f : 1.0f;
             CursorText.color = new Color(1.0f, 1.0f, 1.0f, textAlpha);
         }
-
-        public void test()
-        {
-            Debug.Log("test");
-        }
     }
 }

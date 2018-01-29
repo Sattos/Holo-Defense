@@ -26,6 +26,10 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         }
     }
 
+    private bool isValidLocation;
+
+    private DateTime clickTime;
+
     public int requestType = 8;
 
     public Canvas TurretInfoCanvas;
@@ -42,26 +46,42 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
     private PlaceableObject[] Objects;// = {new PlaceableObject(Resources.Load<GameObject>("Prefabs/GameObject"), 0.2f, 0.2f, 0.4f) };
 
-    public void StartPlacingObject(ObjectsToPlace id)
+    public void StartPlacingObject()
     {
+        if ((DateTime.Now - clickTime).Milliseconds < 50)
+            return;
         //AppState.Instance.place = true;
         AppState.Instance.currentGameState = AppState.GameStates.PlaceObject;
-        curretObject = Objects[(int)id];
+        curretObject = Objects[0];
         objectToPlace = Instantiate(curretObject.obj);
-        
+        SpatialUnderstandingCursor.Instance.CursorText.text = "start placing";
+        clickTime = DateTime.Now;
     }
 
     public void FinalizePlacement()
     {
+        if ((DateTime.Now - clickTime).Milliseconds < 50)
+            return;
+        if (!isValidLocation)
+            return;
         Debug.Log("PLACE");
         objectToPlace = null;
         AppState.Instance.currentGameState = AppState.GameStates.Game;
+        SpatialUnderstandingCursor.Instance.CursorText.text = "finalize placing";
+        clickTime = DateTime.Now;
     }
 
     public void CancelPlacement()
     {
-        Destroy(objectToPlace);
-        AppState.Instance.currentGameState = AppState.GameStates.Game;
+        if (objectToPlace != null)
+        {
+            if ((DateTime.Now - clickTime).Milliseconds < 20)
+                return;
+            Destroy(objectToPlace);
+            AppState.Instance.currentGameState = AppState.GameStates.Game;
+            SpatialUnderstandingCursor.Instance.CursorText.text = "cancel placing";
+            clickTime = DateTime.Now;
+        }
     }
 
     public void ClickTurret(GameObject obj)
@@ -135,12 +155,14 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         {
             objectToPlace.transform.SetPositionAndRotation(testRes.position, quat);
             objectToPlace.SetActive(true);
+            isValidLocation = true;
         }
         else
         {
             objectToPlace.SetActive(false);
+            isValidLocation = false;
         }
-
+        
         return false;
     }
 
@@ -149,6 +171,8 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
     {
         Objects = new PlaceableObject[] { new PlaceableObject(cube, 0.2f, 0.2f, 0.4f) };
         TurretInfoCanvas.gameObject.SetActive(false);
+        isValidLocation = false;
+        clickTime = DateTime.MinValue;
         //Instantiate(Objects[0].obj);
     }
 
