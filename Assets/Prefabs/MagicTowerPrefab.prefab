@@ -222,7 +222,8 @@ MonoBehaviour:
   baseCost: 0
   totalCost: 0
   damage: 0
-  range: 0
+  range: 6.93
+  attackSpeed: 377
   targetCount: 0
   radius: 0
   damagePerSecond: 0
@@ -232,4 +233,4 @@ MonoBehaviour:
   stunDuration: 0
   targetGround: 0
   targetFlying: 0
-  Missile: {fileID: 1274024905453616, guid: 88c0395d09fda91428dbffaa4745a097, type: 2}
+  Missile: {fileID: 114519187438143326, guid: 88c0395d09fda91428dbffaa4745a097, type: 2}

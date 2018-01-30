@@ -11,6 +11,7 @@ public abstract class BaseTower : MonoBehaviour {
     public float totalCost;
     public float damage;
     public float range;
+    public int attackSpeed;
     public int targetCount;
     public float radius;
     public float damagePerSecond;
@@ -23,7 +24,7 @@ public abstract class BaseTower : MonoBehaviour {
 
     private DateTime lastAttack;
 
-    protected abstract void Attack();
+    protected abstract bool Attack();
 
     public void ClickTower()
     {
@@ -38,10 +39,10 @@ public abstract class BaseTower : MonoBehaviour {
 	
 	// Update is called once per frame
 	protected void Update () {
-		if((DateTime.Now - lastAttack).Milliseconds > 500)
+		if((DateTime.Now - lastAttack).Milliseconds > attackSpeed)
         {
-            Attack();
-            lastAttack = DateTime.Now;
+            if(Attack());
+                lastAttack = DateTime.Now;
         }
 	}
 }

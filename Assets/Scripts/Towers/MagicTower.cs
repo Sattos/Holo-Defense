@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class MagicTower : BaseTower {
 
-    public GameObject Missile;
+    public Projectile Missile;
 
-    protected override void Attack()
+    protected override bool Attack()
     {
-        GameObject o = Instantiate(Missile);
+        BaseEnemy target = EnemyControllerScript.Instance.FindFarthestEnemyInRange(transform.position, range);
+        if(target == null)
+        {
+            return false;
+        }
+        Projectile o = Instantiate(Missile); //new Projectile();
         o.transform.position = transform.position;
-        Debug.Log("ATTACK");
+        o.Target = target;
+        
+        return true;
     }
 
     // Use this for initialization
