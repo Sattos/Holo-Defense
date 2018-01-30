@@ -8,6 +8,12 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
     public BaseEnemy Enemy;
     public GameObject Base;
 
+    public enum EnemyType
+    {
+        Base,
+        Flying
+    }
+
     private object lockObject = new object();
 
     List<BaseEnemy> Enemies = new List<BaseEnemy>();
@@ -51,20 +57,28 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
         Destroy(enemy.gameObject);
     }
 
+    public void AddEnemy(BaseEnemy enemy)
+    {
+        lock(lockObject)
+        {
+            Enemies.Add(enemy);
+        }
+    }
+
     // Use this for initialization
     void Start () {
         //Enemies = new List<GameObject>();
-        BaseEnemy o = Instantiate(Enemy);
-        o.transform.position = new Vector3(0, 0, 0);
-        Enemies.Add(o);
+        //BaseEnemy o = Instantiate(Enemy);
+        //o.transform.position = new Vector3(0, 0, 0);
+        //Enemies.Add(o);
 
-        o = Instantiate(Enemy);
-        o.transform.position = new Vector3(0.5f, 0, 0.3f);
-        Enemies.Add(o);
+        //o = Instantiate(Enemy);
+        //o.transform.position = new Vector3(0.5f, 0, 0.3f);
+        //Enemies.Add(o);
 
-        o = Instantiate(Enemy);
-        o.transform.position = new Vector3(0, 0, 0.1f);
-        Enemies.Add(o);
+        //o = Instantiate(Enemy);
+        //o.transform.position = new Vector3(0, 0, 0.1f);
+        //Enemies.Add(o);
     }
 	
 	// Update is called once per frame

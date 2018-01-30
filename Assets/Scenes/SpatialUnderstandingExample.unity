@@ -1646,6 +1646,64 @@ MonoBehaviour:
   UILayerMask:
     serializedVersion: 2
     m_Bits: 0
+--- !u!1001 &1042114659
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4189553845299856, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -1.062
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189553845299856, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189553845299856, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -2.905
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189553845299856, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189553845299856, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189553845299856, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189553845299856, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189553845299856, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e, type: 2}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 114858477600364524, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e,
+        type: 2}
+      propertyPath: Enemy
+      value: 
+      objectReference: {fileID: 114585871758209580, guid: 23c6317d0f25d94419415ec4ce9f42b9,
+        type: 2}
+    - target: {fileID: 114858477600364524, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e,
+        type: 2}
+      propertyPath: count
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114858477600364524, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e,
+        type: 2}
+      propertyPath: delay
+      value: 1500
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1095522592 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1968905134879040, guid: 5a5e433d78202244cac7d831e3c511bc,

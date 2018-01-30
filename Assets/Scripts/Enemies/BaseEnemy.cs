@@ -7,6 +7,23 @@ public class BaseEnemy : MonoBehaviour {
     public float health;
     public float speed;
     public float money;
+    public BaseStats stats;
+
+    public struct BaseStats
+    {
+        public float health;
+        public float speed;
+        public float money;
+        public bool isFlying;
+
+        public BaseStats(float health, float speed, float money, bool isFlying)
+        {
+            this.health = health;
+            this.speed = speed;
+            this.money = money;
+            this.isFlying = isFlying;
+        }
+    }
 
     public void Damage(float value)
     {

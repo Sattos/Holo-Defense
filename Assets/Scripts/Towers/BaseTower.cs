@@ -41,7 +41,7 @@ public abstract class BaseTower : MonoBehaviour {
 	protected void Update () {
 		if((DateTime.Now - lastAttack).Milliseconds > attackSpeed)
         {
-            if(Attack());
+            if(Attack())
                 lastAttack = DateTime.Now;
         }
 	}
