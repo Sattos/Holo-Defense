@@ -6,14 +6,13 @@ public class Projectile : MonoBehaviour {
 
     public BaseEnemy Target;
 
-    public float speed;
-    public float damage;
+    public AttackStats stats;
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetInstanceID() == Target.gameObject.GetInstanceID())
         {
-            Target.Damage(damage);
+            Target.Hit(stats);
             Destroy(this.gameObject);
         }
     }
@@ -31,7 +30,7 @@ public class Projectile : MonoBehaviour {
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, Target.transform.position, speed);
+            transform.position = Vector3.MoveTowards(transform.position, Target.transform.position, stats.speed);
         }
 	}
 }

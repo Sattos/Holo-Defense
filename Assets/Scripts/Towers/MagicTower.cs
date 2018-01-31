@@ -16,14 +16,15 @@ public class MagicTower : BaseTower {
         Projectile o = Instantiate(Missile); //new Projectile();
         o.transform.position = transform.position;
         o.Target = target;
+        o.stats = stats;
         
         return true;
     }
 
     // Use this for initialization
-    void Start () {
+ //   void Start () {
 
-	}
+	//}
 	
 	// Update is called once per frame
 	//void Update () {

@@ -566,6 +566,41 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 114953195010164548, guid: 6ba144c3f71f38f4c904e332700ce9cd,
+        type: 2}
+      propertyPath: speed
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 114953195010164548, guid: 6ba144c3f71f38f4c904e332700ce9cd,
+        type: 2}
+      propertyPath: slowDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114953195010164548, guid: 6ba144c3f71f38f4c904e332700ce9cd,
+        type: 2}
+      propertyPath: slow
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114953195010164548, guid: 6ba144c3f71f38f4c904e332700ce9cd,
+        type: 2}
+      propertyPath: range
+      value: 5.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 114953195010164548, guid: 6ba144c3f71f38f4c904e332700ce9cd,
+        type: 2}
+      propertyPath: damagePerSecond
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114953195010164548, guid: 6ba144c3f71f38f4c904e332700ce9cd,
+        type: 2}
+      propertyPath: damageDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114953195010164548, guid: 6ba144c3f71f38f4c904e332700ce9cd,
+        type: 2}
+      propertyPath: attackSpeed
+      value: 600
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6ba144c3f71f38f4c904e332700ce9cd, type: 2}
   m_IsPrefabParent: 0
@@ -1699,7 +1734,7 @@ Prefab:
     - target: {fileID: 114858477600364524, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e,
         type: 2}
       propertyPath: delay
-      value: 1500
+      value: 15000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e, type: 2}
