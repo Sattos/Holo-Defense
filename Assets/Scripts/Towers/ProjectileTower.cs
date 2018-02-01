@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MagicTower : BaseTower {
+public class ProjectileTower : BaseTower {
 
     public Projectile Missile;
 
@@ -20,14 +20,4 @@ public class MagicTower : BaseTower {
         
         return true;
     }
-
-    // Use this for initialization
- //   void Start () {
-
-	//}
-	
-	// Update is called once per frame
-	//void Update () {
-    //    base.Update();
-	//}
 }

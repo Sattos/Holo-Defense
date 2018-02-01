@@ -13,6 +13,16 @@ public class Projectile : MonoBehaviour {
         if (other.gameObject.GetInstanceID() == Target.gameObject.GetInstanceID())
         {
             Target.Hit(stats);
+            if(stats.areaOfEffect > 0)
+            {
+                Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, stats.areaOfEffect);
+                foreach(Collider collider in enemiesInRange)
+                {
+                    BaseEnemy enemy = collider.GetComponent<BaseEnemy>();
+                    if (enemy != null)
+                        enemy.Hit(stats);
+                }
+            }
             Destroy(this.gameObject);
         }
     }

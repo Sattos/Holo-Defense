@@ -12,9 +12,10 @@ public class AttackStats
     public float slowDuration;
     public float slow;
     public float stunDuration;
+    public float areaOfEffect;
     public GameObject source;
 
-    public AttackStats(float speed, float damage, float damagePerSecond, float damageDuration, float slowDuration, float slow, float stunDuration, GameObject source)
+    public AttackStats(float speed, float damage, float damagePerSecond, float damageDuration, float slowDuration, float slow, float stunDuration, float areaOfEffect, GameObject source)
     {
         this.speed = speed;
         this.damage = damage;
@@ -23,6 +24,7 @@ public class AttackStats
         this.slowDuration = slowDuration;
         this.slow = slow;
         this.stunDuration = stunDuration;
+        this.areaOfEffect = areaOfEffect;
         this.source = source;
     }
 }
@@ -48,6 +50,7 @@ public abstract class BaseTower : MonoBehaviour {
     public float slowDuration;
     public float slow;
     public float stunDuration;
+    public float areaOfEffect;
     //temporary
 
     private DateTime lastAttack;
@@ -63,7 +66,7 @@ public abstract class BaseTower : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         lastAttack = DateTime.MinValue;
-        stats = new AttackStats(speed, damage, damagePerSecond, damageDuration, slowDuration, slow, stunDuration, this.gameObject);
+        stats = new AttackStats(speed, damage, damagePerSecond, damageDuration, slowDuration, slow, stunDuration, areaOfEffect, this.gameObject);
 	}
 	
 	// Update is called once per frame
