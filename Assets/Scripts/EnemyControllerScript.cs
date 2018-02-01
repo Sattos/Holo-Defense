@@ -14,55 +14,59 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
         Flying
     }
 
-    private object lockObject = new object();
+    public enum TargetingMode
+    {
+        Farthest,
+        Nearest,
+        MaxHP,
+        MinHP
+    }
 
     List<BaseEnemy> Enemies = new List<BaseEnemy>();
 
-    public BaseEnemy FindFarthestEnemyInRange(Vector3 turretPosition, float range)
+    public List<BaseEnemy> FindEnemiesInRange(Vector3 turretPosition, float range, int count, TargetingMode mode)
     {
-        BaseEnemy ret = null;
-        float distanceFromBase = 0;
-        lock (lockObject)
+        List<BaseEnemy> ret = new List<BaseEnemy>();
+        SortedList<float, BaseEnemy> sortedList = new SortedList<float, BaseEnemy>();
+        List<BaseEnemy> list = new List<BaseEnemy>(Enemies);
+        
+        foreach (BaseEnemy obj in list)
         {
-            foreach (BaseEnemy obj in Enemies)
+            if (Vector3.Distance(turretPosition, obj.transform.position) <= range)
             {
-                if (Vector3.Distance(turretPosition, obj.transform.position) > range)
-                {
-                    continue;
-                }
-                if (ret == null)
-                {
-                    ret = obj;
-                    distanceFromBase = Vector3.Distance(ret.transform.position, Base.transform.position);
-                    continue;
-                }
-                float newDistanceFromBase = Vector3.Distance(obj.transform.position, Base.transform.position);
-                if (newDistanceFromBase < distanceFromBase)
-                {
-                    ret = obj;
-                    distanceFromBase = newDistanceFromBase;
-                }
+                ret.Add(obj);
             }
         }
+        switch(mode)
+        {
+            case TargetingMode.Farthest:
+                ret.Sort((x, y) => Vector3.Distance(x.transform.position, Base.transform.position).CompareTo(Vector3.Distance(y.transform.position, Base.transform.position)));
+                break;
+            case TargetingMode.Nearest:
+                ret.Sort((x, y) => Vector3.Distance(x.transform.position, turretPosition).CompareTo(Vector3.Distance(y.transform.position, turretPosition)));
+                break;
+            case TargetingMode.MaxHP:
+                ret.Sort((x, y) => y.stats.health.CompareTo(x.stats.health));
+                break;
+            case TargetingMode.MinHP:
+                ret.Sort((x, y) => x.stats.health.CompareTo(y.stats.health));
+                break;
+        }
+        
+        ret = new List<BaseEnemy>(ret.GetRange(0, Mathf.Min(count, ret.Count)));
         return ret;
     }
 
     public void DestroyEnemy(BaseEnemy enemy)
     {
-        lock(lockObject)
-        {
-            Enemies.Remove(enemy);
-        }
+        Enemies.Remove(enemy);
         Debug.Log(enemy.money);
         Destroy(enemy.gameObject);
     }
 
     public void AddEnemy(BaseEnemy enemy)
     {
-        lock(lockObject)
-        {
-            Enemies.Add(enemy);
-        }
+        Enemies.Add(enemy);
     }
 
     // Use this for initialization

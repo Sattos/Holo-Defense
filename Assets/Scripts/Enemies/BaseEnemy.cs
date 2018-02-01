@@ -36,7 +36,7 @@ public class BaseEnemy : MonoBehaviour {
         public float money;
         public bool isFlying;
 
-        public BaseStats(float health, float speed, float money, bool isFlying)
+        public BaseStats(float health, float speed, float money, bool isFlying = false)
         {
             this.health = health;
             this.speed = speed;
@@ -131,7 +131,7 @@ public class BaseEnemy : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+        stats = new BaseStats(health, speed, money);
 	}
 	
 	// Update is called once per frame
