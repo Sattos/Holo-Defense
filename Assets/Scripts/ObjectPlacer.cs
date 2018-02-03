@@ -32,8 +32,6 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
     public int requestType = 8;
 
-    public Canvas TurretInfoCanvas;
-
     public GameObject cube;// = Resources.Load<GameObject>("Prefabs/GameObject");
 
     public PlaceableObject curretObject;
@@ -82,12 +80,6 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
             SpatialUnderstandingCursor.Instance.CursorText.text = "cancel placing";
             clickTime = DateTime.Now;
         }
-    }
-
-    public void ClickTurret(GameObject obj)
-    {
-        TurretInfoCanvas.transform.position = obj.transform.position + obj.transform.rotation * new Vector3(0, 0.5f, 0);
-        TurretInfoCanvas.gameObject.SetActive(true);
     }
 
     public float refreshRate = 0.0f;
@@ -170,7 +162,6 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
     void Start()
     {
         Objects = new PlaceableObject[] { new PlaceableObject(cube, 0.2f, 0.2f, 0.4f) };
-        TurretInfoCanvas.gameObject.SetActive(false);
         isValidLocation = false;
         clickTime = DateTime.MinValue;
         //Instantiate(Objects[0].obj);

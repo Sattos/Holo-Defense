@@ -59,8 +59,10 @@ public abstract class BaseTower : MonoBehaviour {
 
     public void ClickTower()
     {
-        ObjectPlacer.Instance.TurretInfoCanvas.transform.position = transform.position + transform.rotation * new Vector3(0, 0.7f, 0);
-        ObjectPlacer.Instance.TurretInfoCanvas.gameObject.SetActive(true);
+        //ObjectPlacer.Instance.TurretInfoCanvas.transform.position = transform.position + transform.rotation * new Vector3(0, 0.7f, 0);
+        //ObjectPlacer.Instance.TurretInfoCanvas.gameObject.SetActive(true);
+
+        TurretInfoCanvas.Instance.Activate(this);
     }
     
 	// Use this for initialization

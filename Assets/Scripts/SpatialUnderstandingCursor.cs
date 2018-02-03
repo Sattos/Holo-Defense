@@ -51,6 +51,38 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         private float minHeight;
         private float halfLength;
 
+        private GameObject currentRaycastTarget = null;
+        private IRaycastFocusEvent currentRaycastFocus = null;
+
+        public bool RaycastTargetChanged(GameObject target)
+        {
+            if (currentRaycastTarget == target)
+            {
+                return false;
+            }
+
+            if(currentRaycastFocus != null)
+            {
+                currentRaycastFocus.Deactivate();
+            }
+
+            currentRaycastTarget = target;
+
+            if(currentRaycastTarget == null)
+            {
+                return false;
+            }
+
+            currentRaycastFocus = currentRaycastTarget.GetComponent<IRaycastFocusEvent>();
+
+            if(currentRaycastFocus != null)
+            {
+                currentRaycastFocus.Activate();
+                return true;
+            }
+            return false;
+        }
+
         // Functions
         protected override RaycastResult CalculateRayIntersect()
         {
@@ -245,10 +277,28 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             }
 
             // If we're looking at the UI, fade the text
-            Vector3 hitPos, hitNormal;
-            Button hitButton;
-            float textAlpha = RayCastUI(out hitPos, out hitNormal, out hitButton) ? 0.15f : 1.0f;
-            CursorText.color = new Color(1.0f, 1.0f, 1.0f, textAlpha);
+            //Vector3 hitPos, hitNormal;
+            //Button hitButton;
+            //float textAlpha = RayCastUI(out hitPos, out hitNormal, out hitButton) ? 0.15f : 1.0f;
+            //CursorText.color = new Color(1.0f, 1.0f, 1.0f, textAlpha);
+            RaycastHit hitInfo;
+            if (Physics.Raycast(
+                    Camera.main.transform.position,
+                    Camera.main.transform.forward,
+                    out hitInfo,
+                    20.0f,
+                    UILayerMask))
+            {
+                // If the Raycast has succeeded and hit a hologram
+                // hitInfo's point represents the position being gazed at
+                // hitInfo's collider GameObject represents the hologram being gazed at
+
+                RaycastTargetChanged(hitInfo.collider.gameObject);
+            }
+            else
+            {
+                RaycastTargetChanged(null);
+            }
         }
     }
 }
