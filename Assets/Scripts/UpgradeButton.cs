@@ -5,7 +5,7 @@ using UnityEngine;
 public class UpgradeButton : MonoBehaviour, IRaycastFocusEvent {
     public void Activate()
     {
-        TurretInfoCanvas.Instance.ShowUpdateStats();
+        TurretInfoCanvas.Instance.ShowUpgradeStats();
     }
 
     public void Deactivate()

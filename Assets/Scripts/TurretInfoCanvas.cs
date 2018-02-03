@@ -11,12 +11,14 @@ public class TurretInfoCanvas : Singleton<TurretInfoCanvas> {
 
     public Text[] Values;
 
+    public Button upgradeButton;
+
     private BaseTower tower;
 
-    enum Properties
+    public enum Properties
     {
         Damage,
-        Speed,
+        AttackSpeed,
         Range,
         DOT,
         Slow,
@@ -37,6 +39,16 @@ public class TurretInfoCanvas : Singleton<TurretInfoCanvas> {
     static string FormatDOT = "{0:0.0}/{1:0.0}s";
     static string FormatInteger = "{0}";
 
+    public void Upgrade()
+    {
+        tower.Upgrade();
+        if (tower.IsMaxLevel())
+        {
+            upgradeButton.interactable = false;
+        }
+        ShowStats();
+    }
+
     public void Activate(BaseTower tower)
     {
         this.tower = tower;
@@ -44,31 +56,44 @@ public class TurretInfoCanvas : Singleton<TurretInfoCanvas> {
 
         ShowStats();
 
+        if(tower.IsMaxLevel())
+        {
+            upgradeButton.interactable = false;
+        }
+
         canvas.gameObject.SetActive(true);
     }
 
     public void ShowStats()
     {
         Values[0].text = String.Format(FormatDecimal, tower.stats.damage);
-        Values[1].text = String.Format(FormatDecimal, tower.stats.speed);
+        Values[1].text = String.Format(FormatDecimal, tower.attackSpeed);
         Values[2].text = String.Format(FormatDecimal, tower.range);
         Values[3].text = String.Format(FormatDOT, tower.stats.damagePerSecond, tower.stats.damageDuration);
         Values[4].text = String.Format(FormatSlow, tower.stats.slow * 100, tower.stats.slowDuration);
         Values[5].text = String.Format(FormatInteger, tower.targetCount);
-        Values[6].text = String.Format(FormatDecimal, tower.range);
+        Values[6].text = String.Format(FormatDecimal, tower.stats.areaOfEffect);
         Values[7].text = tower.targetFlying.ToString();
     }
 
-    public void ShowUpdateStats()
+    public void ShowUpgradeStats()
     {
-        Values[0].text = String.Format(FormatUpdateDecimal, tower.stats.damage, tower.stats.damage * 1.2f);
-        Values[1].text = String.Format(FormatUpdateDecimal, tower.stats.speed, tower.stats.speed * 1.2f);
-        Values[2].text = String.Format(FormatUpdateDecimal, tower.range, tower.range * 1.2f);
-        Values[3].text = String.Format(FormatUpdateDOT, tower.stats.damagePerSecond, tower.stats.damageDuration, tower.stats.damagePerSecond * 1.2f, tower.stats.damageDuration);
-        Values[4].text = String.Format(FormatUpdateSlow, tower.stats.slow * 100, tower.stats.slowDuration, tower.stats.slow * 100 * 1.2f, tower.stats.slowDuration * 1.2f);
-        Values[5].text = String.Format(FormatUpdateInteger, tower.targetCount, tower.targetCount + 1);
-        Values[6].text = String.Format(FormatUpdateDecimal, tower.range, tower.range * 1.2f);
-        Values[7].text = tower.targetFlying.ToString();
+        if(tower.IsMaxLevel())
+        {
+            return;
+        }
+        object upgradeStats = tower.GetNextUpgradeStats();
+
+        ProjectileTower.UpgradeStats projectileUpgradeStats = upgradeStats as ProjectileTower.UpgradeStats;
+        if(projectileUpgradeStats != null)
+        {
+            Values[0].text = String.Format(FormatUpdateDecimal, tower.stats.damage, projectileUpgradeStats.damage);
+            Values[1].text = String.Format(FormatUpdateDecimal, tower.attackSpeed, projectileUpgradeStats.attackSpeed);
+            Values[2].text = String.Format(FormatUpdateDecimal, tower.range, projectileUpgradeStats.range);
+            Values[5].text = String.Format(FormatUpdateInteger, tower.targetCount, projectileUpgradeStats.targetCount);
+            return;
+        }
+        
     }
 
     public void Deactivate()

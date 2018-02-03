@@ -64,11 +64,20 @@ public abstract class BaseTower : MonoBehaviour {
 
         TurretInfoCanvas.Instance.Activate(this);
     }
+
+    public abstract void Upgrade();
+
+    protected abstract void SetStats(int level);
+
+    public abstract object GetNextUpgradeStats();
+
+    public abstract bool IsMaxLevel();
     
 	// Use this for initialization
-	void Start () {
+	protected void Start () {
         lastAttack = DateTime.MinValue;
-        stats = new AttackStats(speed, damage, damagePerSecond, damageDuration, slowDuration, slow, stunDuration, areaOfEffect, this.gameObject);
+        //stats = new AttackStats(speed, damage, damagePerSecond, damageDuration, slowDuration, slow, stunDuration, areaOfEffect, this.gameObject);
+        SetStats(0);
 	}
 	
 	// Update is called once per frame

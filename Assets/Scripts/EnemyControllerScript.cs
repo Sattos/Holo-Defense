@@ -27,7 +27,6 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
     public List<BaseEnemy> FindEnemiesInRange(Vector3 turretPosition, float range, int count, TargetingMode mode)
     {
         List<BaseEnemy> ret = new List<BaseEnemy>();
-        SortedList<float, BaseEnemy> sortedList = new SortedList<float, BaseEnemy>();
         List<BaseEnemy> list = new List<BaseEnemy>(Enemies);
         
         foreach (BaseEnemy obj in list)
