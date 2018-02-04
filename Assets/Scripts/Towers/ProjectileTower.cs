@@ -38,8 +38,8 @@ public class ProjectileTower : BaseTower {
 
     public static UpgradeStats[] UpgradeLevels = {
         new UpgradeStats(1, 700, 2, 0, 0, 0, 0, 1, 0, 0.06f),
-        new UpgradeStats(1.5f, 650, 2.2f, 0, 0, 0, 0, 1, 0, 0.07f),
-        new UpgradeStats(2, 600, 2.4f, 0, 0, 0, 0, 2, 0, 0.08f)
+        new UpgradeStats(1.5f, 650, 2.2f, 0, 0, 0, 0, 1, 0.6f, 0.07f),
+        new UpgradeStats(2, 600, 2.4f, 0, 0, 0, 0, 2, 0.7f, 0.08f)
     };
 
     protected override bool Attack()

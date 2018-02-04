@@ -54,6 +54,7 @@ public abstract class BaseTower : MonoBehaviour {
     //temporary
 
     private DateTime lastAttack;
+    private bool isActive;
 
     protected abstract bool Attack();
 
@@ -72,16 +73,24 @@ public abstract class BaseTower : MonoBehaviour {
     public abstract object GetNextUpgradeStats();
 
     public abstract bool IsMaxLevel();
+
+    public virtual void FinalizePlacement()
+    {
+        isActive = true;
+    }
     
 	// Use this for initialization
-	protected void Start () {
+	protected virtual void Start () {
         lastAttack = DateTime.MinValue;
         //stats = new AttackStats(speed, damage, damagePerSecond, damageDuration, slowDuration, slow, stunDuration, areaOfEffect, this.gameObject);
         SetStats(0);
 	}
 	
 	// Update is called once per frame
-	protected void Update () {
+	protected virtual void Update () {
+        if (!isActive)
+            return;
+
 		if((DateTime.Now - lastAttack).TotalMilliseconds > attackSpeed)
         {
             if(Attack())

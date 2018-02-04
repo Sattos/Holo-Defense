@@ -76,15 +76,21 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         if (!isValidLocation)
             return;
         Debug.Log("PLACE");
-        
-        if(currentEnum == ObjectsToPlace.basePrefab)
-        {
-            EnemyControllerScript.Instance.Base = objectToPlace;
-        }
 
-        if(currentEnum == ObjectsToPlace.spawnerPrefab)
+        switch (currentEnum)
         {
-            EnemyControllerScript.Instance.AddSpawner(objectToPlace);
+            case ObjectsToPlace.projectileTowerPrefab:
+                (objectToPlace.GetComponentInChildren<ProjectileTower>()).FinalizePlacement();
+                break;
+            case ObjectsToPlace.radiusTowerPrefab:
+                (objectToPlace.GetComponentInChildren<RadiusTower>()).FinalizePlacement();
+                break;
+            case ObjectsToPlace.basePrefab:
+                EnemyControllerScript.Instance.Base = objectToPlace;
+                break;
+            case ObjectsToPlace.spawnerPrefab:
+                EnemyControllerScript.Instance.AddSpawner(objectToPlace);
+                break;
         }
 
         objectToPlace = null;

@@ -98,7 +98,17 @@ public class TurretInfoCanvas : Singleton<TurretInfoCanvas> {
             Values[7].text = String.Format(FormatUpdateDecimal, tower.stats.velocity, projectileUpgradeStats.velocity);
             return;
         }
-        
+
+        RadiusTower.UpgradeStats radiusUpgradeStats = upgradeStats as RadiusTower.UpgradeStats;
+        if (projectileUpgradeStats != null)
+        {
+            Values[0].text = String.Format(FormatUpdateDecimal, tower.stats.damage, radiusUpgradeStats.damage);
+            Values[1].text = String.Format(FormatUpdateDecimal, tower.attackSpeed, radiusUpgradeStats.attackSpeed);
+            Values[2].text = String.Format(FormatUpdateDecimal, tower.range, radiusUpgradeStats.range);
+            Values[4].text = String.Format(FormatUpdateSlow, tower.stats.slow * 100, tower.stats.slowDuration, radiusUpgradeStats.slow * 100, radiusUpgradeStats.slowDuration);
+            return;
+        }
+
     }
 
     public void Deactivate()

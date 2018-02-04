@@ -8,6 +8,8 @@ public class Projectile : MonoBehaviour {
 
     public AttackStats stats;
 
+    public Animation hitAnimation;
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetInstanceID() == Target.gameObject.GetInstanceID())
@@ -22,6 +24,17 @@ public class Projectile : MonoBehaviour {
                     if (enemy != null)
                         enemy.Hit(stats);
                 }
+            }
+            if(stats.areaOfEffect > 0)
+            {
+                Debug.Log("boom");
+                GameObject animParent = Instantiate(new GameObject());
+                GameObject anim = Instantiate(hitAnimation.gameObject);
+                animParent.transform.localScale = Vector3.one * stats.areaOfEffect;
+                anim.transform.SetParent(animParent.transform);
+                anim.transform.position = transform.position;
+                anim.GetComponent<Animation>().Play();
+                Destroy(animParent, anim.GetComponent<Animation>().clip.length);
             }
             Destroy(this.gameObject);
         }
