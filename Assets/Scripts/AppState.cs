@@ -21,7 +21,8 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         {
             MainMenu,
             Game,
-            PlaceObject
+            PlaceObject,
+            Pause
         }
 
         public GameStates currentGameState = GameStates.Game;

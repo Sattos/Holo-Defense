@@ -24,6 +24,8 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 
     List<BaseEnemy> Enemies = new List<BaseEnemy>();
 
+    List<Spawner> Spawners = new List<Spawner>();
+
     public List<BaseEnemy> FindEnemiesInRange(Vector3 turretPosition, float range, int count, TargetingMode mode)
     {
         List<BaseEnemy> ret = new List<BaseEnemy>();
@@ -66,6 +68,19 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
     public void AddEnemy(BaseEnemy enemy)
     {
         Enemies.Add(enemy);
+    }
+
+    public void AddSpawner(GameObject spawner)
+    {
+        Spawners.Add(spawner.GetComponent<Spawner>());
+    }
+
+    public void SendNextWave()
+    {
+        foreach(Spawner spawner in Spawners)
+        {
+            spawner.StartNextWave();
+        }
     }
 
     // Use this for initialization

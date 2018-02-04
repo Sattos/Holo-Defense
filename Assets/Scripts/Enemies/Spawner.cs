@@ -31,6 +31,21 @@ public class Spawner : MonoBehaviour {
         }
     }
 
+    public void StartNextWave()
+    {
+        StartCoroutine(StartWave(0.7f, 5));
+    }
+
+    private IEnumerator StartWave(float delay, int count)
+    {
+        //while(true)
+        for(int i = 0; i < count; i++)
+        {
+            SpawnEnemy(Stats);
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
 	// Use this for initialization
 	void Start () {
         Stats = new BaseEnemy.BaseStats(10, 0.01f, 5, false);
@@ -42,7 +57,7 @@ public class Spawner : MonoBehaviour {
 	void Update () {
         if ((DateTime.Now - lastSpawn).TotalMilliseconds > delay)
         {
-            SpawnEnemy(Stats);
+            //SpawnEnemy(Stats);
             lastSpawn = DateTime.Now;
         }
     }

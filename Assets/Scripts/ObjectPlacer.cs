@@ -32,25 +32,38 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
     public int requestType = 8;
 
-    public GameObject cube;// = Resources.Load<GameObject>("Prefabs/GameObject");
+    public GameObject projectileTowerPrefab;// = Resources.Load<GameObject>("Prefabs/GameObject");
+    public GameObject radiusTowerPrefab;
+    public GameObject basePrefab;
+    public GameObject spawnerPrefab;
+
 
     public PlaceableObject curretObject;
     private GameObject objectToPlace;
+    private ObjectsToPlace currentEnum;
 
     public enum ObjectsToPlace
     {
-        cube
+        projectileTowerPrefab,
+        radiusTowerPrefab,
+        basePrefab,
+        spawnerPrefab
     }
 
     private PlaceableObject[] Objects;// = {new PlaceableObject(Resources.Load<GameObject>("Prefabs/GameObject"), 0.2f, 0.2f, 0.4f) };
 
-    public void StartPlacingObject()
+    public void StartPlacingObject(int obj)
+    {
+        StartPlacingObject((ObjectsToPlace)obj);
+    }
+
+    public void StartPlacingObject(ObjectsToPlace obj)
     {
         if ((DateTime.Now - clickTime).Milliseconds < 50)
             return;
-        //AppState.Instance.place = true;
         AppState.Instance.currentGameState = AppState.GameStates.PlaceObject;
-        curretObject = Objects[0];
+        currentEnum = obj;
+        curretObject = Objects[(int)obj];
         objectToPlace = Instantiate(curretObject.obj);
         SpatialUnderstandingCursor.Instance.CursorText.text = "start placing";
         clickTime = DateTime.Now;
@@ -63,6 +76,17 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         if (!isValidLocation)
             return;
         Debug.Log("PLACE");
+        
+        if(currentEnum == ObjectsToPlace.basePrefab)
+        {
+            EnemyControllerScript.Instance.Base = objectToPlace;
+        }
+
+        if(currentEnum == ObjectsToPlace.spawnerPrefab)
+        {
+            EnemyControllerScript.Instance.AddSpawner(objectToPlace);
+        }
+
         objectToPlace = null;
         AppState.Instance.currentGameState = AppState.GameStates.Game;
         SpatialUnderstandingCursor.Instance.CursorText.text = "finalize placing";
@@ -161,7 +185,12 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
     // Use this for initialization
     void Start()
     {
-        Objects = new PlaceableObject[] { new PlaceableObject(cube, 0.2f, 0.2f, 0.4f) };
+        Objects = new PlaceableObject[] {
+            new PlaceableObject(projectileTowerPrefab, 0.2f, 0.2f, 0.4f),
+            new PlaceableObject(radiusTowerPrefab, 0.2f, 0.2f, 0.4f),
+            new PlaceableObject(basePrefab, 0.5f, 0.5f, 0.5f),
+            new PlaceableObject(spawnerPrefab, 0.3f, 0.3f, 0.3f)
+        };
         isValidLocation = false;
         clickTime = DateTime.MinValue;
         //Instantiate(Objects[0].obj);

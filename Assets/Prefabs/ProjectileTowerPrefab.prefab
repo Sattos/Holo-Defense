@@ -234,4 +234,5 @@ MonoBehaviour:
   slow: 0
   stunDuration: 0
   areaOfEffect: 0
-  Missile: {fileID: 0}
+  Missile: {fileID: 114519187438143326, guid: 88c0395d09fda91428dbffaa4745a097, type: 2}
+  targetingMode: 0

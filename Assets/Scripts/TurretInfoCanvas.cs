@@ -60,6 +60,10 @@ public class TurretInfoCanvas : Singleton<TurretInfoCanvas> {
         {
             upgradeButton.interactable = false;
         }
+        else
+        {
+            upgradeButton.interactable = true;
+        }
 
         canvas.gameObject.SetActive(true);
     }
