@@ -24,7 +24,7 @@ public class TurretInfoCanvas : Singleton<TurretInfoCanvas> {
         Slow,
         Targets,
         Radius,
-        Flying
+        Velocity
     }
 
 
@@ -77,7 +77,7 @@ public class TurretInfoCanvas : Singleton<TurretInfoCanvas> {
         Values[4].text = String.Format(FormatSlow, tower.stats.slow * 100, tower.stats.slowDuration);
         Values[5].text = String.Format(FormatInteger, tower.targetCount);
         Values[6].text = String.Format(FormatDecimal, tower.stats.areaOfEffect);
-        Values[7].text = tower.targetFlying.ToString();
+        Values[7].text = String.Format(FormatDecimal, tower.stats.velocity);
     }
 
     public void ShowUpgradeStats()
@@ -95,6 +95,7 @@ public class TurretInfoCanvas : Singleton<TurretInfoCanvas> {
             Values[1].text = String.Format(FormatUpdateDecimal, tower.attackSpeed, projectileUpgradeStats.attackSpeed);
             Values[2].text = String.Format(FormatUpdateDecimal, tower.range, projectileUpgradeStats.range);
             Values[5].text = String.Format(FormatUpdateInteger, tower.targetCount, projectileUpgradeStats.targetCount);
+            Values[7].text = String.Format(FormatUpdateDecimal, tower.stats.velocity, projectileUpgradeStats.velocity);
             return;
         }
         

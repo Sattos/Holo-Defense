@@ -19,8 +19,9 @@ public class ProjectileTower : BaseTower {
         public float slowDuration;
         public int targetCount;
         public float radius;
+        public float velocity;
 
-        public UpgradeStats(float damage, int attackSpeed, float range, float damagePerSecond, float damageDuration, float slow, float slowDuration, int targetCount, float radius)
+        public UpgradeStats(float damage, int attackSpeed, float range, float damagePerSecond, float damageDuration, float slow, float slowDuration, int targetCount, float radius, float velocity)
         {
             this.damage = damage;
             this.attackSpeed = attackSpeed;
@@ -31,13 +32,14 @@ public class ProjectileTower : BaseTower {
             this.slowDuration = slowDuration;
             this.targetCount = targetCount;
             this.radius = radius;
+            this.velocity = velocity;
         }
     }
 
     public static UpgradeStats[] UpgradeLevels = {
-        new UpgradeStats(1, 700, 2, 0, 0, 0, 0, 1, 0),
-        new UpgradeStats(1.5f, 650, 2.2f, 0, 0, 0, 0, 1, 0),
-        new UpgradeStats(2, 600, 2.4f, 0, 0, 0, 0, 2, 0)
+        new UpgradeStats(1, 700, 2, 0, 0, 0, 0, 1, 0, 0.06f),
+        new UpgradeStats(1.5f, 650, 2.2f, 0, 0, 0, 0, 1, 0, 0.07f),
+        new UpgradeStats(2, 600, 2.4f, 0, 0, 0, 0, 2, 0, 0.08f)
     };
 
     protected override bool Attack()
@@ -75,7 +77,7 @@ public class ProjectileTower : BaseTower {
         }
 
         UpgradeStats upgStats = UpgradeLevels[val];
-        this.stats = new AttackStats(speed, upgStats.damage, upgStats.damagePerSecond, upgStats.damageDuration, upgStats.slowDuration, upgStats.slow, stunDuration, upgStats.radius, this.gameObject);
+        this.stats = new AttackStats(upgStats.velocity, upgStats.damage, upgStats.damagePerSecond, upgStats.damageDuration, upgStats.slowDuration, upgStats.slow, stunDuration, upgStats.radius, this.gameObject);
         this.range = upgStats.range;
         this.attackSpeed = upgStats.attackSpeed;
         this.targetCount = upgStats.targetCount;

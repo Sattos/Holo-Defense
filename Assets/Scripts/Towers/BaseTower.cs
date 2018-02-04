@@ -5,7 +5,7 @@ using System;
 
 public class AttackStats
 {
-    public float speed;
+    public float velocity;
     public float damage;
     public float damagePerSecond;
     public float damageDuration;
@@ -15,9 +15,9 @@ public class AttackStats
     public float areaOfEffect;
     public GameObject source;
 
-    public AttackStats(float speed, float damage, float damagePerSecond, float damageDuration, float slowDuration, float slow, float stunDuration, float areaOfEffect, GameObject source)
+    public AttackStats(float velocity, float damage, float damagePerSecond, float damageDuration, float slowDuration, float slow, float stunDuration, float areaOfEffect, GameObject source)
     {
-        this.speed = speed;
+        this.velocity = velocity;
         this.damage = damage;
         this.damagePerSecond = damagePerSecond;
         this.damageDuration = damageDuration;

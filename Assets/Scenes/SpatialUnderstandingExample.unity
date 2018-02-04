@@ -3016,9 +3016,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1372945793}
-        m_MethodName: 
-        m_Mode: 3
+      - m_Target: {fileID: 241900763}
+        m_MethodName: SendNextWave
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4466,7 +4466,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'FLYING:'
+  m_Text: 'VELOCITY:'
 --- !u!222 &1573971634
 CanvasRenderer:
   m_ObjectHideFlags: 0

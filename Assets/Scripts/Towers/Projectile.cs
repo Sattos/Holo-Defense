@@ -40,7 +40,7 @@ public class Projectile : MonoBehaviour {
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, Target.transform.position, stats.speed);
+            transform.position = Vector3.MoveTowards(transform.position, Target.transform.position, stats.velocity);
         }
 	}
 }
