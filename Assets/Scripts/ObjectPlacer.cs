@@ -37,6 +37,9 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
     public GameObject basePrefab;
     public GameObject spawnerPrefab;
 
+    public bool isNormalInterface;
+    public GameObject ui;
+
 
     public PlaceableObject curretObject;
     private GameObject objectToPlace;
@@ -85,10 +88,10 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                     (objectToPlace.GetComponentInChildren<RadiusTower>()).FinalizePlacement();
                     break;
                 case ObjectsToPlace.basePrefab:
-                    EnemyControllerScript.Instance.Base = objectToPlace;
+                    EnemyControllerScript.Instance.Base = objectToPlace.GetComponentInChildren<Transform>().gameObject;
                     break;
                 case ObjectsToPlace.spawnerPrefab:
-                    EnemyControllerScript.Instance.AddSpawner(objectToPlace);
+                    EnemyControllerScript.Instance.AddSpawner(objectToPlace.GetComponentInChildren<Transform>().gameObject);
                     break;
             }
 
@@ -115,10 +118,15 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                 (objectToPlace.GetComponentInChildren<RadiusTower>()).FinalizePlacement();
                 break;
             case ObjectsToPlace.basePrefab:
-                EnemyControllerScript.Instance.Base = objectToPlace;
+                EnemyControllerScript.Instance.Base = objectToPlace.GetComponentInChildren<Transform>().gameObject;
+                if(isNormalInterface)
+                {
+                    ui.transform.position = objectToPlace.transform.position + objectToPlace.transform.rotation * new Vector3(0, 0.7f, 0);
+                    ui.SetActive(true);
+                }
                 break;
             case ObjectsToPlace.spawnerPrefab:
-                EnemyControllerScript.Instance.AddSpawner(objectToPlace);
+                EnemyControllerScript.Instance.AddSpawner(objectToPlace.GetComponentInChildren<Transform>().gameObject);
                 break;
         }
 

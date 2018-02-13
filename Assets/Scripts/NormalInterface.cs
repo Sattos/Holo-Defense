@@ -1,18 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class MenuButton : MonoBehaviour {
-
-    public void ChangeScene()
-    {
-        SceneManager.LoadScene(1);
-    }
+public class NormalInterface : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.basePrefab);
 	}
 	
 	// Update is called once per frame

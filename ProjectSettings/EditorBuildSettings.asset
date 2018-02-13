@@ -6,14 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SpatialUnderstandingExample.unity
-    guid: 7ecf1c34f0ac4b4449076e91efc011be
-  - enabled: 1
-    path: Assets/Scenes/BadInterface.unity
-    guid: 2e067f7525ad25140b0a63e2a7b6ff30
-  - enabled: 1
     path: Assets/Scenes/Start.unity
     guid: 2f2cf58a653dd5947b184868a3fab4c4
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 51def2317d9321d4499f1f91858dbf81
+  - enabled: 1
+    path: Assets/Scenes/BadInterface.unity
+    guid: 2e067f7525ad25140b0a63e2a7b6ff30
+  - enabled: 1
+    path: Assets/Scenes/NormalInterface.unity
+    guid: 38ce03865442b9c49b1b56e07945854d
+  - enabled: 1
+    path: Assets/Scenes/GoodInterface.unity
+    guid: 06b29aa7754d3474891c6beff66dd085
+  - enabled: 1
+    path: Assets/Scenes/SpatialUnderstandingExample.unity
+    guid: 7ecf1c34f0ac4b4449076e91efc011be
