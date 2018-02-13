@@ -11,41 +11,22 @@ using UnityEngine.UI;
 
 namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
 {
-    public class UI : LineDrawer
+    public class BadUI : LineDrawer
     {
         // Consts
         public const float MenuWidth = 1.5f;
         public const float MenuHeight = 1.0f;
         public const float MenuMinDepth = 2.0f;
 
-        // Enums
-        public enum Panels
-        {
-            Topology,
-            //Shapes,
-            //LevelSolver,
-            PANEL_COUNT
-        }
-        [Serializable]
-        public class TabPanel
-        {
-            public Button Button;
-            public Image ButtonImage;
-            public Image Background;
-            public GridLayoutGroup ButtonGrid;
-            public List<Button> GridButtons = new List<Button>();
-        }
 
         // Config
         public Canvas ParentCanvas;
-        public TabPanel[] ButtonPanels = new TabPanel[(int)Panels.PANEL_COUNT];
         public Button PrefabButton;
         public LayerMask UILayerMask;
 
         // Properties
         public bool HasPlacedMenu { get; private set; }
         public AnimatedBox MenuAnimatedBox { get; private set; }
-        public Panels ActivePanel { get; private set; }
 
         // Privates
         private DateTime timeLastQuery = DateTime.MinValue;
@@ -168,108 +149,6 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             Debug.Log("PlaceMenu - InFrontOfUser");
         }
 
-        private void SetActiveTab(Panels panel)
-        {
-            // Set it
-            ActivePanel = panel;
-            timeLastQuery = DateTime.MinValue;
-
-            // Colors
-            Update_Colors();
-        }
-
-        private void Update_Colors()
-        {
-            const float TimeToFadeAfterQuery = 3.0f;
-
-            // Time since query (fade for a bit after a query)
-            float timeSinceQuery = (float)(DateTime.Now - timeLastQuery).TotalSeconds;
-            float alphaScale = Mathf.SmoothStep(0.0f, 1.0f, Mathf.Clamp01(timeSinceQuery - TimeToFadeAfterQuery)) * 0.8f + 0.2f;
-
-            // Colors
-            Color colorButtonActive = new Color(1.0f, 1.0f, 1.0f, 0.8f * alphaScale);
-            Color colorButtonInactive = new Color(1.0f, 1.0f, 1.0f, 0.25f * alphaScale);
-            Color colorPanelActive = new Color(1.0f, 1.0f, 1.0f, 0.6f * alphaScale);
-            Color colorPanelInactive = new Color(1.0f, 1.0f, 1.0f, 0.15f * alphaScale);
-
-            // Colors on buttons
-            for (int i = 0; i < (int)Panels.PANEL_COUNT; ++i)
-            {
-                bool isEnabled = (i == (int)ActivePanel);
-
-                ButtonPanels[i].ButtonImage.color = isEnabled ? colorButtonActive : colorButtonInactive;
-                ButtonPanels[i].Background.enabled = isEnabled;
-                ButtonPanels[i].Background.color = isEnabled ? colorPanelActive : colorPanelInactive;
-                ButtonPanels[i].ButtonGrid.enabled = isEnabled;
-
-                for (int j = 0; j < ButtonPanels[i].GridButtons.Count; ++j)
-                {
-                    ButtonPanels[i].GridButtons[j].gameObject.SetActive(isEnabled);
-                }
-            }
-        }
-
-        private void SetupMenus()
-        {
-            // Topology queries
-            //ButtonPanels[(int)Panels.Topology].Button.GetComponentInChildren<Text>().text = "Topology Queries";
-            //ButtonPanels[(int)Panels.Topology].Button.onClick.AddListener(() => { SetActiveTab(Panels.Topology); });
-            //AddButton("Position on wall", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindPositionOnWall(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("Large positions on wall", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindLargePositionsOnWalls(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("Largest wall", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindLargeWall(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("Positions on floor", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindPositionsOnFloor(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("Large positions on floor", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindLargestPositionsOnFloor(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("Place objects positions", Panels.Topology, () => { SpaceVisualizer.Instance.Query_Topology_FindPositionsPlaceable(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("Place object", Panels.Topology, () => { AppState.Instance.PlaceObjects(0.2f, 0.2f, 0.0f, 0.0f); timeLastQuery = DateTime.MinValue; });
-
-            //AddButton("Place", Panels.Topology, () => { ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.cube); timeLastQuery = DateTime.MinValue; });
-            //AddButton("Cancel", Panels.Topology, () => { ObjectPlacer.Instance.CancelPlacement(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("Place turret 1", Panels.Topology, () => { AppState.Instance.PlaceObjects(0.2f, 0.2f, 0.0f, 0.0f); timeLastQuery = DateTime.MinValue; });
-            //AddButton("Place turret 2", Panels.Topology, () => { AppState.Instance.PlaceObjects(0.2f, 0.2f, 0.0f, 0.0f); timeLastQuery = DateTime.MinValue; });
-            //AddButton("Place turret 3", Panels.Topology, () => { AppState.Instance.PlaceObjects(0.2f, 0.2f, 0.0f, 0.0f); timeLastQuery = DateTime.MinValue; });
-
-            // Shape queries
-            //ButtonPanels[(int)Panels.Shapes].Button.GetComponentInChildren<Text>().text = "Shape Queries";
-            //ButtonPanels[(int)Panels.Shapes].Button.onClick.AddListener(() => { SetActiveTab(Panels.Shapes); });
-            //ReadOnlyCollection<string> customShapes = ShapeDefinition.Instance.CustomShapeDefinitions;
-            //for (int i = 0; i < customShapes.Count; ++i)
-            //{
-            //    string shapeName = customShapes[i];
-            //    AddButton(shapeName, Panels.Shapes, () =>
-            //    {
-            //        SpaceVisualizer.Instance.Query_Shape_FindShapeHalfDims(shapeName);
-            //        timeLastQuery = DateTime.MinValue;
-            //    });
-            //}
-
-            //// Level solver
-            //ButtonPanels[(int)Panels.LevelSolver].Button.GetComponentInChildren<Text>().text = "Object Placement";
-            //ButtonPanels[(int)Panels.LevelSolver].Button.onClick.AddListener(() => { SetActiveTab(Panels.LevelSolver); timeLastQuery = DateTime.MinValue; });
-            //AddButton("On Floor", Panels.LevelSolver, () => { LevelSolver.Instance.Query_OnFloor(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("On Wall", Panels.LevelSolver, () => { LevelSolver.Instance.Query_OnWall(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("On Ceiling", Panels.LevelSolver, () => { LevelSolver.Instance.Query_OnCeiling(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("On SurfaceEdge", Panels.LevelSolver, () => { LevelSolver.Instance.Query_OnEdge(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("On FloorAndCeiling", Panels.LevelSolver, () => { LevelSolver.Instance.Query_OnFloorAndCeiling(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("RandomInAir AwayFromMe", Panels.LevelSolver, () => { LevelSolver.Instance.Query_RandomInAir_AwayFromMe(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("OnEdge NearCenter", Panels.LevelSolver, () => { LevelSolver.Instance.Query_OnEdge_NearCenter(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("OnFloor AwayFromMe", Panels.LevelSolver, () => { LevelSolver.Instance.Query_OnFloor_AwayFromMe(); timeLastQuery = DateTime.MinValue; });
-            //AddButton("OnFloor NearMe", Panels.LevelSolver, () => { LevelSolver.Instance.Query_OnFloor_NearMe(); timeLastQuery = DateTime.MinValue; });
-
-            // Default one of them active
-            //SetActiveTab(Panels.Topology);
-        }
-
-        private void AddButton(string text, Panels panel, UnityEngine.Events.UnityAction action)
-        {
-            Button button = Instantiate(PrefabButton);
-            button.GetComponentInChildren<Text>().text = text;
-            button.transform.SetParent(ButtonPanels[(int)panel].ButtonGrid.transform, false);
-            button.transform.localScale = Vector3.one;
-            button.onClick.AddListener(action);
-
-            ButtonPanels[(int)panel].GridButtons.Add(button);
-        }
-
         private void PlaceMenu(Vector3 position, Vector3 normal, bool needsBillboarding = false)
         {
             // Offset in a bit
@@ -279,9 +158,6 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             // Place it
             transform.position = position;
             transform.rotation = rotation;
-
-            // Setup the menu
-            SetupMenus();
 
             // Enable it
             ParentCanvas.gameObject.SetActive(true);
@@ -302,8 +178,6 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
 
         private void Update()
         {
-            //Update_Colors();
-
             // Animated box
             if (MenuAnimatedBox != null)
             {

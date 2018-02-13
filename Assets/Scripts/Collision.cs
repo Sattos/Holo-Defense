@@ -22,21 +22,21 @@ public class Collision : MonoBehaviour {
     {
         //Debug.Log("Collision");
         //this.gameObject.SetActive(false);
-        GetComponent<Renderer>().material = red;
+        //GetComponent<Renderer>().material = red;
     }
 
     void OnTriggerEnter(Collider collider)
     {
         //Debug.Log("Collision");
         //this.gameObject.SetActive(false);
-        GetComponent<Renderer>().material = red;
+        //GetComponent<Renderer>().material = red;
     }
 
     void OnTriggerExit(Collider collider)
     {
         //Debug.Log("Collision");
         //this.gameObject.SetActive(false);
-        GetComponent<Renderer>().material = green;
+        //GetComponent<Renderer>().material = green;
     }
 
     public void testGreen()

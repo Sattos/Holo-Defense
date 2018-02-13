@@ -82,6 +82,8 @@ public class TurretInfoCanvas : Singleton<TurretInfoCanvas> {
 
     public void ShowUpgradeStats()
     {
+        if (tower == null)
+            return;
         if(tower.IsMaxLevel())
         {
             return;

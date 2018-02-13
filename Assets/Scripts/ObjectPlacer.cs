@@ -59,6 +59,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
     public void StartPlacingObject(ObjectsToPlace obj)
     {
+        Debug.Log("PLACING");
         if ((DateTime.Now - clickTime).Milliseconds < 50)
             return;
         AppState.Instance.currentGameState = AppState.GameStates.PlaceObject;
@@ -67,6 +68,34 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         objectToPlace = Instantiate(curretObject.obj);
         SpatialUnderstandingCursor.Instance.CursorText.text = "start placing";
         clickTime = DateTime.Now;
+    }
+
+    public void FinishDragAndDrop()
+    {
+        if (!isValidLocation)
+            CancelPlacement();
+        else
+        {
+            switch (currentEnum)
+            {
+                case ObjectsToPlace.projectileTowerPrefab:
+                    (objectToPlace.GetComponentInChildren<ProjectileTower>()).FinalizePlacement();
+                    break;
+                case ObjectsToPlace.radiusTowerPrefab:
+                    (objectToPlace.GetComponentInChildren<RadiusTower>()).FinalizePlacement();
+                    break;
+                case ObjectsToPlace.basePrefab:
+                    EnemyControllerScript.Instance.Base = objectToPlace;
+                    break;
+                case ObjectsToPlace.spawnerPrefab:
+                    EnemyControllerScript.Instance.AddSpawner(objectToPlace);
+                    break;
+            }
+
+            objectToPlace = null;
+            AppState.Instance.currentGameState = AppState.GameStates.Game;
+            SpatialUnderstandingCursor.Instance.CursorText.text = "finalize placing";
+        }
     }
 
     public void FinalizePlacement()
@@ -152,7 +181,11 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                 break;
             case 6://wallexternal
             case 7://walllike
-                quat = Quaternion.LookRotation(Vector3.Scale(CameraCache.Main.transform.forward, (Vector3.one - testRes.normal)), testRes.normal);
+                Vector3 v = CameraCache.Main.transform.forward;
+                Vector3.OrthoNormalize(ref testRes.normal, ref v);
+                quat = Quaternion.LookRotation(v, testRes.normal);
+
+                SpatialUnderstandingCursor.Instance.CursorText.text = String.Format("x={0}, y={1}, z={2}\nx={3}, y={4}, z={5}", testRes.normal.x, testRes.normal.y, testRes.normal.z, CameraCache.Main.transform.rotation.eulerAngles.x/360, CameraCache.Main.transform.rotation.eulerAngles.y/360, CameraCache.Main.transform.rotation.eulerAngles.z/360);
                 break;
             default:
                 break;
@@ -160,7 +193,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
         //if (rayCastResult.SurfaceType != SpatialUnderstandingDll.Imports.RaycastResult.SurfaceTypes.Floor)
         {
-            Debug.Log(Vector3.Scale(CameraCache.Main.transform.forward, (Vector3.one - testRes.normal)));
+            //Debug.Log(Vector3.Scale(CameraCache.Main.transform.forward, (Vector3.one - testRes.normal)));
             //return;
         }
 
@@ -177,11 +210,14 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         {
             objectToPlace.transform.SetPositionAndRotation(testRes.position, quat);
             objectToPlace.SetActive(true);
+            objectToPlace.GetComponentInChildren<Collision>().testGreen();
             isValidLocation = true;
         }
         else
         {
-            objectToPlace.SetActive(false);
+            objectToPlace.transform.SetPositionAndRotation(testRes.position, quat);
+            objectToPlace.GetComponentInChildren<Collision>().testRed();
+            //objectToPlace.SetActive(false);
             isValidLocation = false;
         }
         

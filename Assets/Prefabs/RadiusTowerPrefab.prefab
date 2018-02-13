@@ -168,6 +168,8 @@ MonoBehaviour:
   slow: 0
   stunDuration: 0
   areaOfEffect: 0
+  hitAnimation: {fileID: 111547053454814562, guid: d7e5ac450e5d9db46a94b78be31ffa80,
+    type: 2}
 --- !u!114 &114575781020623136
 MonoBehaviour:
   m_ObjectHideFlags: 1

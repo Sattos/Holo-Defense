@@ -109,6 +109,7 @@ public class RadiusTower : BaseTower {
     protected override void Start()
     {
         GameObject parentObject = Instantiate(new GameObject());
+        parentObject.transform.localScale = Vector3.one;
         hitAnimationObject = Instantiate(hitAnimation.gameObject);
         hitAnimationObject.transform.SetParent(parentObject.transform);
         hitAnimationObject.transform.position = transform.position;
