@@ -53,6 +53,9 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
 
         public bool place = false;
 
+        public float money;
+        public TextMesh MoneyText;
+
         // Properties
         public string SpaceQueryDescription
         {
@@ -408,10 +411,10 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             {
                 Destroy(obj.gameObject);
             }
-            foreach (BaseEnemy obj in FindObjectsOfType<BaseEnemy>())
-            {
-                Destroy(obj.gameObject);
-            }
+            //foreach (BaseEnemy obj in FindObjectsOfType<BaseEnemy>())
+            //{
+            //    Destroy(obj.gameObject);
+            //}
         }
     }
 }

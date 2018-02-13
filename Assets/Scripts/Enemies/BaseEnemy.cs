@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using HoloToolkit.Examples.SpatialUnderstandingFeatureOverview;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ public class BaseEnemy : MonoBehaviour {
     public float currentSlow;
     public float currentDamageOverTime;
 
-    private object lockObject = new object();
+    private bool hasHitBase;
 
     private Dictionary<GameObject, Effect> slowEffects = new Dictionary<GameObject, Effect>();
     private Dictionary<GameObject, Effect> damageOverTimeEffects = new Dictionary<GameObject, Effect>();
@@ -126,6 +127,25 @@ public class BaseEnemy : MonoBehaviour {
                     slowEffects.Remove(key);
                 }
             }
+        }
+    }
+
+    public void OnTriggerEnter(Collider collider)
+    {
+        if(collider.gameObject.tag == "Base")
+        {
+            hasHitBase = true;
+            EnemyControllerScript.Instance.DamageBase();
+            EnemyControllerScript.Instance.DestroyEnemy(this);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (!hasHitBase)
+        {
+            AppState.Instance.money += stats.money;
+            AppState.Instance.MoneyText.text = string.Format("{0:0}", AppState.Instance.money);
         }
     }
 

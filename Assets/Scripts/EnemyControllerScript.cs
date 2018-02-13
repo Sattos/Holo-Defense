@@ -1,4 +1,5 @@
-﻿using HoloToolkit.Unity;
+﻿using HoloToolkit.Examples.SpatialUnderstandingFeatureOverview;
+using HoloToolkit.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 
     public BaseEnemy Enemy;
     public GameObject Base;
+
+    public int baseHealth;
 
     public enum EnemyType
     {
@@ -62,7 +65,6 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
     public void DestroyEnemy(BaseEnemy enemy)
     {
         Enemies.Remove(enemy);
-        Debug.Log(enemy.money);
         Destroy(enemy.gameObject);
     }
 
@@ -81,6 +83,15 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
         foreach(Spawner spawner in Spawners)
         {
             spawner.StartNextWave();
+        }
+    }
+
+    public void DamageBase()
+    {
+        if(--baseHealth <= 0)
+        {
+            AppState.Instance.Restart();
+            AppState.Instance.SetUI(1);
         }
     }
 
@@ -107,6 +118,17 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 
     public void Restart()
     {
+        foreach (Spawner spawner in Spawners)
+        {
+            if(spawner != null)
+                Destroy(spawner.transform.parent.gameObject);
+        }
+        foreach (BaseEnemy enemy in Enemies)
+        {
+            if(enemy != null)
+                DestroyEnemy(enemy);
+        }
+        Destroy(Base.gameObject);
         Spawners.Clear();
         Enemies.Clear();
     }
