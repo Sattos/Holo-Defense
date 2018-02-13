@@ -266,9 +266,6 @@ namespace HoloToolkit.Unity
                 // Mark it
                 ScanState = ScanStates.Done;
                 if (OnScanDone != null) OnScanDone.Invoke();
-                DontDestroyOnLoad(GameObject.Find("Managers"));
-                DontDestroyOnLoad(GameObject.Find("MixedRealityCameraParent"));
-                UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
             }
         }
     }

@@ -14,9 +14,9 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
     public class BadUI : LineDrawer
     {
         // Consts
-        public const float MenuWidth = 1.5f;
-        public const float MenuHeight = 1.0f;
-        public const float MenuMinDepth = 2.0f;
+        public const float MenuWidth = 1.0f;
+        public const float MenuHeight = 0.6f;
+        public const float MenuMinDepth = 1.0f;
 
 
         // Config

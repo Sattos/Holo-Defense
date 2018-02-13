@@ -56,7 +56,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         {
             // Turn menu off until we're placed
             //ParentCanvas.gameObject.SetActive(false);
-            StartCoroutine(SetupMenu());
+            //StartCoroutine(SetupMenu());
             // Events
             //SpatialUnderstanding.Instance.ScanStateChanged += OnScanStateChanged;
         }
@@ -305,26 +305,26 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             //Update_Colors();
 
             // Animated box
-            if (MenuAnimatedBox != null)
+            //if (MenuAnimatedBox != null)
             {
                 // We're using the animated box for the animation only
-                MenuAnimatedBox.Update(Time.deltaTime);
+                //MenuAnimatedBox.Update(Time.deltaTime);
 
                 // Billboarding
-                if (MenuAnimatedBox.IsAnimationComplete &&
-                    placedMenuNeedsBillboard)
+                //if (MenuAnimatedBox.IsAnimationComplete &&
+                //    placedMenuNeedsBillboard)
                 {
                     // Rotate to face the user
-                    transform.position = MenuAnimatedBox.AnimPosition.Evaluate(MenuAnimatedBox.Time);
+                    //transform.position = MenuAnimatedBox.AnimPosition.Evaluate(MenuAnimatedBox.Time);
                     Vector3 lookDirTarget = CameraCache.Main.transform.position - transform.position;
                     lookDirTarget = (new Vector3(lookDirTarget.x, 0.0f, lookDirTarget.z)).normalized;
                     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(-lookDirTarget), Time.deltaTime * 10.0f);
                 }
-                else
+               // else
                 {
                     // Keep the UI locked to the animated box
-                    transform.position = MenuAnimatedBox.AnimPosition.Evaluate(MenuAnimatedBox.Time);
-                    transform.rotation = MenuAnimatedBox.Rotation * Quaternion.AngleAxis(360.0f * MenuAnimatedBox.AnimRotation.Evaluate(MenuAnimatedBox.Time), Vector3.up);
+                  //  transform.position = MenuAnimatedBox.AnimPosition.Evaluate(MenuAnimatedBox.Time);
+                  //  transform.rotation = MenuAnimatedBox.Rotation * Quaternion.AngleAxis(360.0f * MenuAnimatedBox.AnimRotation.Evaluate(MenuAnimatedBox.Time), Vector3.up);
                 }
             }
         }

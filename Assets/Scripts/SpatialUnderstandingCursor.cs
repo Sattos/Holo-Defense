@@ -265,7 +265,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                 CursorText.gameObject.SetActive(true);
 
                 //TestPlacment();
-                if(AppState.Instance.currentGameState == AppState.GameStates.PlaceObject)
+                if(ObjectPlacer.Instance.isPlacing)
                     ObjectPlacer.Instance.CheckPlacement(rayCastResult);
 
                 CursorText.transform.rotation = Quaternion.LookRotation(CameraCache.Main.transform.forward, Vector3.up);

@@ -22,10 +22,14 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             MainMenu,
             Game,
             PlaceObject,
-            Pause
+            Pause,
+            BadInterface,
+            NormalInterface,
+            GoodInterface,
+            Scanning
         }
 
-        public GameStates currentGameState = GameStates.Game;
+        public GameStates currentGameState = GameStates.Scanning;
 
         // Consts
         public float kMinAreaForStats = 5.0f;
@@ -39,6 +43,15 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         public Transform Parent_Scene;
         public SpatialMappingObserver MappingObserver;
         public SpatialUnderstandingCursor AppCursor;
+
+        public GameObject MainUI;
+        public GameObject BadUI;
+        public GameObject StandardUI;
+        public GameObject OptimalUI;
+
+        public EnemyControllerScript EnemyController;
+
+        public bool place = false;
 
         // Properties
         public string SpaceQueryDescription
@@ -205,7 +218,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         private string spaceQueryDescription;
         private string objectPlacementDescription;
         private uint trackedHandsCount = 0;
-        public bool place = false;
+
 #if UNITY_WSA || UNITY_STANDALONE_WIN
         private KeywordRecognizer keywordRecognizer;
 
@@ -217,6 +230,15 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             Parent_Scene.transform.position = sceneOrigin;
             MappingObserver.SetObserverOrigin(sceneOrigin);
             InputManager.Instance.AddGlobalListener(gameObject);
+
+            MainUI.SetActive(false);
+            MainUI.GetComponent<StartUI>().enabled = false;
+            BadUI.SetActive(false);
+            BadUI.GetComponent<BadUI>().enabled = false;
+            StandardUI.SetActive(false);
+            StandardUI.GetComponent<NormalUI>().enabled = false;
+            OptimalUI.SetActive(false);
+            OptimalUI.GetComponent<GoodUI>().enabled = false;
 
 
             var keywordsToActions = new Dictionary<string, Action>
@@ -302,11 +324,11 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
 
         public void OnInputClicked(InputClickedEventData eventData)
         {
-            if ((SpatialUnderstanding.Instance.ScanState == SpatialUnderstanding.ScanStates.Scanning) &&
-                !SpatialUnderstanding.Instance.ScanStatsReportStillWorking)
-            {
-                SpatialUnderstanding.Instance.RequestFinishScan();
-            }
+            //if ((SpatialUnderstanding.Instance.ScanState == SpatialUnderstanding.ScanStates.Scanning) &&
+            //    !SpatialUnderstanding.Instance.ScanStatsReportStillWorking)
+            //{
+            //    SpatialUnderstanding.Instance.RequestFinishScan();
+            //}
             switch(currentGameState)
             {
                 case GameStates.MainMenu:
@@ -316,6 +338,79 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                 case GameStates.PlaceObject:
                     ObjectPlacer.Instance.FinalizePlacement();
                     break;
+                case GameStates.Scanning:
+                    SpatialUnderstanding.Instance.RequestFinishScan();
+                    SetUI(1);
+                    break;
+                case GameStates.NormalInterface:
+                case GameStates.GoodInterface:
+                    if (ObjectPlacer.Instance.isPlacing)
+                        ObjectPlacer.Instance.FinalizePlacement();
+                    break;
+            }
+            
+        }
+
+        public void SetUI(int i)
+        {
+            switch(currentGameState)
+            {
+                case GameStates.MainMenu:
+                    MainUI.SetActive(false);
+                    MainUI.GetComponent<StartUI>().enabled = false;
+                    break;
+                case GameStates.BadInterface:
+                    BadUI.SetActive(false);
+                    BadUI.GetComponent<BadUI>().enabled = false;
+                    break;
+                case GameStates.NormalInterface:
+                    StandardUI.SetActive(false);
+                    StandardUI.GetComponent<NormalUI>().enabled = false;
+                    ObjectPlacer.Instance.isNormalInterface = false;
+                    break;
+                case GameStates.GoodInterface:
+                    OptimalUI.SetActive(false);
+                    OptimalUI.GetComponent<GoodUI>().enabled = false;
+                    break;
+            }
+
+            switch(i)
+            {
+                case 1:
+                    MainUI.SetActive(true);
+                    MainUI.GetComponent<StartUI>().enabled = true;
+                    currentGameState = GameStates.MainMenu;
+                    break;
+                case 2:
+                    BadUI.SetActive(true);
+                    BadUI.GetComponent<BadUI>().enabled = true;
+                    currentGameState = GameStates.BadInterface;
+                    break;
+                case 3:
+                    //StandardUI.SetActive(true);
+                    //StandardUI.GetComponent<NormalUI>().enabled = true;
+                    ObjectPlacer.Instance.isNormalInterface = true;
+                    ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.basePrefab);
+                    currentGameState = GameStates.NormalInterface;
+                    break;
+                case 4:
+                    OptimalUI.SetActive(true);
+                    //OptimalUI.GetComponent<GoodUI>().enabled = true;
+                    currentGameState = GameStates.GoodInterface;
+                    break;
+            }
+        }
+
+        public void Restart()
+        {
+            EnemyControllerScript.Instance.Restart();
+            foreach(BaseTower obj in FindObjectsOfType<BaseTower>())
+            {
+                Destroy(obj.gameObject);
+            }
+            foreach (BaseEnemy obj in FindObjectsOfType<BaseEnemy>())
+            {
+                Destroy(obj.gameObject);
             }
         }
     }

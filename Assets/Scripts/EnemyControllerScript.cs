@@ -1,4 +1,5 @@
 ﻿using HoloToolkit.Unity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -70,9 +71,9 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
         Enemies.Add(enemy);
     }
 
-    public void AddSpawner(GameObject spawner)
+    public void AddSpawner(Spawner spawner)
     {
-        Spawners.Add(spawner.GetComponent<Spawner>());
+        Spawners.Add(spawner);
     }
 
     public void SendNextWave()
@@ -103,4 +104,10 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 	void Update () {
 		
 	}
+
+    public void Restart()
+    {
+        Spawners.Clear();
+        Enemies.Clear();
+    }
 }

@@ -1275,6 +1275,7 @@ MonoBehaviour:
   spawnerPrefab: {fileID: 1190020609582796, guid: 0d15e3a1b0627ed4dad66ad49c2a9f2e,
     type: 2}
   isNormalInterface: 0
+  ui: {fileID: 0}
   refreshRate: 0
 --- !u!1 &344150422
 GameObject:
@@ -4343,7 +4344,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaterialLine: {fileID: 2100000, guid: 39e3b8a7d15fa654fbc3a9a4d1e41477, type: 2}
   ParentCanvas: {fileID: 1850738769}
-  PrefabButton: {fileID: 0}
+  PrefabButton: {fileID: 114000011813398084, guid: 402821110bb323e479936973817f7b59,
+    type: 2}
   UILayerMask:
     serializedVersion: 2
     m_Bits: 0
@@ -8681,7 +8683,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1946593687}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -8945,7 +8947,7 @@ MonoBehaviour:
   ParentObject: {fileID: 0}
   IsEnabled: 1
   DetectHold: 1
-  HoldTime: 0.5
+  HoldTime: 0.2
   RollOffTime: 0.02
   Keyword: 
   KeywordRequiresGaze: 1

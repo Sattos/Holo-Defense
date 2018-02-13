@@ -40,6 +40,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
     public bool isNormalInterface;
     public GameObject ui;
 
+    public bool isPlacing;
 
     public PlaceableObject curretObject;
     private GameObject objectToPlace;
@@ -65,12 +66,13 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         Debug.Log("PLACING");
         if ((DateTime.Now - clickTime).Milliseconds < 50)
             return;
-        AppState.Instance.currentGameState = AppState.GameStates.PlaceObject;
+        //AppState.Instance.currentGameState = AppState.GameStates.PlaceObject;
         currentEnum = obj;
         curretObject = Objects[(int)obj];
         objectToPlace = Instantiate(curretObject.obj);
         SpatialUnderstandingCursor.Instance.CursorText.text = "start placing";
         clickTime = DateTime.Now;
+        isPlacing = true;
     }
 
     public void FinishDragAndDrop()
@@ -91,13 +93,14 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                     EnemyControllerScript.Instance.Base = objectToPlace.GetComponentInChildren<Transform>().gameObject;
                     break;
                 case ObjectsToPlace.spawnerPrefab:
-                    EnemyControllerScript.Instance.AddSpawner(objectToPlace.GetComponentInChildren<Transform>().gameObject);
+                    EnemyControllerScript.Instance.AddSpawner(objectToPlace.GetComponentInChildren<Spawner>());
                     break;
             }
 
             objectToPlace = null;
-            AppState.Instance.currentGameState = AppState.GameStates.Game;
+            //AppState.Instance.currentGameState = AppState.GameStates.Game;
             SpatialUnderstandingCursor.Instance.CursorText.text = "finalize placing";
+            isPlacing = false;
         }
     }
 
@@ -123,17 +126,19 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                 {
                     ui.transform.position = objectToPlace.transform.position + objectToPlace.transform.rotation * new Vector3(0, 0.7f, 0);
                     ui.SetActive(true);
+                    ui.GetComponent<NormalUI>().enabled = true;
                 }
                 break;
             case ObjectsToPlace.spawnerPrefab:
-                EnemyControllerScript.Instance.AddSpawner(objectToPlace.GetComponentInChildren<Transform>().gameObject);
+                EnemyControllerScript.Instance.AddSpawner(objectToPlace.GetComponentInChildren<Spawner>());
                 break;
         }
 
         objectToPlace = null;
-        AppState.Instance.currentGameState = AppState.GameStates.Game;
+        //AppState.Instance.currentGameState = AppState.GameStates.Game;
         SpatialUnderstandingCursor.Instance.CursorText.text = "finalize placing";
         clickTime = DateTime.Now;
+        isPlacing = false;
     }
 
     public void CancelPlacement()
@@ -143,9 +148,10 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
             if ((DateTime.Now - clickTime).Milliseconds < 20)
                 return;
             Destroy(objectToPlace);
-            AppState.Instance.currentGameState = AppState.GameStates.Game;
+            //AppState.Instance.currentGameState = AppState.GameStates.Game;
             SpatialUnderstandingCursor.Instance.CursorText.text = "cancel placing";
             clickTime = DateTime.Now;
+            isPlacing = false;
         }
     }
 
