@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using HoloToolkit.Examples.SpatialUnderstandingFeatureOverview;
 using System;
 using UnityEngine;
 
@@ -138,5 +139,57 @@ namespace HoloToolkit.Unity.InputModule
                     break;
             }
         }
+
+        public uint handId;
+
+        public Vector3 downPos, upPos;
+
+        public float downTime, upTime;
+
+        public override void OnInputDown(InputEventData eventData)
+        {
+            base.OnInputDown(eventData);
+            handId = eventData.SourceId;
+            eventData.InputSource.TryGetPointerPosition(handId, out downPos);
+            downTime = Time.time;
+            Debug.Log(downTime);
+        }
+
+        public override void OnInputUp(InputEventData eventData)
+        {
+            base.OnInputUp(eventData);
+            if (handId == eventData.SourceId)
+            {
+                eventData.InputSource.TryGetPointerPosition(handId, out upPos);
+            }
+            if((downTime - upTime < 0.8f) && Vector3.Distance(downPos, upPos) > 0.1f)
+            {
+                AppState.Instance.SwitchUIState();
+            }  
+            upTime = Time.time;
+            Debug.Log(upTime);
+        }
+
+        //public override void OnSourceDetected(SourceStateEventData eventData)
+        //{
+        //    base.OnSourceDetected(eventData);
+        //    handId = eventData.SourceId;
+        //    Debug.Log(handId);
+        //    Vector3 pos;
+        //    eventData.InputSource.TryGetPointerPosition(handId, out pos);
+        //    Debug.Log(pos);
+        //    time = Time.time;
+        //    Debug.Log(time);
+        //}
+
+        //public override void OnSourceLost(SourceStateEventData eventData)
+        //{
+        //    base.OnSourceLost(eventData);
+        //    handId = eventData.SourceId;
+        //    Debug.Log(handId);
+        //    Vector3 pos;
+        //    eventData.InputSource.TryGetPointerPosition(handId, out pos);
+        //    Debug.Log(pos);
+        //}
     }
 }

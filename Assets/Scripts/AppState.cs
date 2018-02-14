@@ -404,6 +404,14 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             }
         }
 
+        public void SwitchUIState()
+        {
+            if(currentGameState == GameStates.GoodInterface)
+            {
+                OptimalUI.SetActive(!OptimalUI.activeSelf);
+            }
+        }
+
         public void Restart()
         {
             EnemyControllerScript.Instance.Restart();

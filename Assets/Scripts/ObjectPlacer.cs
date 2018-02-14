@@ -36,6 +36,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
     public GameObject radiusTowerPrefab;
     public GameObject basePrefab;
     public GameObject spawnerPrefab;
+    public GameObject cannonPrefab;
 
     public bool isNormalInterface;
     public GameObject ui;
@@ -51,7 +52,8 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         projectileTowerPrefab,
         radiusTowerPrefab,
         basePrefab,
-        spawnerPrefab
+        spawnerPrefab,
+        cannonPrefab
     }
 
     private PlaceableObject[] Objects;// = {new PlaceableObject(Resources.Load<GameObject>("Prefabs/GameObject"), 0.2f, 0.2f, 0.4f) };
@@ -100,6 +102,9 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                 case ObjectsToPlace.spawnerPrefab:
                     EnemyControllerScript.Instance.AddSpawner(objectToPlace.GetComponentInChildren<Spawner>());
                     break;
+                case ObjectsToPlace.cannonPrefab:
+                    (objectToPlace.GetComponentInChildren<RadiusTower>()).FinalizePlacement();
+                    break;
             }
 
             objectToPlace = null;
@@ -137,6 +142,9 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                 break;
             case ObjectsToPlace.spawnerPrefab:
                 EnemyControllerScript.Instance.AddSpawner(objectToPlace.GetComponentInChildren<Spawner>());
+                break;
+            case ObjectsToPlace.cannonPrefab:
+                (objectToPlace.GetComponentInChildren<RadiusTower>()).FinalizePlacement();
                 break;
         }
 
@@ -230,13 +238,15 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         {
             objectToPlace.transform.SetPositionAndRotation(testRes.position, quat);
             objectToPlace.SetActive(true);
-            objectToPlace.GetComponentInChildren<Collision>().testGreen();
+            //objectToPlace.GetComponentInChildren<Collision>().testGreen();
+            AppState.Instance.DebugDisplay.text = "OK";
             isValidLocation = true;
         }
         else
         {
             objectToPlace.transform.SetPositionAndRotation(testRes.position, quat);
-            objectToPlace.GetComponentInChildren<Collision>().testRed();
+            AppState.Instance.DebugDisplay.text = "Bad location";
+            //objectToPlace.GetComponentInChildren<Collision>().testRed();
             //objectToPlace.SetActive(false);
             isValidLocation = false;
         }
@@ -251,7 +261,8 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
             new PlaceableObject(projectileTowerPrefab, 0.2f, 0.2f, 0.4f),
             new PlaceableObject(radiusTowerPrefab, 0.2f, 0.2f, 0.4f),
             new PlaceableObject(basePrefab, 0.5f, 0.5f, 0.5f),
-            new PlaceableObject(spawnerPrefab, 0.3f, 0.3f, 0.3f)
+            new PlaceableObject(spawnerPrefab, 0.3f, 0.3f, 0.3f),
+            new PlaceableObject(cannonPrefab, 0.2f, 0.2f, 0.4f)
         };
         isValidLocation = false;
         clickTime = DateTime.MinValue;

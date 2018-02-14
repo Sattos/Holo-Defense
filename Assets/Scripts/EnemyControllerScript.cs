@@ -12,7 +12,7 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 
     public int baseHealth;
 
-    public bool isBasePlaced;
+    public bool isBasePlaced = false;
 
     public enum EnemyType
     {
