@@ -398,7 +398,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     break;
                 case 4:
                     OptimalUI.SetActive(true);
-                    //OptimalUI.GetComponent<GoodUI>().enabled = true;
+                    OptimalUI.GetComponent<GoodUI>().enabled = true;
                     currentGameState = GameStates.GoodInterface;
                     break;
             }

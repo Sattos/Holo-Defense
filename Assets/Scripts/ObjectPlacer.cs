@@ -66,6 +66,10 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         Debug.Log("PLACING");
         if ((DateTime.Now - clickTime).Milliseconds < 50)
             return;
+        if(obj == ObjectsToPlace.basePrefab && EnemyControllerScript.Instance.isBasePlaced)
+        {
+            return;
+        }
         //AppState.Instance.currentGameState = AppState.GameStates.PlaceObject;
         currentEnum = obj;
         curretObject = Objects[(int)obj];
@@ -91,6 +95,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                     break;
                 case ObjectsToPlace.basePrefab:
                     EnemyControllerScript.Instance.Base = objectToPlace.GetComponentInChildren<Transform>().gameObject;
+                    EnemyControllerScript.Instance.isBasePlaced = true;
                     break;
                 case ObjectsToPlace.spawnerPrefab:
                     EnemyControllerScript.Instance.AddSpawner(objectToPlace.GetComponentInChildren<Spawner>());
@@ -128,6 +133,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                     ui.SetActive(true);
                     ui.GetComponent<NormalUI>().enabled = true;
                 }
+                EnemyControllerScript.Instance.isBasePlaced = true;
                 break;
             case ObjectsToPlace.spawnerPrefab:
                 EnemyControllerScript.Instance.AddSpawner(objectToPlace.GetComponentInChildren<Spawner>());

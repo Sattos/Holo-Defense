@@ -12,6 +12,8 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 
     public int baseHealth;
 
+    public bool isBasePlaced;
+
     public enum EnemyType
     {
         Base,
@@ -80,6 +82,8 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 
     public void SendNextWave()
     {
+        if (!isBasePlaced)
+            return;
         foreach(Spawner spawner in Spawners)
         {
             spawner.StartNextWave();
@@ -129,6 +133,7 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
                 DestroyEnemy(enemy);
         }
         Destroy(Base.gameObject);
+        isBasePlaced = false;
         Spawners.Clear();
         Enemies.Clear();
     }
