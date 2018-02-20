@@ -387,13 +387,20 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                 case 2:
                     BadUI.SetActive(true);
                     BadUI.GetComponent<BadUI>().enabled = true;
+                    BadUI.GetComponent<BadUI>().Setup();
                     currentGameState = GameStates.BadInterface;
                     break;
                 case 3:
-                    //StandardUI.SetActive(true);
-                    //StandardUI.GetComponent<NormalUI>().enabled = true;
                     ObjectPlacer.Instance.isNormalInterface = true;
-                    ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.basePrefab);
+                    if(EnemyControllerScript.Instance.isBasePlaced)
+                    {
+                        StandardUI.SetActive(true);
+                        StandardUI.GetComponent<NormalUI>().enabled = true;
+                    }
+                    else
+                    {
+                        ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.basePrefab);
+                    }
                     currentGameState = GameStates.NormalInterface;
                     break;
                 case 4:

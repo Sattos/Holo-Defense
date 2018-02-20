@@ -174,10 +174,17 @@ namespace HoloToolkit.Examples.InteractiveElements
             CleanUpTicker();
         }
 
-        public void StartPlacing(int obj)
+        public int placeableObject = 2;
+
+        public void StartPlacing()
         {
-            ObjectPlacer.Instance.StartPlacingObject(obj);
+            ObjectPlacer.Instance.StartPlacingObject(placeableObject);
             isHold = true;
+        }
+
+        public void SetPlaceable(int obj)
+        {
+            placeableObject = obj;
         }
 
         /// <summary>

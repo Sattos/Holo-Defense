@@ -37,7 +37,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         {
             // Turn menu off until we're placed
             //ParentCanvas.gameObject.SetActive(false);
-            StartCoroutine(SetupMenu());
+            //StartCoroutine(SetupMenu());
             // Events
             //SpatialUnderstanding.Instance.ScanStateChanged += OnScanStateChanged;
         }
@@ -67,6 +67,11 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                 // Setup the menu
                 StartCoroutine(SetupMenu());
             }
+        }
+
+        public void Setup()
+        {
+            StartCoroutine(SetupMenu());
         }
 
         private IEnumerator SetupMenu()

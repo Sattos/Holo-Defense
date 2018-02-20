@@ -94,8 +94,9 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
     {
         if(--baseHealth <= 0)
         {
-            AppState.Instance.Restart();
-            AppState.Instance.SetUI(1);
+            //AppState.Instance.Restart();
+            //AppState.Instance.SetUI(1);
+            //GAME OVER
         }
     }
 

@@ -110,9 +110,11 @@ public class RadiusTower : BaseTower {
     {
         GameObject parentObject = Instantiate(new GameObject());
         parentObject.transform.localScale = Vector3.one;
+        //parentObject.transform.SetParent(transform);
         hitAnimationObject = Instantiate(hitAnimation.gameObject);
         hitAnimationObject.transform.SetParent(parentObject.transform);
         hitAnimationObject.transform.position = transform.position;
+        hitAnimationObject.transform.localScale = Vector3.zero;
         base.Start();
     }
 }
