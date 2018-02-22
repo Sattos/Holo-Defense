@@ -49,7 +49,12 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         public GameObject StandardUI;
         public GameObject OptimalUI;
 
+        public GameObject BadBaseButton;
+        public GameObject OptimalBaseButton;
+
         public EnemyControllerScript EnemyController;
+
+        public TurretInfoCanvas TurretInfoCanvas;
 
         public bool place = false;
 
@@ -388,6 +393,14 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     BadUI.SetActive(true);
                     BadUI.GetComponent<BadUI>().enabled = true;
                     BadUI.GetComponent<BadUI>().Setup();
+                    if (EnemyControllerScript.Instance.isBasePlaced)
+                    {
+                        BadBaseButton.SetActive(false);
+                    }
+                    else
+                    {
+                        BadBaseButton.SetActive(true);
+                    }
                     currentGameState = GameStates.BadInterface;
                     break;
                 case 3:
@@ -406,6 +419,14 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                 case 4:
                     OptimalUI.SetActive(true);
                     OptimalUI.GetComponent<GoodUI>().enabled = true;
+                    if (EnemyControllerScript.Instance.isBasePlaced)
+                    {
+                        OptimalBaseButton.SetActive(false);
+                    }
+                    else
+                    {
+                        OptimalBaseButton.SetActive(true);
+                    }
                     currentGameState = GameStates.GoodInterface;
                     break;
             }

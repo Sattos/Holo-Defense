@@ -98,6 +98,10 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                 case ObjectsToPlace.basePrefab:
                     EnemyControllerScript.Instance.Base = objectToPlace.GetComponentInChildren<Transform>().gameObject;
                     EnemyControllerScript.Instance.isBasePlaced = true;
+
+                    AppState.Instance.BadBaseButton.SetActive(false);
+                    AppState.Instance.OptimalBaseButton.SetActive(false);
+
                     break;
                 case ObjectsToPlace.spawnerPrefab:
                     EnemyControllerScript.Instance.AddSpawner(objectToPlace.GetComponentInChildren<Spawner>());
@@ -138,6 +142,10 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                     ui.SetActive(true);
                     ui.GetComponent<NormalUI>().enabled = true;
                 }
+
+                AppState.Instance.BadBaseButton.SetActive(false);
+                AppState.Instance.OptimalBaseButton.SetActive(false);
+
                 EnemyControllerScript.Instance.isBasePlaced = true;
                 break;
             case ObjectsToPlace.spawnerPrefab:
@@ -238,7 +246,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         {
             objectToPlace.transform.SetPositionAndRotation(testRes.position, quat);
             objectToPlace.SetActive(true);
-            //objectToPlace.GetComponentInChildren<Collision>().testGreen();
+            objectToPlace.GetComponentInChildren<Collision>().testGreen();
             AppState.Instance.DebugDisplay.text = "OK";
             isValidLocation = true;
         }
@@ -246,7 +254,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         {
             objectToPlace.transform.SetPositionAndRotation(testRes.position, quat);
             AppState.Instance.DebugDisplay.text = "Bad location";
-            //objectToPlace.GetComponentInChildren<Collision>().testRed();
+            objectToPlace.GetComponentInChildren<Collision>().testRed();
             //objectToPlace.SetActive(false);
             isValidLocation = false;
         }

@@ -2630,7 +2630,29 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 242205376}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1794347358}
+        m_MethodName: SetPlaceable
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+      - m_Target: {fileID: 1162984431}
+        m_MethodName: ShowStatsForTowerType
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &242205376
@@ -3384,6 +3406,7 @@ MonoBehaviour:
   - {fileID: 854331683}
   - {fileID: 952411663}
   upgradeButton: {fileID: 1192686989}
+  StatsPanel: {fileID: 0}
 --- !u!1 &290369236
 GameObject:
   m_ObjectHideFlags: 0
@@ -10230,7 +10253,29 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1022944432}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1794347358}
+        m_MethodName: SetPlaceable
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1162984431}
+        m_MethodName: ShowStatsForTowerType
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1022944432
@@ -10732,6 +10777,7 @@ GameObject:
   - component: {fileID: 1162984430}
   - component: {fileID: 1162984429}
   - component: {fileID: 1162984428}
+  - component: {fileID: 1162984431}
   m_Layer: 5
   m_Name: Panel (1)
   m_TagString: Untagged
@@ -10816,6 +10862,29 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1162984426}
+--- !u!114 &1162984431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1162984426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a74575129a08c064a9b5d9c3ec85f090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  Values:
+  - {fileID: 1692155020}
+  - {fileID: 429061807}
+  - {fileID: 1616175571}
+  - {fileID: 86376480}
+  - {fileID: 1640834349}
+  - {fileID: 1986580612}
+  - {fileID: 905123452}
+  - {fileID: 1762955010}
+  upgradeButton: {fileID: 0}
+  StatsPanel: {fileID: 306995960}
 --- !u!1001 &1177899542
 Prefab:
   m_ObjectHideFlags: 0
@@ -12538,7 +12607,10 @@ MonoBehaviour:
   BadUI: {fileID: 541993802}
   StandardUI: {fileID: 215997198}
   OptimalUI: {fileID: 785518990}
+  BadBaseButton: {fileID: 242205372}
+  OptimalBaseButton: {fileID: 1460762480}
   EnemyController: {fileID: 241900763}
+  TurretInfoCanvas: {fileID: 288476961}
   place: 0
   money: 0
   MoneyText: {fileID: 606873562}
@@ -16971,7 +17043,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1794347358}
         m_MethodName: StartPlacing
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -16985,6 +17057,7 @@ MonoBehaviour:
   StartDelay: 0
   Control: {fileID: 1794347359}
   HideCursorOnManipulation: 0
+  placeableObject: 2
 --- !u!114 &1794347359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17515,7 +17588,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1890123162}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1794347358}
+        m_MethodName: SetPlaceable
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1890123162
@@ -19797,7 +19881,29 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2089101836}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1794347358}
+        m_MethodName: SetPlaceable
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+      - m_Target: {fileID: 1162984431}
+        m_MethodName: ShowStatsForTowerType
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2089101836
