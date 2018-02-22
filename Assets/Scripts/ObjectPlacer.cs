@@ -47,6 +47,8 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
     private GameObject objectToPlace;
     private ObjectsToPlace currentEnum;
 
+    private int cost;
+
     public enum ObjectsToPlace
     {
         projectileTowerPrefab,
@@ -55,6 +57,11 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         spawnerPrefab,
         cannonPrefab
     }
+
+    private Dictionary<ObjectsToPlace, int> CostDictionary = new Dictionary<ObjectsToPlace, int>() {
+                        {ObjectsToPlace.projectileTowerPrefab, 10},
+                        {ObjectsToPlace.radiusTowerPrefab, 10},
+    };
 
     private PlaceableObject[] Objects;// = {new PlaceableObject(Resources.Load<GameObject>("Prefabs/GameObject"), 0.2f, 0.2f, 0.4f) };
 
@@ -65,6 +72,24 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
     public void StartPlacingObject(ObjectsToPlace obj)
     {
+        if(isPlacing)
+        {
+            CancelPlacement();
+        }
+        cost = 0;
+        if(CostDictionary.TryGetValue(obj, out cost))
+        {
+            if(AppState.Instance.money < cost)
+            {
+                AppState.Instance.Prompt("Not enough gold", new Color(255, 0, 0, 255), 2.5f);
+                return;
+            }
+            else
+            {
+
+            }
+        }
+
         Debug.Log("PLACING");
         if ((DateTime.Now - clickTime).Milliseconds < 50)
             return;
@@ -115,6 +140,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
             //AppState.Instance.currentGameState = AppState.GameStates.Game;
             SpatialUnderstandingCursor.Instance.CursorText.text = "finalize placing";
             isPlacing = false;
+            AppState.Instance.money -= cost;
         }
     }
 
@@ -161,6 +187,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         SpatialUnderstandingCursor.Instance.CursorText.text = "finalize placing";
         clickTime = DateTime.Now;
         isPlacing = false;
+        AppState.Instance.money -= cost;
     }
 
     public void CancelPlacement()

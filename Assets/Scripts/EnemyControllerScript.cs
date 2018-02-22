@@ -92,6 +92,7 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 
     public void DamageBase()
     {
+        AppState.Instance.UpdateLivesText();
         if(--baseHealth <= 0)
         {
             //AppState.Instance.Restart();

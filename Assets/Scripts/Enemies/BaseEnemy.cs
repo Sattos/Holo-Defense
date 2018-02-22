@@ -19,7 +19,7 @@ public class BaseEnemy : MonoBehaviour {
 
     public float health;
     public float speed;
-    public float money;
+    public int money;
     public BaseStats stats;
 
     public float currentSlow;
@@ -34,10 +34,10 @@ public class BaseEnemy : MonoBehaviour {
     {
         public float health;
         public float speed;
-        public float money;
+        public int money;
         public bool isFlying;
 
-        public BaseStats(float health, float speed, float money, bool isFlying = false)
+        public BaseStats(float health, float speed, int money, bool isFlying = false)
         {
             this.health = health;
             this.speed = speed;
@@ -145,7 +145,7 @@ public class BaseEnemy : MonoBehaviour {
         if (!hasHitBase)
         {
             AppState.Instance.money += stats.money;
-            AppState.Instance.MoneyText.text = string.Format("{0:0}", AppState.Instance.money);
+            AppState.Instance.UpdateMoneyText();
         }
     }
 

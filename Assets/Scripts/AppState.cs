@@ -5,6 +5,7 @@ using HoloToolkit.Unity;
 using HoloToolkit.Unity.InputModule;
 using HoloToolkit.Unity.SpatialMapping;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -52,14 +53,20 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         public GameObject BadBaseButton;
         public GameObject OptimalBaseButton;
 
+        public TextMesh PromptText;
+
         public EnemyControllerScript EnemyController;
 
         public TurretInfoCanvas TurretInfoCanvas;
 
         public bool place = false;
 
-        public float money;
+        public int money;
+        public int startMoney;
+        public int startBaseHealth;
+
         public TextMesh MoneyText;
+        public TextMesh LivesText;
 
         // Properties
         public string SpaceQueryDescription
@@ -258,6 +265,10 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             keywordRecognizer = new KeywordRecognizer(keywordsToActions.Keys.ToArray());
             keywordRecognizer.OnPhraseRecognized += args => keywordsToActions[args.text].Invoke();
             keywordRecognizer.Start();
+
+
+            money = startMoney;
+            EnemyControllerScript.Instance.baseHealth = startBaseHealth;
         }
 #endif
 
@@ -388,6 +399,8 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     MainUI.SetActive(true);
                     MainUI.GetComponent<StartUI>().enabled = true;
                     currentGameState = GameStates.MainMenu;
+                    UpdateMoneyText();
+                    UpdateLivesText();
                     break;
                 case 2:
                     BadUI.SetActive(true);
@@ -443,14 +456,44 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         public void Restart()
         {
             EnemyControllerScript.Instance.Restart();
-            foreach(BaseTower obj in FindObjectsOfType<BaseTower>())
+            foreach(ProjectileTower obj in FindObjectsOfType<ProjectileTower>())
             {
                 Destroy(obj.gameObject);
             }
+            foreach (RadiusTower obj in FindObjectsOfType<RadiusTower>())
+            {
+                Destroy(obj.gameObject);
+            }
+
+            money = startMoney;
+            EnemyControllerScript.Instance.baseHealth = startBaseHealth;
+
+            UpdateMoneyText();
+            UpdateLivesText();
             //foreach (BaseEnemy obj in FindObjectsOfType<BaseEnemy>())
             //{
             //    Destroy(obj.gameObject);
             //}
+        }
+
+        public PromptFadeout PromptFadeout;
+
+        public void Prompt(string text, Color color, float duration)
+        {
+            PromptText.gameObject.SetActive(true);
+            PromptText.text = text;
+            PromptText.color = color;
+            PromptFadeout.StartFadeout(Time.time + duration);
+        }
+
+        public void UpdateMoneyText()
+        {
+            MoneyText.text = string.Format("{0:0}", money);
+        }
+
+        public void UpdateLivesText()
+        {
+            LivesText.text = string.Format("{0:0}", EnemyControllerScript.Instance.baseHealth);
         }
     }
 }
