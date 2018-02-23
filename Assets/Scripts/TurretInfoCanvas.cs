@@ -18,6 +18,8 @@ public class TurretInfoCanvas : MonoBehaviour {
 
     private BaseTower tower;
 
+    public bool dontRotate;
+
     public enum Properties
     {
         Damage,
@@ -165,7 +167,7 @@ public class TurretInfoCanvas : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (canvas == null)
+        if (canvas == null || dontRotate)
             return;
         Vector3 lookDirTarget = CameraCache.Main.transform.position - canvas.transform.position;
         lookDirTarget = (new Vector3(lookDirTarget.x, 0.0f, lookDirTarget.z)).normalized;
