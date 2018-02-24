@@ -73,6 +73,10 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
     public void StartPlacingObject(ObjectsToPlace obj)
     {
+        if(obj == ObjectsToPlace.none)
+        {
+            return;
+        }
         if(isPlacing)
         {
             //CancelPlacement();

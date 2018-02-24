@@ -369,13 +369,9 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     {
                         if (SpatialUnderstandingCursor.Instance.isPlacementBlocked)
                         {
-                            Debug.Log("BLOCKED");
                             if (SpatialUnderstandingCursor.Instance.towerType != ObjectPlacer.Instance.currentEnum)
                             {
-                                Debug.Log("Different");
-                                //ObjectPlacer.Instance.CancelPlacement();
                                 Debug.Log(SpatialUnderstandingCursor.Instance.towerType);
-                                //ObjectPlacer.Instance.CancelPlacement();
                                 ObjectPlacer.Instance.StartPlacingObject(SpatialUnderstandingCursor.Instance.towerType);
                             }
                             else
@@ -391,10 +387,8 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     }
                     else
                     {
-                        Debug.Log("else  "+SpatialUnderstandingCursor.Instance.towerType);
                         if (SpatialUnderstandingCursor.Instance.towerType != ObjectPlacer.ObjectsToPlace.none)
                         {
-                            Debug.Log("startplacing");
                             ObjectPlacer.Instance.StartPlacingObject(SpatialUnderstandingCursor.Instance.towerType);
                         }
                     }
