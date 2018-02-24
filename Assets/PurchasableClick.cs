@@ -8,14 +8,40 @@ public class PurchasableClick : MonoBehaviour, IRaycastFocusEvent {
 
     public TurretInfoCanvas TurretInfoCanvas;
 
-    public int towerType;
+    public ObjectPlacer.ObjectsToPlace towerType;
 
     public bool isRotating;
+
+    public bool BlockPlacement
+    {
+        get
+        {
+            return true;
+        }
+
+        set
+        {
+            
+        }
+    }
+
+    public ObjectPlacer.ObjectsToPlace BlockingType
+    {
+        get
+        {
+            return towerType;
+        }
+
+        set
+        {
+            
+        }
+    }
 
     public void Activate()
     {
         isRotating = true;
-        if (towerType == 1 || towerType == 2)
+        if ((int)towerType == 1 || (int)towerType == 2) //TODO for all turrets
         {
             if (TurretInfoCanvas != null)
             {

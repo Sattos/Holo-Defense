@@ -54,11 +54,11 @@ public class TurretInfoCanvas : MonoBehaviour {
         ShowStats();
     }
 
-    public void ShowStatsForTowerType(int type)
+    public void ShowStatsForTowerType(ObjectPlacer.ObjectsToPlace type)
     {
         switch(type)
         {
-            case 1:
+            case ObjectPlacer.ObjectsToPlace.projectileTowerPrefab:
                 Values[0].text = String.Format(FormatDecimal, ProjectileTower.UpgradeLevels[0].damage);
                 Values[1].text = String.Format(FormatDecimal, ProjectileTower.UpgradeLevels[0].attackSpeed);
                 Values[2].text = String.Format(FormatDecimal, ProjectileTower.UpgradeLevels[0].range);
@@ -69,7 +69,7 @@ public class TurretInfoCanvas : MonoBehaviour {
                 Values[7].text = String.Format(FormatDecimal, ProjectileTower.UpgradeLevels[0].velocity);
                 StatsPanel.SetActive(true);
                 break;
-            case 2:
+            case ObjectPlacer.ObjectsToPlace.radiusTowerPrefab:
                 Values[0].text = String.Format(FormatDecimal, RadiusTower.UpgradeLevels[0].damage);
                 Values[1].text = String.Format(FormatDecimal, RadiusTower.UpgradeLevels[0].attackSpeed);
                 Values[2].text = String.Format(FormatDecimal, RadiusTower.UpgradeLevels[0].range);

@@ -361,11 +361,48 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     SpatialUnderstanding.Instance.RequestFinishScan();
                     SetUI(1);
                     break;
+                case GameStates.BadInterface:
+                    break;
                 case GameStates.NormalInterface:
                 case GameStates.GoodInterface:
                     if (ObjectPlacer.Instance.isPlacing)
-                        ObjectPlacer.Instance.FinalizePlacement();
+                    {
+                        if (SpatialUnderstandingCursor.Instance.isPlacementBlocked)
+                        {
+                            Debug.Log("BLOCKED");
+                            if (SpatialUnderstandingCursor.Instance.towerType != ObjectPlacer.Instance.currentEnum)
+                            {
+                                Debug.Log("Different");
+                                //ObjectPlacer.Instance.CancelPlacement();
+                                Debug.Log(SpatialUnderstandingCursor.Instance.towerType);
+                                //ObjectPlacer.Instance.CancelPlacement();
+                                ObjectPlacer.Instance.StartPlacingObject(SpatialUnderstandingCursor.Instance.towerType);
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log(SpatialUnderstandingCursor.Instance.towerType);
+                            ObjectPlacer.Instance.FinalizePlacement();
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("else  "+SpatialUnderstandingCursor.Instance.towerType);
+                        if (SpatialUnderstandingCursor.Instance.towerType != ObjectPlacer.ObjectsToPlace.none)
+                        {
+                            Debug.Log("startplacing");
+                            ObjectPlacer.Instance.StartPlacingObject(SpatialUnderstandingCursor.Instance.towerType);
+                        }
+                    }
                     break;
+                //case GameStates.GoodInterface:
+                //    if (ObjectPlacer.Instance.isPlacing && !SpatialUnderstandingCursor.Instance.isPlacementBlocked)
+                //        ObjectPlacer.Instance.FinalizePlacement();
+                //    break;
             }
             
         }

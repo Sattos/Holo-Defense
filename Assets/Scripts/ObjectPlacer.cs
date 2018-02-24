@@ -45,7 +45,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
     public PlaceableObject curretObject;
     private GameObject objectToPlace;
-    private ObjectsToPlace currentEnum;
+    public ObjectsToPlace currentEnum { get; private set; }
 
     private int cost;
 
@@ -55,7 +55,8 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         radiusTowerPrefab,
         basePrefab,
         spawnerPrefab,
-        cannonPrefab
+        cannonPrefab,
+        none
     }
 
     private Dictionary<ObjectsToPlace, int> CostDictionary = new Dictionary<ObjectsToPlace, int>() {
@@ -74,7 +75,8 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
     {
         if(isPlacing)
         {
-            CancelPlacement();
+            //CancelPlacement();
+            Destroy(objectToPlace);
         }
         cost = 0;
         if(CostDictionary.TryGetValue(obj, out cost))
@@ -92,7 +94,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
         Debug.Log("PLACING");
         if ((DateTime.Now - clickTime).Milliseconds < 50)
-            return;
+            //return;
         if(obj == ObjectsToPlace.basePrefab && EnemyControllerScript.Instance.isBasePlaced)
         {
             return;
@@ -147,7 +149,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
     public void FinalizePlacement()
     {
         if ((DateTime.Now - clickTime).Milliseconds < 50)
-            return;
+            //return;
         if (!isValidLocation)
             return;
         Debug.Log("PLACE");
@@ -195,12 +197,13 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         if (objectToPlace != null)
         {
             if ((DateTime.Now - clickTime).Milliseconds < 20)
-                return;
+                //return;
             Destroy(objectToPlace);
             //AppState.Instance.currentGameState = AppState.GameStates.Game;
             SpatialUnderstandingCursor.Instance.CursorText.text = "cancel placing";
             clickTime = DateTime.Now;
             isPlacing = false;
+            Debug.Log("CancelPlacement");
         }
     }
 

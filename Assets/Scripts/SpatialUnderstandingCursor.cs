@@ -53,6 +53,8 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
 
         private GameObject currentRaycastTarget = null;
         private IRaycastFocusEvent currentRaycastFocus = null;
+        public bool isPlacementBlocked;
+        public ObjectPlacer.ObjectsToPlace towerType;
 
         public bool RaycastTargetChanged(GameObject target)
         {
@@ -70,6 +72,9 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
 
             if(currentRaycastTarget == null)
             {
+                currentRaycastFocus = null;
+                isPlacementBlocked = false;
+                towerType = ObjectPlacer.ObjectsToPlace.none;
                 return false;
             }
 
@@ -78,8 +83,12 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             if(currentRaycastFocus != null)
             {
                 currentRaycastFocus.Activate();
+                isPlacementBlocked = currentRaycastFocus.BlockPlacement;
+                towerType = currentRaycastFocus.BlockingType;
                 return true;
             }
+            towerType = ObjectPlacer.ObjectsToPlace.none;
+            isPlacementBlocked = false;
             return false;
         }
 
