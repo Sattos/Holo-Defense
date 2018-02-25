@@ -17,8 +17,10 @@ public class RadiusTower : BaseTower {
         public float damageDuration;
         public float slow;
         public float slowDuration;
+        public int nextUpgradeCost;
+        public int sellValue;
 
-        public UpgradeStats(float damage, int attackSpeed, float range, float damagePerSecond, float damageDuration, float slow, float slowDuration)
+        public UpgradeStats(float damage, int attackSpeed, float range, float damagePerSecond, float damageDuration, float slow, float slowDuration, int nextUpgradeCost, int sellValue)
         {
             this.damage = damage;
             this.attackSpeed = attackSpeed;
@@ -27,13 +29,15 @@ public class RadiusTower : BaseTower {
             this.damageDuration = damageDuration;
             this.slow = slow;
             this.slowDuration = slowDuration;
+            this.nextUpgradeCost = nextUpgradeCost;
+            this.sellValue = sellValue;
         }
     }
 
     public static UpgradeStats[] UpgradeLevels = {
-        new UpgradeStats(0.5f, 1000, 2, 0, 0, 0.2f, 2),
-        new UpgradeStats(0.75f, 900, 2.2f, 0, 0, 0.25f, 2),
-        new UpgradeStats(1, 800, 2.4f, 0, 0, 0.3f, 2.5f)
+        new UpgradeStats(0.5f, 1000, 2, 0, 0, 0.2f, 2, 10, 8),
+        new UpgradeStats(0.75f, 900, 2.2f, 0, 0, 0.25f, 2, 20, 16),
+        new UpgradeStats(1, 800, 2.4f, 0, 0, 0.3f, 2.5f, 0, 32)
     };
 
     public override void Upgrade()
@@ -57,6 +61,9 @@ public class RadiusTower : BaseTower {
         this.range = upgStats.range;
         this.attackSpeed = upgStats.attackSpeed;
         hitAnimationObject.transform.parent.localScale = Vector3.one * upgStats.range;
+
+        this.UpgradeCost = upgStats.nextUpgradeCost;
+        this.SellValue = upgStats.sellValue;
     }
 
     public override object GetNextUpgradeStats()
@@ -75,7 +82,7 @@ public class RadiusTower : BaseTower {
 
     protected override bool Attack()
     {
-        Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, range);
+        Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, range/2);
         if (enemiesInRange.Length == 0)
         {
             return false;

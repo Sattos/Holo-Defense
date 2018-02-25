@@ -152,7 +152,7 @@ namespace HoloToolkit.Unity.InputModule
             handId = eventData.SourceId;
             eventData.InputSource.TryGetPointerPosition(handId, out downPos);
             downTime = Time.time;
-            Debug.Log(downTime);
+            //Debug.Log(downTime);
         }
 
         public override void OnInputUp(InputEventData eventData)
@@ -167,7 +167,7 @@ namespace HoloToolkit.Unity.InputModule
                 AppState.Instance.SwitchUIState();
             }  
             upTime = Time.time;
-            Debug.Log(upTime);
+            //Debug.Log(upTime);
         }
 
         //public override void OnSourceDetected(SourceStateEventData eventData)

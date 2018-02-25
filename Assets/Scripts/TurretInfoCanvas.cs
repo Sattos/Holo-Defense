@@ -1,4 +1,5 @@
-﻿using HoloToolkit.Unity;
+﻿using HoloToolkit.Examples.SpatialUnderstandingFeatureOverview;
+using HoloToolkit.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ public class TurretInfoCanvas : MonoBehaviour {
     public Text[] Values;
 
     public Button upgradeButton;
+    public Text upgradeText;
 
     public GameObject StatsPanel;
 
@@ -46,12 +48,27 @@ public class TurretInfoCanvas : MonoBehaviour {
 
     public void Upgrade()
     {
+        if(tower.UpgradeCost > AppState.Instance.money)
+        {
+            AppState.Instance.Prompt("Not enough gold", new Color(255, 0, 0, 255), 2.5f);
+            return;
+        }
+        AppState.Instance.money -= tower.UpgradeCost;
+        AppState.Instance.UpdateMoneyText();
+
         tower.Upgrade();
         if (tower.IsMaxLevel())
         {
             upgradeButton.interactable = false;
         }
         ShowStats();
+    }
+
+    public void Sell()
+    {
+        AppState.Instance.money += tower.SellValue;
+        AppState.Instance.UpdateMoneyText();
+        Destroy(tower.gameObject);
     }
 
     public void ShowStatsForTowerType(ObjectPlacer.ObjectsToPlace type)
@@ -91,6 +108,7 @@ public class TurretInfoCanvas : MonoBehaviour {
         if(this.tower == tower && this.isActiveAndEnabled)
         {
             Deactivate();
+            return;
         }
 
         this.tower = tower;
@@ -98,20 +116,25 @@ public class TurretInfoCanvas : MonoBehaviour {
 
         ShowStats();
 
-        if(tower.IsMaxLevel())
-        {
-            upgradeButton.interactable = false;
-        }
-        else
-        {
-            upgradeButton.interactable = true;
-        }
+        //if(tower.IsMaxLevel())
+        //{
+        //    upgradeButton.interactable = false;
+        //    upgradeButton.GetComponent<Text>().text = "MAX LVL";
+        //}
+        //else
+        //{
+        //    upgradeButton.interactable = true;
+        //    upgradeButton.GetComponent<Text>().text = "UPGRADE " + tower;
+        //}
 
         canvas.gameObject.SetActive(true);
     }
 
     public void ShowStats()
     {
+        if (tower == null)
+            return;
+
         Values[0].text = String.Format(FormatDecimal, tower.stats.damage);
         Values[1].text = String.Format(FormatDecimal, tower.attackSpeed);
         Values[2].text = String.Format(FormatDecimal, tower.range);
@@ -120,6 +143,17 @@ public class TurretInfoCanvas : MonoBehaviour {
         Values[5].text = String.Format(FormatInteger, tower.targetCount);
         Values[6].text = String.Format(FormatDecimal, tower.stats.areaOfEffect);
         Values[7].text = String.Format(FormatDecimal, tower.stats.velocity);
+
+        if (tower.IsMaxLevel())
+        {
+            upgradeButton.interactable = false;
+            upgradeButton.GetComponentInChildren<Text>().text = "MAX LVL";
+        }
+        else
+        {
+            upgradeButton.interactable = true;
+            upgradeButton.GetComponentInChildren<Text>().text = "UPGRADE " + tower.UpgradeCost;
+        }
     }
 
     public void ShowUpgradeStats()

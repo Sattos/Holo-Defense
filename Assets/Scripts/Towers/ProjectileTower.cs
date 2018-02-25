@@ -20,8 +20,10 @@ public class ProjectileTower : BaseTower {
         public int targetCount;
         public float radius;
         public float velocity;
+        public int nextUpgradeCost;
+        public int sellValue;
 
-        public UpgradeStats(float damage, int attackSpeed, float range, float damagePerSecond, float damageDuration, float slow, float slowDuration, int targetCount, float radius, float velocity)
+        public UpgradeStats(float damage, int attackSpeed, float range, float damagePerSecond, float damageDuration, float slow, float slowDuration, int targetCount, float radius, float velocity, int cost, int sellValue)
         {
             this.damage = damage;
             this.attackSpeed = attackSpeed;
@@ -33,13 +35,15 @@ public class ProjectileTower : BaseTower {
             this.targetCount = targetCount;
             this.radius = radius;
             this.velocity = velocity;
+            this.nextUpgradeCost = cost;
+            this.sellValue = sellValue;
         }
     }
 
     public static UpgradeStats[] UpgradeLevels = {
-        new UpgradeStats(1, 700, 2, 0, 0, 0, 0, 1, 0, 0.06f),
-        new UpgradeStats(1.5f, 650, 2.2f, 0, 0, 0, 0, 1, 0.6f, 0.07f),
-        new UpgradeStats(2, 600, 2.4f, 0, 0, 0, 0, 2, 0.7f, 0.08f)
+        new UpgradeStats(1, 700, 2, 0, 0, 0, 0, 1, 0, 0.06f, 10, 8),
+        new UpgradeStats(1.5f, 650, 2.2f, 0, 0, 0, 0, 1, 0.6f, 0.07f, 30, 16),
+        new UpgradeStats(2, 600, 2.4f, 0, 0, 0, 0, 2, 0.7f, 0.08f, 0, 40)
     };
 
     protected override bool Attack()
@@ -81,6 +85,9 @@ public class ProjectileTower : BaseTower {
         this.range = upgStats.range;
         this.attackSpeed = upgStats.attackSpeed;
         this.targetCount = upgStats.targetCount;
+
+        this.UpgradeCost = upgStats.nextUpgradeCost;
+        this.SellValue = upgStats.sellValue;
     }
 
     public override object GetNextUpgradeStats()

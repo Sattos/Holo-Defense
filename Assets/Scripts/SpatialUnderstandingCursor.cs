@@ -52,9 +52,52 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         private float halfLength;
 
         private GameObject currentRaycastTarget = null;
-        private IRaycastFocusEvent currentRaycastFocus = null;
+        public IRaycastFocusEvent currentRaycastFocus = null;
         public bool isPlacementBlocked;
         public ObjectPlacer.ObjectsToPlace towerType;
+
+        public BlockingType blockingType;
+
+        public void Click()
+        {
+            
+            //if(currentRaycastFocus != null)
+            //{
+            //    Debug.Log(currentRaycastTarget.gameObject.name);
+            //    if (ObjectPlacer.Instance.isPlacing)
+            //    {
+            //        switch(currentRaycastFocus.BlockingType)
+            //        {
+            //            case BlockingType.NotBlocking:
+            //                ObjectPlacer.Instance.FinalizePlacement();
+            //                break;
+            //            case BlockingType.BlockingButton:
+            //                //blockingType = currentRaycastFocus.BlockingType;
+            //                //currentRaycastFocus.Click();
+            //                break;
+            //            case BlockingType.BlockingPlacement:
+
+            //                //break;
+            //            case BlockingType.OtherTower:
+            //                blockingType = currentRaycastFocus.BlockingType;
+            //                currentRaycastFocus.Click();
+            //                break;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        blockingType = currentRaycastFocus.BlockingType;
+            //        currentRaycastFocus.Click();
+            //    }
+            //}
+            //else
+            //{
+            //    if (ObjectPlacer.Instance.isPlacing)
+            //    {
+            //        ObjectPlacer.Instance.FinalizePlacement();
+            //    }
+            //}
+        }
 
         public bool RaycastTargetChanged(GameObject target)
         {
@@ -74,7 +117,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             {
                 currentRaycastFocus = null;
                 isPlacementBlocked = false;
-                towerType = ObjectPlacer.ObjectsToPlace.none;
+                //towerType = ObjectPlacer.ObjectsToPlace.none;
                 return false;
             }
 
@@ -82,12 +125,27 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
 
             if(currentRaycastFocus != null)
             {
+                Debug.Log(currentRaycastTarget.gameObject.name);
                 currentRaycastFocus.Activate();
-                isPlacementBlocked = currentRaycastFocus.BlockPlacement;
-                towerType = currentRaycastFocus.BlockingType;
+                switch(currentRaycastFocus.BlockingType)
+                {
+                    case BlockingType.NotBlocking:
+                        isPlacementBlocked = false;
+                        break;
+                    case BlockingType.BlockingButton:
+                        isPlacementBlocked = false;
+                        break;
+                    case BlockingType.BlockingPlacement:
+                        isPlacementBlocked = true;
+                        break;
+                    case BlockingType.OtherTower:
+                        break;
+                }
+                //isPlacementBlocked = currentRaycastFocus.BlockPlacement;
+                //towerType = currentRaycastFocus.BlockingType;
                 return true;
             }
-            towerType = ObjectPlacer.ObjectsToPlace.none;
+            //towerType = ObjectPlacer.ObjectsToPlace.none;
             isPlacementBlocked = false;
             return false;
         }
@@ -179,7 +237,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         }
 
         public float refreshRate = 0.5f;
-        private float nextRefresh = 0.0f;
+        private float nextRefresh = 0.05f;
 
         private void TestPlacment()
         {
@@ -248,6 +306,28 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             CursorText.text = rayCastResult.SurfaceType.ToString();
         }
 
+        void Update()
+        {
+            RaycastHit hitInfo;
+            if (Physics.Raycast(
+                    Camera.main.transform.position,
+                    Camera.main.transform.forward,
+                    out hitInfo,
+                    20.0f,
+                    UILayerMask))
+            {
+                // If the Raycast has succeeded and hit a hologram
+                // hitInfo's point represents the position being gazed at
+                // hitInfo's collider GameObject represents the hologram being gazed at
+
+                RaycastTargetChanged(hitInfo.collider.gameObject);
+            }
+            else
+            {
+                RaycastTargetChanged(null);
+            }
+        }
+
         protected override void LateUpdate()
         {
             // Base
@@ -290,24 +370,24 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             //Button hitButton;
             //float textAlpha = RayCastUI(out hitPos, out hitNormal, out hitButton) ? 0.15f : 1.0f;
             //CursorText.color = new Color(1.0f, 1.0f, 1.0f, textAlpha);
-            RaycastHit hitInfo;
-            if (Physics.Raycast(
-                    Camera.main.transform.position,
-                    Camera.main.transform.forward,
-                    out hitInfo,
-                    20.0f,
-                    UILayerMask))
-            {
-                // If the Raycast has succeeded and hit a hologram
-                // hitInfo's point represents the position being gazed at
-                // hitInfo's collider GameObject represents the hologram being gazed at
+            //RaycastHit hitInfo;
+            //if (Physics.Raycast(
+            //        Camera.main.transform.position,
+            //        Camera.main.transform.forward,
+            //        out hitInfo,
+            //        20.0f,
+            //        UILayerMask))
+            //{
+            //    // If the Raycast has succeeded and hit a hologram
+            //    // hitInfo's point represents the position being gazed at
+            //    // hitInfo's collider GameObject represents the hologram being gazed at
 
-                RaycastTargetChanged(hitInfo.collider.gameObject);
-            }
-            else
-            {
-                RaycastTargetChanged(null);
-            }
+            //    RaycastTargetChanged(hitInfo.collider.gameObject);
+            //}
+            //else
+            //{
+            //    RaycastTargetChanged(null);
+            //}
         }
     }
 }

@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BlockingType
+{
+    NotBlocking,        //place tower normally
+    BlockingButton,     //dont place, dont click button
+    BlockingPlacement,  //dont place, click button
+    OtherTower          //dont place, click other tower
+}
+
 public interface IRaycastFocusEvent {
 
-    bool BlockPlacement
-    {
-        get;
-        set;
-    }
-
-    ObjectPlacer.ObjectsToPlace BlockingType
+    BlockingType BlockingType
     {
         get;
         set;
@@ -19,5 +21,7 @@ public interface IRaycastFocusEvent {
     void Deactivate();
 
     void Activate();
+
+    void Click();
 
 }

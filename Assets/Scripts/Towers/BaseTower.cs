@@ -54,6 +54,9 @@ public abstract class BaseTower : MonoBehaviour {
     public float areaOfEffect;
     //temporary
 
+    public int UpgradeCost;// { get; protected set; }
+    public int SellValue;// { get; protected set; }
+
     private DateTime lastAttack;
     private bool isActive;
 

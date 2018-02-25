@@ -97,7 +97,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         }
 
         Debug.Log("PLACING");
-        if ((DateTime.Now - clickTime).Milliseconds < 50)
+        //if ((DateTime.Now - clickTime).Milliseconds < 50)
             //return;
         if(obj == ObjectsToPlace.basePrefab && EnemyControllerScript.Instance.isBasePlaced)
         {
@@ -147,12 +147,13 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
             SpatialUnderstandingCursor.Instance.CursorText.text = "finalize placing";
             isPlacing = false;
             AppState.Instance.money -= cost;
+            AppState.Instance.UpdateMoneyText();
         }
     }
 
     public void FinalizePlacement()
     {
-        if ((DateTime.Now - clickTime).Milliseconds < 50)
+        //if ((DateTime.Now - clickTime).Milliseconds < 50)
             //return;
         if (!isValidLocation)
             return;
@@ -194,15 +195,17 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         clickTime = DateTime.Now;
         isPlacing = false;
         AppState.Instance.money -= cost;
+        AppState.Instance.UpdateMoneyText();
     }
 
     public void CancelPlacement()
     {
         if (objectToPlace != null)
         {
-            if ((DateTime.Now - clickTime).Milliseconds < 20)
+            //if ((DateTime.Now - clickTime).Milliseconds < 20)
                 //return;
-            Destroy(objectToPlace);
+            DestroyImmediate(objectToPlace);
+            objectToPlace = null;
             //AppState.Instance.currentGameState = AppState.GameStates.Game;
             SpatialUnderstandingCursor.Instance.CursorText.text = "cancel placing";
             clickTime = DateTime.Now;

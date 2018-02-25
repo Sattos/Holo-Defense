@@ -341,8 +341,14 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             }
         }
 
+        private float time = Time.time;
+
         public void OnInputClicked(InputClickedEventData eventData)
         {
+            float newTime = Time.time;
+            if (newTime < time + 0.1)
+                return;
+
             //if ((SpatialUnderstanding.Instance.ScanState == SpatialUnderstanding.ScanStates.Scanning) &&
             //    !SpatialUnderstanding.Instance.ScanStatsReportStillWorking)
             //{
@@ -355,7 +361,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                 case GameStates.Game:
                     break;
                 case GameStates.PlaceObject:
-                    ObjectPlacer.Instance.FinalizePlacement();
+                    //ObjectPlacer.Instance.FinalizePlacement();
                     break;
                 case GameStates.Scanning:
                     SpatialUnderstanding.Instance.RequestFinishScan();
@@ -365,33 +371,73 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     break;
                 case GameStates.NormalInterface:
                 case GameStates.GoodInterface:
-                    if (ObjectPlacer.Instance.isPlacing)
-                    {
-                        if (SpatialUnderstandingCursor.Instance.isPlacementBlocked)
-                        {
-                            if (SpatialUnderstandingCursor.Instance.towerType != ObjectPlacer.Instance.currentEnum)
-                            {
-                                Debug.Log(SpatialUnderstandingCursor.Instance.towerType);
-                                ObjectPlacer.Instance.StartPlacingObject(SpatialUnderstandingCursor.Instance.towerType);
-                            }
-                            else
-                            {
+                    //SpatialUnderstandingCursor.Instance.Click();
 
+                    if (SpatialUnderstandingCursor.Instance.currentRaycastFocus != null)
+                    {
+                        //Debug.Log(currentRaycastTarget.gameObject.name);
+                        if (ObjectPlacer.Instance.isPlacing)
+                        {
+                            switch (SpatialUnderstandingCursor.Instance.currentRaycastFocus.BlockingType)
+                            {
+                                case BlockingType.NotBlocking:
+                                    ObjectPlacer.Instance.FinalizePlacement();
+                                    break;
+                                case BlockingType.BlockingButton:
+                                    //blockingType = currentRaycastFocus.BlockingType;
+                                    //currentRaycastFocus.Click();
+                                    break;
+                                case BlockingType.BlockingPlacement:
+
+                                //break;
+                                case BlockingType.OtherTower:
+                                    SpatialUnderstandingCursor.Instance.blockingType = SpatialUnderstandingCursor.Instance.currentRaycastFocus.BlockingType;
+                                    SpatialUnderstandingCursor.Instance.currentRaycastFocus.Click();
+                                    break;
                             }
                         }
                         else
                         {
-                            Debug.Log(SpatialUnderstandingCursor.Instance.towerType);
-                            ObjectPlacer.Instance.FinalizePlacement();
+                            SpatialUnderstandingCursor.Instance.blockingType = SpatialUnderstandingCursor.Instance.currentRaycastFocus.BlockingType;
+                            SpatialUnderstandingCursor.Instance.currentRaycastFocus.Click();
                         }
                     }
                     else
                     {
-                        if (SpatialUnderstandingCursor.Instance.towerType != ObjectPlacer.ObjectsToPlace.none)
+                        if (ObjectPlacer.Instance.isPlacing)
                         {
-                            ObjectPlacer.Instance.StartPlacingObject(SpatialUnderstandingCursor.Instance.towerType);
+                            ObjectPlacer.Instance.FinalizePlacement();
                         }
                     }
+
+
+                    //if (ObjectPlacer.Instance.isPlacing)
+                    //{
+                    //    if (SpatialUnderstandingCursor.Instance.isPlacementBlocked)
+                    //    {
+                    //        if (SpatialUnderstandingCursor.Instance.towerType != ObjectPlacer.Instance.currentEnum)
+                    //        {
+                    //            Debug.Log(SpatialUnderstandingCursor.Instance.towerType);
+                    //            ObjectPlacer.Instance.StartPlacingObject(SpatialUnderstandingCursor.Instance.towerType);
+                    //        }
+                    //        else
+                    //        {
+
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        Debug.Log(SpatialUnderstandingCursor.Instance.towerType);
+                    //        ObjectPlacer.Instance.FinalizePlacement();
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (SpatialUnderstandingCursor.Instance.towerType != ObjectPlacer.ObjectsToPlace.none)
+                    //    {
+                    //        ObjectPlacer.Instance.StartPlacingObject(SpatialUnderstandingCursor.Instance.towerType);
+                    //    }
+                    //}
                     break;
                 //case GameStates.GoodInterface:
                 //    if (ObjectPlacer.Instance.isPlacing && !SpatialUnderstandingCursor.Instance.isPlacementBlocked)

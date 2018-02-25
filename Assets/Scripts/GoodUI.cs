@@ -5,8 +5,65 @@ using UnityEngine;
 
 public class GoodUI : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    public GameObject[] Left;
+    public GameObject[] Right;
+
+    public bool isLeft;
+    public bool isRight;
+
+    public static GoodUI Instance;
+
+    public void Awake()
+    {
+        Instance = this;
+    }
+
+    public void ActivateLeft()
+    {
+        if (isLeft)
+            return;
+        foreach (GameObject obj in Left)
+        {
+            obj.SetActive(true);
+            isLeft = true;
+        }
+    }
+
+    public void ActivateRight()
+    {
+        if (isRight)
+            return;
+        foreach (GameObject obj in Right)
+        {
+            obj.SetActive(true);
+            isRight = true;
+        }
+    }
+
+    public void DeactivateLeft()
+    {
+        if (!isLeft)
+            return;
+        foreach (GameObject obj in Left)
+        {
+            obj.SetActive(false);
+            isLeft = false;
+        }
+    }
+
+    public void DeactivateRight()
+    {
+        if (!isRight)
+            return;
+        foreach (GameObject obj in Right)
+        {
+            obj.SetActive(false);
+            isRight = false;
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
