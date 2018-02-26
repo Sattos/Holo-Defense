@@ -283,7 +283,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         {
             objectToPlace.transform.SetPositionAndRotation(testRes.position, quat);
             objectToPlace.SetActive(true);
-            objectToPlace.GetComponentInChildren<Collision>().testGreen();
+            //objectToPlace.GetComponentInChildren<Collision>().testGreen();
             AppState.Instance.DebugDisplay.text = "OK";
             isValidLocation = true;
         }
@@ -291,7 +291,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         {
             objectToPlace.transform.SetPositionAndRotation(testRes.position, quat);
             AppState.Instance.DebugDisplay.text = "Bad location";
-            objectToPlace.GetComponentInChildren<Collision>().testRed();
+            //objectToPlace.GetComponentInChildren<Collision>().testRed();
             //objectToPlace.SetActive(false);
             isValidLocation = false;
         }

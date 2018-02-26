@@ -120,7 +120,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                 //towerType = ObjectPlacer.ObjectsToPlace.none;
                 return false;
             }
-
+            Debug.Log(currentRaycastTarget.gameObject.name);
             currentRaycastFocus = currentRaycastTarget.GetComponent<IRaycastFocusEvent>();
 
             if(currentRaycastFocus != null)
@@ -319,7 +319,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                 // If the Raycast has succeeded and hit a hologram
                 // hitInfo's point represents the position being gazed at
                 // hitInfo's collider GameObject represents the hologram being gazed at
-
+                Debug.Log(hitInfo.collider.gameObject.name);
                 RaycastTargetChanged(hitInfo.collider.gameObject);
             }
             else

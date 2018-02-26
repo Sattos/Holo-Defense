@@ -6,6 +6,10 @@ public class ProjectileTower : BaseTower {
 
     public Projectile Missile;
 
+    public GameObject ProjectileSource;
+    public GameObject RotatingObject;
+    public bool rotate;
+
     public EnemyControllerScript.TargetingMode targetingMode;
 
     public class UpgradeStats
@@ -55,8 +59,18 @@ public class ProjectileTower : BaseTower {
         }
         foreach (BaseEnemy tar in target)
         {
+            if (rotate)
+            {
+                RotatingObject.transform.LookAt(tar.transform, transform.up);
+                Vector3 rotation = RotatingObject.transform.localRotation.eulerAngles;
+                rotation.x = 0;
+                rotation.z = 0;
+                RotatingObject.transform.localRotation = Quaternion.Euler(rotation);
+            }
             Projectile o = Instantiate(Missile); //new Projectile();
-            o.transform.position = transform.position;
+            o.transform.position = ProjectileSource.transform.position;
+            Debug.Log("source" +ProjectileSource.transform.position);
+            Debug.Log("projectile" +o.transform.position);
             o.Target = tar;
             o.stats = stats;
         }

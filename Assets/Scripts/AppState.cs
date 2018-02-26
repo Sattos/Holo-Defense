@@ -341,13 +341,8 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             }
         }
 
-        private float time = Time.time;
-
         public void OnInputClicked(InputClickedEventData eventData)
         {
-            float newTime = Time.time;
-            if (newTime < time + 0.1)
-                return;
 
             //if ((SpatialUnderstanding.Instance.ScanState == SpatialUnderstanding.ScanStates.Scanning) &&
             //    !SpatialUnderstanding.Instance.ScanStatsReportStillWorking)
