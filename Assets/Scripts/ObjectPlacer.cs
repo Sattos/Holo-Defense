@@ -32,11 +32,11 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
     public int requestType = 8;
 
-    public GameObject projectileTowerPrefab;// = Resources.Load<GameObject>("Prefabs/GameObject");
-    public GameObject radiusTowerPrefab;
+    public GameObject archerTowerPrefab;// = Resources.Load<GameObject>("Prefabs/GameObject");
+    public GameObject cannonTowerPrefab;
+    public GameObject mageTowerPrefab;
     public GameObject basePrefab;
     public GameObject spawnerPrefab;
-    public GameObject cannonPrefab;
 
     public bool isNormalInterface;
     public GameObject ui;
@@ -49,19 +49,30 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
     private int cost;
 
+    //public enum ObjectsToPlace
+    //{
+    //    projectileTowerPrefab,
+    //    radiusTowerPrefab,
+    //    basePrefab,
+    //    spawnerPrefab,
+    //    cannonPrefab,
+    //    none
+    //}
+
     public enum ObjectsToPlace
     {
-        projectileTowerPrefab,
-        radiusTowerPrefab,
+        archerTowerPrefab,
+        cannonTowerPrefab,
+        mageTowerPrefab,
         basePrefab,
         spawnerPrefab,
-        cannonPrefab,
         none
     }
 
     private Dictionary<ObjectsToPlace, int> CostDictionary = new Dictionary<ObjectsToPlace, int>() {
-                        {ObjectsToPlace.projectileTowerPrefab, 10},
-                        {ObjectsToPlace.radiusTowerPrefab, 10},
+                        {ObjectsToPlace.archerTowerPrefab, 10},
+                        {ObjectsToPlace.cannonTowerPrefab, 10},
+                        {ObjectsToPlace.mageTowerPrefab, 10},
     };
 
     private PlaceableObject[] Objects;// = {new PlaceableObject(Resources.Load<GameObject>("Prefabs/GameObject"), 0.2f, 0.2f, 0.4f) };
@@ -120,10 +131,10 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         {
             switch (currentEnum)
             {
-                case ObjectsToPlace.projectileTowerPrefab:
+                case ObjectsToPlace.archerTowerPrefab:
                     (objectToPlace.GetComponentInChildren<ProjectileTower>()).FinalizePlacement();
                     break;
-                case ObjectsToPlace.radiusTowerPrefab:
+                case ObjectsToPlace.mageTowerPrefab:
                     (objectToPlace.GetComponentInChildren<RadiusTower>()).FinalizePlacement();
                     break;
                 case ObjectsToPlace.basePrefab:
@@ -137,9 +148,9 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                 case ObjectsToPlace.spawnerPrefab:
                     EnemyControllerScript.Instance.AddSpawner(objectToPlace.GetComponentInChildren<Spawner>());
                     break;
-                case ObjectsToPlace.cannonPrefab:
-                    (objectToPlace.GetComponentInChildren<RadiusTower>()).FinalizePlacement();
-                    break;
+                //case ObjectsToPlace.cannonPrefab:
+                    //(objectToPlace.GetComponentInChildren<RadiusTower>()).FinalizePlacement();
+                    //break;
             }
 
             objectToPlace = null;
@@ -161,10 +172,11 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
         switch (currentEnum)
         {
-            case ObjectsToPlace.projectileTowerPrefab:
+            case ObjectsToPlace.archerTowerPrefab:
+            case ObjectsToPlace.cannonTowerPrefab:
                 (objectToPlace.GetComponentInChildren<ProjectileTower>()).FinalizePlacement();
                 break;
-            case ObjectsToPlace.radiusTowerPrefab:
+            case ObjectsToPlace.mageTowerPrefab:
                 (objectToPlace.GetComponentInChildren<RadiusTower>()).FinalizePlacement();
                 break;
             case ObjectsToPlace.basePrefab:
@@ -184,9 +196,9 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
             case ObjectsToPlace.spawnerPrefab:
                 EnemyControllerScript.Instance.AddSpawner(objectToPlace.GetComponentInChildren<Spawner>());
                 break;
-            case ObjectsToPlace.cannonPrefab:
-                (objectToPlace.GetComponentInChildren<RadiusTower>()).FinalizePlacement();
-                break;
+            //case ObjectsToPlace.cannonPrefab:
+                //(objectToPlace.GetComponentInChildren<RadiusTower>()).FinalizePlacement();
+                //break;
         }
 
         objectToPlace = null;
@@ -303,11 +315,11 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
     void Start()
     {
         Objects = new PlaceableObject[] {
-            new PlaceableObject(projectileTowerPrefab, 0.2f, 0.2f, 0.4f),
-            new PlaceableObject(radiusTowerPrefab, 0.2f, 0.2f, 0.4f),
+            new PlaceableObject(archerTowerPrefab, 0.2f, 0.2f, 0.4f),
+            new PlaceableObject(cannonTowerPrefab, 0.2f, 0.2f, 0.4f),
+            new PlaceableObject(mageTowerPrefab, 0.2f, 0.2f, 0.4f),
             new PlaceableObject(basePrefab, 0.5f, 0.5f, 0.5f),
             new PlaceableObject(spawnerPrefab, 0.3f, 0.3f, 0.3f),
-            new PlaceableObject(cannonPrefab, 0.2f, 0.2f, 0.4f)
         };
         isValidLocation = false;
         clickTime = DateTime.MinValue;

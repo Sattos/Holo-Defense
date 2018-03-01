@@ -30,8 +30,90 @@ public class AttackStats
     }
 }
 
-public abstract class BaseTower : MonoBehaviour {
+public class UpgradeStats
+{
+    public float damage;
+    public int attackSpeed;
+    public float range;
+    public float damagePerSecond;
+    public float damageDuration;
+    public float slow;
+    public float slowDuration;
+    public int targetCount;
+    public float radius;
+    public float velocity;
+    public int nextUpgradeCost;
+    public int sellValue;
 
+    //ProjectileTower
+    public UpgradeStats(float damage, int attackSpeed, float range, float damagePerSecond, float damageDuration, float slow, float slowDuration, int targetCount, float radius, float velocity, int cost, int sellValue)
+    {
+        this.damage = damage;
+        this.attackSpeed = attackSpeed;
+        this.range = range;
+        this.damagePerSecond = damagePerSecond;
+        this.damageDuration = damageDuration;
+        this.slow = slow;
+        this.slowDuration = slowDuration;
+        this.targetCount = targetCount;
+        this.radius = radius;
+        this.velocity = velocity;
+        this.nextUpgradeCost = cost;
+        this.sellValue = sellValue;
+    }
+
+    //RadiusTower
+    public UpgradeStats(float damage, int attackSpeed, float range, float damagePerSecond, float damageDuration, float slow, float slowDuration, int nextUpgradeCost, int sellValue)
+    {
+        this.damage = damage;
+        this.attackSpeed = attackSpeed;
+        this.range = range;
+        this.damagePerSecond = damagePerSecond;
+        this.damageDuration = damageDuration;
+        this.slow = slow;
+        this.slowDuration = slowDuration;
+        this.nextUpgradeCost = nextUpgradeCost;
+        this.sellValue = sellValue;
+    }
+
+    public static UpgradeStats[] ArcherUpgradeLevels = {
+        new UpgradeStats(1, 700, 2, 0, 0, 0, 0, 1, 0, 0.06f, 10, 8),
+        new UpgradeStats(1.5f, 650, 2.2f, 0, 0, 0, 0, 1, 0.6f, 0.07f, 30, 16),
+        new UpgradeStats(2, 600, 2.4f, 0, 0, 0, 0, 2, 0.7f, 0.08f, 0, 40)
+    };
+
+    public static UpgradeStats[] CannonUpgradeLevels = {
+        new UpgradeStats(1, 1300, 2, 0, 0, 0, 0, 1, 0, 0.06f, 10, 8),
+        new UpgradeStats(1.5f, 1250, 2.2f, 0, 0, 0, 0, 1, 0.6f, 0.07f, 30, 16),
+        new UpgradeStats(2, 1200, 2.4f, 0, 0, 0, 0, 1, 1.5f, 0.08f, 0, 40)
+    };
+
+    public static UpgradeStats[] MageUpgradeLevels = {
+        new UpgradeStats(0.5f, 1000, 2, 0, 0, 0.2f, 2, 10, 8),
+        new UpgradeStats(0.75f, 900, 2.2f, 0, 0, 0.25f, 2, 20, 16),
+        new UpgradeStats(1, 800, 2.4f, 0, 0, 0.3f, 2.5f, 0, 32)
+    };
+}
+
+public enum TowerType
+{
+    Archer,
+    Cannon,
+    Mage
+}
+
+public static class Stats
+{
+    public static Dictionary<TowerType, UpgradeStats[]> UpgradeLevels = new Dictionary<TowerType, UpgradeStats[]>() {
+        {TowerType.Archer, UpgradeStats.ArcherUpgradeLevels},
+        {TowerType.Cannon, UpgradeStats.CannonUpgradeLevels},
+        {TowerType.Mage, UpgradeStats.MageUpgradeLevels}
+    };
+
+    
+}
+
+public abstract class BaseTower : MonoBehaviour {
     public int level;
     public float baseCost;
     public float totalCost;
@@ -59,6 +141,10 @@ public abstract class BaseTower : MonoBehaviour {
 
     private DateTime lastAttack;
     private bool isActive;
+
+    public TowerType towerType;
+
+   
 
     protected abstract bool Attack();
 

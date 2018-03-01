@@ -61,7 +61,7 @@ public class TurretInfoCanvas : MonoBehaviour {
         {
             upgradeButton.interactable = false;
         }
-        ShowStats();
+        ShowStats(tower.towerType, tower.level);
     }
 
     public void Sell()
@@ -69,38 +69,6 @@ public class TurretInfoCanvas : MonoBehaviour {
         AppState.Instance.money += tower.SellValue;
         AppState.Instance.UpdateMoneyText();
         Destroy(tower.gameObject);
-    }
-
-    public void ShowStatsForTowerType(ObjectPlacer.ObjectsToPlace type)
-    {
-        switch(type)
-        {
-            case ObjectPlacer.ObjectsToPlace.projectileTowerPrefab:
-                Values[0].text = String.Format(FormatDecimal, ProjectileTower.UpgradeLevels[0].damage);
-                Values[1].text = String.Format(FormatDecimal, ProjectileTower.UpgradeLevels[0].attackSpeed);
-                Values[2].text = String.Format(FormatDecimal, ProjectileTower.UpgradeLevels[0].range);
-                Values[3].text = String.Format(FormatDOT, ProjectileTower.UpgradeLevels[0].damagePerSecond, ProjectileTower.UpgradeLevels[0].damageDuration);
-                Values[4].text = String.Format(FormatSlow, ProjectileTower.UpgradeLevels[0].slow * 100, ProjectileTower.UpgradeLevels[0].slowDuration);
-                Values[5].text = String.Format(FormatInteger, ProjectileTower.UpgradeLevels[0].targetCount);
-                Values[6].text = String.Format(FormatDecimal, ProjectileTower.UpgradeLevels[0].radius);
-                Values[7].text = String.Format(FormatDecimal, ProjectileTower.UpgradeLevels[0].velocity);
-                StatsPanel.SetActive(true);
-                break;
-            case ObjectPlacer.ObjectsToPlace.radiusTowerPrefab:
-                Values[0].text = String.Format(FormatDecimal, RadiusTower.UpgradeLevels[0].damage);
-                Values[1].text = String.Format(FormatDecimal, RadiusTower.UpgradeLevels[0].attackSpeed);
-                Values[2].text = String.Format(FormatDecimal, RadiusTower.UpgradeLevels[0].range);
-                Values[3].text = String.Format(FormatDOT, RadiusTower.UpgradeLevels[0].damagePerSecond, RadiusTower.UpgradeLevels[0].damageDuration);
-                Values[4].text = String.Format(FormatSlow, RadiusTower.UpgradeLevels[0].slow * 100, RadiusTower.UpgradeLevels[0].slowDuration);
-                Values[5].text = "all in range"; //String.Format(FormatInteger, RadiusTower.UpgradeLevels[0].targetCount);
-                Values[6].text = "-";//String.Format(FormatDecimal, RadiusTower.UpgradeLevels[0].radius);
-                Values[7].text = "-";//String.Format(FormatDecimal, RadiusTower.UpgradeLevels[0].velocity);
-                StatsPanel.SetActive(true);
-                break;
-            default:
-                StatsPanel.SetActive(false);
-                break;
-        }
     }
 
     public void Activate(BaseTower tower)
@@ -112,81 +80,26 @@ public class TurretInfoCanvas : MonoBehaviour {
         }
 
         this.tower = tower;
-        canvas.transform.position = tower.transform.position + tower.transform.rotation * new Vector3(0, 0.5f, 0);
+        canvas.transform.position = tower.transform.position + tower.transform.rotation * new Vector3(0, 1.0f, 0);
 
-        ShowStats();
-
-        //if(tower.IsMaxLevel())
-        //{
-        //    upgradeButton.interactable = false;
-        //    upgradeButton.GetComponent<Text>().text = "MAX LVL";
-        //}
-        //else
-        //{
-        //    upgradeButton.interactable = true;
-        //    upgradeButton.GetComponent<Text>().text = "UPGRADE " + tower;
-        //}
+        ShowStats(tower.towerType, tower.level);
 
         canvas.gameObject.SetActive(true);
     }
 
-    public void ShowStats()
+    public void ShowStats(TowerType type, int level, bool upgrade = false)
     {
-        if (tower == null)
-            return;
-
-        Values[0].text = String.Format(FormatDecimal, tower.stats.damage);
-        Values[1].text = String.Format(FormatDecimal, tower.attackSpeed);
-        Values[2].text = String.Format(FormatDecimal, tower.range);
-        Values[3].text = String.Format(FormatDOT, tower.stats.damagePerSecond, tower.stats.damageDuration);
-        Values[4].text = String.Format(FormatSlow, tower.stats.slow * 100, tower.stats.slowDuration);
-        Values[5].text = String.Format(FormatInteger, tower.targetCount);
-        Values[6].text = String.Format(FormatDecimal, tower.stats.areaOfEffect);
-        Values[7].text = String.Format(FormatDecimal, tower.stats.velocity);
-
-        if (tower.IsMaxLevel())
-        {
-            upgradeButton.interactable = false;
-            upgradeButton.GetComponentInChildren<Text>().text = "MAX LVL";
-        }
-        else
-        {
-            upgradeButton.interactable = true;
-            upgradeButton.GetComponentInChildren<Text>().text = "UPGRADE " + tower.UpgradeCost;
-        }
+        StatsPanel.GetComponent<InfoPanel>().ShowStats(type, level, upgrade);
     }
 
-    public void ShowUpgradeStats()
+    public void ShowUpdateStats()
     {
-        if (tower == null)
-            return;
-        if(tower.IsMaxLevel())
-        {
-            return;
-        }
-        object upgradeStats = tower.GetNextUpgradeStats();
+        StatsPanel.GetComponent<InfoPanel>().ShowStats(tower.towerType, tower.level, true);
+    }
 
-        ProjectileTower.UpgradeStats projectileUpgradeStats = upgradeStats as ProjectileTower.UpgradeStats;
-        if(projectileUpgradeStats != null)
-        {
-            Values[0].text = String.Format(FormatUpdateDecimal, tower.stats.damage, projectileUpgradeStats.damage);
-            Values[1].text = String.Format(FormatUpdateDecimal, tower.attackSpeed, projectileUpgradeStats.attackSpeed);
-            Values[2].text = String.Format(FormatUpdateDecimal, tower.range, projectileUpgradeStats.range);
-            Values[5].text = String.Format(FormatUpdateInteger, tower.targetCount, projectileUpgradeStats.targetCount);
-            Values[7].text = String.Format(FormatUpdateDecimal, tower.stats.velocity, projectileUpgradeStats.velocity);
-            return;
-        }
-
-        RadiusTower.UpgradeStats radiusUpgradeStats = upgradeStats as RadiusTower.UpgradeStats;
-        if (radiusUpgradeStats != null)
-        {
-            Values[0].text = String.Format(FormatUpdateDecimal, tower.stats.damage, radiusUpgradeStats.damage);
-            Values[1].text = String.Format(FormatUpdateDecimal, tower.attackSpeed, radiusUpgradeStats.attackSpeed);
-            Values[2].text = String.Format(FormatUpdateDecimal, tower.range, radiusUpgradeStats.range);
-            Values[4].text = String.Format(FormatUpdateSlow, tower.stats.slow * 100, tower.stats.slowDuration, radiusUpgradeStats.slow * 100, radiusUpgradeStats.slowDuration);
-            return;
-        }
-
+    public void ShowStats()
+    {
+        StatsPanel.GetComponent<InfoPanel>().ShowStats(tower.towerType, tower.level);
     }
 
     public void Deactivate()

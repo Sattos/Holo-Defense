@@ -23,7 +23,8 @@ public class PurchasableClick : RaycastButton {
         {
             if (InfoPanel != null)
             {
-                InfoPanel.ShowStatsForTowerType(towerType);
+                //InfoPanel.ShowStatsForTowerType(towerType);
+                InfoPanel.ShowStats((TowerType)towerType, 0);
                 if (gameObject.GetComponent<RectTransform>().anchoredPosition.x > 200.0f)
                 {
                     if (rectTransform.anchoredPosition.x > -100.0f)

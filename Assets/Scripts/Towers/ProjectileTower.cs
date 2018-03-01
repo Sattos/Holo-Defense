@@ -12,43 +12,54 @@ public class ProjectileTower : BaseTower {
 
     public EnemyControllerScript.TargetingMode targetingMode;
 
-    public class UpgradeStats
-    {
-        public float damage;
-        public int attackSpeed;
-        public float range;
-        public float damagePerSecond;
-        public float damageDuration;
-        public float slow;
-        public float slowDuration;
-        public int targetCount;
-        public float radius;
-        public float velocity;
-        public int nextUpgradeCost;
-        public int sellValue;
+    //public class UpgradeStats
+    //{
+    //    public float damage;
+    //    public int attackSpeed;
+    //    public float range;
+    //    public float damagePerSecond;
+    //    public float damageDuration;
+    //    public float slow;
+    //    public float slowDuration;
+    //    public int targetCount;
+    //    public float radius;
+    //    public float velocity;
+    //    public int nextUpgradeCost;
+    //    public int sellValue;
 
-        public UpgradeStats(float damage, int attackSpeed, float range, float damagePerSecond, float damageDuration, float slow, float slowDuration, int targetCount, float radius, float velocity, int cost, int sellValue)
-        {
-            this.damage = damage;
-            this.attackSpeed = attackSpeed;
-            this.range = range;
-            this.damagePerSecond = damagePerSecond;
-            this.damageDuration = damageDuration;
-            this.slow = slow;
-            this.slowDuration = slowDuration;
-            this.targetCount = targetCount;
-            this.radius = radius;
-            this.velocity = velocity;
-            this.nextUpgradeCost = cost;
-            this.sellValue = sellValue;
-        }
-    }
+    //    public UpgradeStats(float damage, int attackSpeed, float range, float damagePerSecond, float damageDuration, float slow, float slowDuration, int targetCount, float radius, float velocity, int cost, int sellValue)
+    //    {
+    //        this.damage = damage;
+    //        this.attackSpeed = attackSpeed;
+    //        this.range = range;
+    //        this.damagePerSecond = damagePerSecond;
+    //        this.damageDuration = damageDuration;
+    //        this.slow = slow;
+    //        this.slowDuration = slowDuration;
+    //        this.targetCount = targetCount;
+    //        this.radius = radius;
+    //        this.velocity = velocity;
+    //        this.nextUpgradeCost = cost;
+    //        this.sellValue = sellValue;
+    //    }
+    //}
 
-    public static UpgradeStats[] UpgradeLevels = {
-        new UpgradeStats(1, 700, 2, 0, 0, 0, 0, 1, 0, 0.06f, 10, 8),
-        new UpgradeStats(1.5f, 650, 2.2f, 0, 0, 0, 0, 1, 0.6f, 0.07f, 30, 16),
-        new UpgradeStats(2, 600, 2.4f, 0, 0, 0, 0, 2, 0.7f, 0.08f, 0, 40)
-    };
+    //public static Dictionary<ProjectileTowerType, UpgradeStats[]> Stats.UpgradeLevelsD = new Dictionary<ProjectileTowerType, UpgradeStats[]>() {
+    //    {ProjectileTowerType.Archer, ArcherStats.UpgradeLevels},
+    //    {ProjectileTowerType.Cannon, CannonStats.UpgradeLevels}
+    //};
+
+    //public static UpgradeStats[] ArcherStats.UpgradeLevels = {
+    //    new UpgradeStats(1, 700, 2, 0, 0, 0, 0, 1, 0, 0.06f, 10, 8),
+    //    new UpgradeStats(1.5f, 650, 2.2f, 0, 0, 0, 0, 1, 0.6f, 0.07f, 30, 16),
+    //    new UpgradeStats(2, 600, 2.4f, 0, 0, 0, 0, 2, 0.7f, 0.08f, 0, 40)
+    //};
+
+    //public static UpgradeStats[] CannonStats.UpgradeLevels = {
+    //    new UpgradeStats(1, 1300, 2, 0, 0, 0, 0, 1, 0, 0.06f, 10, 8),
+    //    new UpgradeStats(1.5f, 1250, 2.2f, 0, 0, 0, 0, 1, 0.6f, 0.07f, 30, 16),
+    //    new UpgradeStats(2, 1200, 2.4f, 0, 0, 0, 0, 1, 1.5f, 0.08f, 0, 40)
+    //};
 
     protected override bool Attack()
     {
@@ -80,7 +91,7 @@ public class ProjectileTower : BaseTower {
 
     public override void Upgrade()
     {
-        if (level >= UpgradeLevels.Length)
+        if (level >= Stats.UpgradeLevels[towerType].Length)
         {
             return;
         }
@@ -89,12 +100,12 @@ public class ProjectileTower : BaseTower {
 
     protected override void SetStats(int val)
     {
-        if (val >= UpgradeLevels.Length)
+        if (val >= Stats.UpgradeLevels[towerType].Length)
         {
             return;
         }
 
-        UpgradeStats upgStats = UpgradeLevels[val];
+        UpgradeStats upgStats = Stats.UpgradeLevels[towerType][val];
         this.stats = new AttackStats(upgStats.velocity, upgStats.damage, upgStats.damagePerSecond, upgStats.damageDuration, upgStats.slowDuration, upgStats.slow, stunDuration, upgStats.radius, this.gameObject);
         this.range = upgStats.range;
         this.attackSpeed = upgStats.attackSpeed;
@@ -106,15 +117,15 @@ public class ProjectileTower : BaseTower {
 
     public override object GetNextUpgradeStats()
     {
-        if(level >= UpgradeLevels.Length)
+        if(level >= Stats.UpgradeLevels[towerType].Length)
         {
             return null;
         }
-        return UpgradeLevels[level+1];
+        return Stats.UpgradeLevels[towerType][level+1];
     }
 
     public override bool IsMaxLevel()
     {
-        return level == UpgradeLevels.Length;
+        return level == Stats.UpgradeLevels[towerType].Length;
     }
 }

@@ -492,6 +492,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     ObjectPlacer.Instance.isNormalInterface = true;
                     if(EnemyControllerScript.Instance.isBasePlaced)
                     {
+                        StandardUI.transform.position = EnemyControllerScript.Instance.Base.transform.position + EnemyControllerScript.Instance.Base.transform.rotation * new Vector3(0, 0.7f, 0);
                         StandardUI.SetActive(true);
                         StandardUI.GetComponent<NormalUI>().enabled = true;
                     }

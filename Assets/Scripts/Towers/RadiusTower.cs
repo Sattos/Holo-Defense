@@ -8,41 +8,41 @@ public class RadiusTower : BaseTower {
 
     private GameObject hitAnimationObject;
 
-    public class UpgradeStats
-    {
-        public float damage;
-        public int attackSpeed;
-        public float range;
-        public float damagePerSecond;
-        public float damageDuration;
-        public float slow;
-        public float slowDuration;
-        public int nextUpgradeCost;
-        public int sellValue;
+    //public class UpgradeStats
+    //{
+    //    public float damage;
+    //    public int attackSpeed;
+    //    public float range;
+    //    public float damagePerSecond;
+    //    public float damageDuration;
+    //    public float slow;
+    //    public float slowDuration;
+    //    public int nextUpgradeCost;
+    //    public int sellValue;
 
-        public UpgradeStats(float damage, int attackSpeed, float range, float damagePerSecond, float damageDuration, float slow, float slowDuration, int nextUpgradeCost, int sellValue)
-        {
-            this.damage = damage;
-            this.attackSpeed = attackSpeed;
-            this.range = range;
-            this.damagePerSecond = damagePerSecond;
-            this.damageDuration = damageDuration;
-            this.slow = slow;
-            this.slowDuration = slowDuration;
-            this.nextUpgradeCost = nextUpgradeCost;
-            this.sellValue = sellValue;
-        }
-    }
+    //    public UpgradeStats(float damage, int attackSpeed, float range, float damagePerSecond, float damageDuration, float slow, float slowDuration, int nextUpgradeCost, int sellValue)
+    //    {
+    //        this.damage = damage;
+    //        this.attackSpeed = attackSpeed;
+    //        this.range = range;
+    //        this.damagePerSecond = damagePerSecond;
+    //        this.damageDuration = damageDuration;
+    //        this.slow = slow;
+    //        this.slowDuration = slowDuration;
+    //        this.nextUpgradeCost = nextUpgradeCost;
+    //        this.sellValue = sellValue;
+    //    }
+    //}
 
-    public static UpgradeStats[] UpgradeLevels = {
-        new UpgradeStats(0.5f, 1000, 2, 0, 0, 0.2f, 2, 10, 8),
-        new UpgradeStats(0.75f, 900, 2.2f, 0, 0, 0.25f, 2, 20, 16),
-        new UpgradeStats(1, 800, 2.4f, 0, 0, 0.3f, 2.5f, 0, 32)
-    };
+    //public static UpgradeStats[] Stats.UpgradeLevels = {
+    //    new UpgradeStats(0.5f, 1000, 2, 0, 0, 0.2f, 2, 10, 8),
+    //    new UpgradeStats(0.75f, 900, 2.2f, 0, 0, 0.25f, 2, 20, 16),
+    //    new UpgradeStats(1, 800, 2.4f, 0, 0, 0.3f, 2.5f, 0, 32)
+    //};
 
     public override void Upgrade()
     {
-        if (level >= UpgradeLevels.Length)
+        if (level >= Stats.UpgradeLevels[towerType].Length)
         {
             return;
         }
@@ -51,12 +51,12 @@ public class RadiusTower : BaseTower {
 
     protected override void SetStats(int val)
     {
-        if (val >= UpgradeLevels.Length)
+        if (val >= Stats.UpgradeLevels[towerType].Length)
         {
             return;
         }
 
-        UpgradeStats upgStats = UpgradeLevels[val];
+        UpgradeStats upgStats = Stats.UpgradeLevels[towerType][val];
         this.stats = new AttackStats(0, upgStats.damage, upgStats.damagePerSecond, upgStats.damageDuration, upgStats.slowDuration, upgStats.slow, stunDuration, 0, this.gameObject);
         this.range = upgStats.range;
         this.attackSpeed = upgStats.attackSpeed;
@@ -68,16 +68,16 @@ public class RadiusTower : BaseTower {
 
     public override object GetNextUpgradeStats()
     {
-        if (level >= UpgradeLevels.Length)
+        if (level >= Stats.UpgradeLevels[towerType].Length)
         {
             return null;
         }
-        return UpgradeLevels[level + 1];
+        return Stats.UpgradeLevels[towerType][level + 1];
     }
 
     public override bool IsMaxLevel()
     {
-        return level == UpgradeLevels.Length;
+        return level == Stats.UpgradeLevels[towerType].Length;
     }
 
     protected override bool Attack()
