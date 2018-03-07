@@ -8,7 +8,7 @@ public class Spawner : MonoBehaviour {
     public EnemyControllerScript.EnemyType EnemyType;
     public BaseEnemy Enemy;
 
-    public BaseEnemy.BaseStats Stats;
+    public BaseEnemy.BaseStats stats;
 
     public int count;
     public double delay;
@@ -31,9 +31,10 @@ public class Spawner : MonoBehaviour {
         }
     }
 
-    public void StartNextWave()
+    public void StartNextWave(WaveParameters waveParameters)
     {
-        StartCoroutine(StartWave(0.7f, 5));
+        this.stats = waveParameters.stats;
+        StartCoroutine(StartWave(waveParameters.delay, waveParameters.count));
     }
 
     private IEnumerator StartWave(float delay, int count)
@@ -41,14 +42,14 @@ public class Spawner : MonoBehaviour {
         //while(true)
         for(int i = 0; i < count; i++)
         {
-            SpawnEnemy(Stats);
+            SpawnEnemy(stats);
             yield return new WaitForSeconds(delay);
         }
     }
 
 	// Use this for initialization
 	void Start () {
-        Stats = new BaseEnemy.BaseStats(10, 0.01f, 5, false);
+        stats = new BaseEnemy.BaseStats(10, 0.01f, 5, false);
         spawnedCount = 0;
         lastSpawn = DateTime.MinValue;
 	}

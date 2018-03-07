@@ -5,6 +5,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class WaveParameters
+{
+    public float delay;
+    public int count;
+    public BaseEnemy.BaseStats stats;
+
+    public WaveParameters(float delay, int count, BaseEnemy.BaseStats stats)
+    {
+        this.delay = delay;
+        this.count = count;
+        this.stats = stats;
+    }
+
+    public WaveParameters(float delay, int count, float health, float speed, int money)
+    {
+        this.delay = delay;
+        this.count = count;
+        this.stats = new BaseEnemy.BaseStats(health, speed, money);
+    }
+}
+
 public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 
     public BaseEnemy Enemy;
@@ -13,6 +34,25 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
     public int baseHealth;
 
     public bool isBasePlaced = false;
+
+    public bool isStarted = false;
+    public int currentWave = 0;
+    public int maxWave = 10;
+    public WaveParameters[] waves =
+        {   new WaveParameters(0.7f, 5, 10, 0.01f, 3),
+            new WaveParameters(0.7f, 10, 7, 0.01f, 2),
+            new WaveParameters(0.7f, 5, 20, 0.007f, 5),
+            new WaveParameters(0.7f, 15, 10, 0.018f, 2),
+            new WaveParameters(0.7f, 2, 60, 0.01f, 15),
+            new WaveParameters(0.7f, 10, 25, 0.01f, 5),
+            new WaveParameters(0.7f, 5, 10, 0.01f, 3),
+            new WaveParameters(0.7f, 5, 10, 0.01f, 3),
+            new WaveParameters(0.7f, 30, 25, 0.015f, 2),
+            new WaveParameters(0.7f, 1, 300, 0.005f, 50),
+            };
+
+    public float waveTime;
+    private float time;
 
     public enum EnemyType
     {
@@ -82,12 +122,26 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 
     public void SendNextWave()
     {
-        if (!isBasePlaced)
+        if (/*!isStarted*/!isBasePlaced || currentWave == maxWave)
+        {
             return;
+        }
         foreach(Spawner spawner in Spawners)
         {
-            spawner.StartNextWave();
+            spawner.StartNextWave(waves[currentWave]);
         }
+        currentWave++;
+        time = Time.time + waveTime;
+    }
+
+    public void SendFirstWave()
+    {
+        if(!isBasePlaced)
+        {
+            return;
+        }
+        isStarted = true;
+        SendNextWave();
     }
 
     public void DamageBase()
@@ -119,7 +173,13 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(isStarted)
+        {
+            if(time < Time.time)
+            {
+                SendNextWave();
+            }
+        }
 	}
 
     public void Restart()
