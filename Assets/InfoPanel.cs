@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class InfoPanel : MonoBehaviour {
 
     public Text[] Values;
+    public Text towerName;
+    public GameObject valuesPanel;
 
     static string FormatUpdateDecimal = "{0:0.00}->{1:0.00}";
     static string FormatUpdateSlow = "{0}%/{1:0.0}s->{2}%/{3:0.0}s";
@@ -50,11 +52,22 @@ public class InfoPanel : MonoBehaviour {
     //    }
     //}
 
+    public void ShowName(String name)
+    {
+        if (towerName != null)
+        {
+            this.towerName.text = name;
+        }
+    }
+
     public void ShowStats(TowerType type, int level, bool upgrade = false)
     {
         if (!upgrade || level == Stats.UpgradeLevels[type].Length - 1)
         {
             gameObject.SetActive(true);
+
+            ShowName(TurretInfoCanvas.descriptionDictionary[(int)type][0]);
+
             switch (type)
             {
                 case TowerType.Archer:
@@ -97,10 +110,10 @@ public class InfoPanel : MonoBehaviour {
                     break;
 
                 case TowerType.Mage:
-                    Values[0].text = String.Format(FormatUpdateDecimal, Stats.UpgradeLevels[type][level].damage, Stats.UpgradeLevels[type][level].damage);
-                    Values[1].text = String.Format(FormatUpdateDecimal, Stats.UpgradeLevels[type][level].attackSpeed, Stats.UpgradeLevels[type][level].attackSpeed);
-                    Values[2].text = String.Format(FormatUpdateDecimal, Stats.UpgradeLevels[type][level].range, Stats.UpgradeLevels[type][level].range);
-                    Values[4].text = String.Format(FormatUpdateSlow, Stats.UpgradeLevels[type][level].slow * 100, Stats.UpgradeLevels[type][level], Stats.UpgradeLevels[type][level].slow * 100, Stats.UpgradeLevels[type][level].slowDuration);
+                    Values[0].text = String.Format(FormatUpdateDecimal, Stats.UpgradeLevels[type][level].damage, Stats.UpgradeLevels[type][level+1].damage);
+                    Values[1].text = String.Format(FormatUpdateDecimal, Stats.UpgradeLevels[type][level].attackSpeed, Stats.UpgradeLevels[type][level+1].attackSpeed);
+                    Values[2].text = String.Format(FormatUpdateDecimal, Stats.UpgradeLevels[type][level].range, Stats.UpgradeLevels[type][level+1].range);
+                    Values[4].text = String.Format(FormatUpdateSlow, Stats.UpgradeLevels[type][level].slow * 100, Stats.UpgradeLevels[type][level+1].slowDuration, Stats.UpgradeLevels[type][level].slow * 100, Stats.UpgradeLevels[type][level+1].slowDuration);
                     break;
             }
         }

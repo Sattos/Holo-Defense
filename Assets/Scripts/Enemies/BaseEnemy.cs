@@ -118,7 +118,7 @@ public class BaseEnemy : MonoBehaviour {
         {
             if (currentSlow > slowEffects[key].value)
             {
-                currentSlow = slowEffects[key].value;
+                currentSlow = 1.0f - slowEffects[key].value;
             }
             slowEffects[key].duration -= Time.deltaTime;
             if (slowEffects[key].duration <= 0)

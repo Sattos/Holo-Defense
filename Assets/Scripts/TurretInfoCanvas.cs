@@ -13,6 +13,9 @@ public class TurretInfoCanvas : MonoBehaviour {
 
     public Text[] Values;
 
+    public Text towerName;
+    public Text towerDescription;
+
     public Button upgradeButton;
     public Text upgradeText;
 
@@ -46,6 +49,28 @@ public class TurretInfoCanvas : MonoBehaviour {
     static string FormatDOT = "{0:0.0}/{1:0.0}s";
     static string FormatInteger = "{0}";
 
+    static string UpgradeFormat = "UPGRADE {0}G";
+
+    public static Dictionary<int, String[]> descriptionDictionary = new Dictionary<int, string[]> {
+        { (int)TowerType.Archer, new String[] {"Archer Tower", "Fast shooting tower" } },
+        { (int)TowerType.Cannon, new String[] {"Cannon Tower", "Fires exploding bombs" } },
+        { (int)TowerType.Mage, new String[] {"Mage Tower", "Slows nearby enemies" } },
+        { 98, new String[] {"Base", "Base to defend" } },
+        { 99, new String[] {"Spawner", "Enemy spawner" } }
+    };
+
+    public void ShowDescription(int i)
+    {
+        if (towerName != null)
+        {
+            this.towerName.text = descriptionDictionary[i][0];
+        }
+        if (towerDescription != null)
+        {
+            this.towerDescription.text = descriptionDictionary[i][1];
+        }
+    }
+
     public void Upgrade()
     {
         if(tower.UpgradeCost > AppState.Instance.money)
@@ -60,7 +85,13 @@ public class TurretInfoCanvas : MonoBehaviour {
         if (tower.IsMaxLevel())
         {
             upgradeButton.interactable = false;
+            upgradeText.text = "MAX";
         }
+        else
+        {
+            upgradeText.text = String.Format(UpgradeFormat, Stats.UpgradeLevels[tower.towerType][tower.level].nextUpgradeCost);
+        }
+
         ShowStats(tower.towerType, tower.level);
     }
 
@@ -83,6 +114,16 @@ public class TurretInfoCanvas : MonoBehaviour {
         canvas.transform.position = tower.transform.position + tower.transform.rotation * new Vector3(0, 1.0f, 0);
 
         ShowStats(tower.towerType, tower.level);
+
+        if(tower.IsMaxLevel())
+        {
+            upgradeText.text = "MAX";
+        }
+        else
+        {
+            upgradeButton.interactable = true;
+            upgradeText.text = String.Format(UpgradeFormat, Stats.UpgradeLevels[tower.towerType][tower.level].nextUpgradeCost);
+        }
 
         canvas.gameObject.SetActive(true);
     }

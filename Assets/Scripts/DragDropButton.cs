@@ -56,6 +56,8 @@ namespace HoloToolkit.Examples.InteractiveElements
         private uint mTempInputSourceId;
 
         private bool isHold;
+        public GameObject[] objects;
+        public InfoPanel infoPanel;
 
         protected override void Awake()
         {
@@ -174,7 +176,7 @@ namespace HoloToolkit.Examples.InteractiveElements
             CleanUpTicker();
         }
 
-        public int placeableObject = 2;
+        public int placeableObject = 3;
 
         public void StartPlacing()
         {
@@ -184,7 +186,27 @@ namespace HoloToolkit.Examples.InteractiveElements
 
         public void SetPlaceable(int obj)
         {
+            objects[placeableObject].SetActive(false);
             placeableObject = obj;
+            objects[placeableObject].SetActive(true);
+
+            if (placeableObject < (int)TowerType.Last)
+            {
+                infoPanel.ShowStats((TowerType)placeableObject, 0);
+                infoPanel.valuesPanel.SetActive(true);
+            }
+            else
+            {
+                infoPanel.valuesPanel.SetActive(false);
+                if (placeableObject == (int) ObjectPlacer.ObjectsToPlace.basePrefab)
+                {
+                    infoPanel.towerName.text = "Base";
+                }
+                else if (placeableObject == (int)ObjectPlacer.ObjectsToPlace.spawnerPrefab)
+                {
+                    infoPanel.towerName.text = "Spawner";
+                }
+            }
         }
 
         /// <summary>

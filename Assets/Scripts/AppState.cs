@@ -363,7 +363,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     SetUI(1);
                     break;
                 case GameStates.BadInterface:
-                    break;
+                    //break;
                 case GameStates.NormalInterface:
                 case GameStates.GoodInterface:
                     //SpatialUnderstandingCursor.Instance.Click();

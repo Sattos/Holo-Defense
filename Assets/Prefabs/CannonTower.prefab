@@ -601,6 +601,7 @@ MonoBehaviour:
   areaOfEffect: 0
   UpgradeCost: 0
   SellValue: 0
+  towerType: 1
   Missile: {fileID: 114280003786330000, guid: 3a1275cc68edbe84e974c62b0d8cc401, type: 2}
   ProjectileSource: {fileID: 1573967592970004}
   RotatingObject: {fileID: 1154130089451888}

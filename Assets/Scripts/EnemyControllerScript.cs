@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaveParameters
 {
@@ -30,6 +31,8 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 
     public BaseEnemy Enemy;
     public GameObject Base;
+
+    public TextMesh waveText;
 
     public int baseHealth;
 
@@ -122,7 +125,7 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 
     public void SendNextWave()
     {
-        if (/*!isStarted*/!isBasePlaced || currentWave == maxWave)
+        if (!isStarted || currentWave == maxWave)
         {
             return;
         }
@@ -141,7 +144,20 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
             return;
         }
         isStarted = true;
-        SendNextWave();
+        time = Time.time + 2.0f;
+        //SendNextWave();
+    }
+
+    public void SendWave()
+    {
+        if(isStarted)
+        {
+            SendNextWave();
+        }
+        else
+        {
+            SendFirstWave();
+        }
     }
 
     public void DamageBase()
@@ -173,9 +189,17 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 	
 	// Update is called once per frame
 	void Update () {
+        if(currentWave == maxWave)
+        {
+            waveText.text = "";
+            return;
+        }
 		if(isStarted)
         {
-            if(time < Time.time)
+            float timeToNext = time - Time.time;
+
+            waveText.text = String.Format("{0:0.0}s", timeToNext);
+            if (timeToNext <= 0)
             {
                 SendNextWave();
             }

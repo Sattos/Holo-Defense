@@ -79,7 +79,8 @@ public class ProjectileTower : BaseTower {
                 RotatingObject.transform.localRotation = Quaternion.Euler(rotation);
             }
             Projectile o = Instantiate(Missile); //new Projectile();
-            o.transform.position = ProjectileSource.transform.position;
+            //o.transform.position = ProjectileSource.transform.position;
+            o.transform.SetPositionAndRotation(ProjectileSource.transform.position, Quaternion.FromToRotation(ProjectileSource.transform.position, tar.transform.position));
             Debug.Log("source" +ProjectileSource.transform.position);
             Debug.Log("projectile" +o.transform.position);
             o.Target = tar;
