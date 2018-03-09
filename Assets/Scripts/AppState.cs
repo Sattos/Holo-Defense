@@ -541,6 +541,11 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             money = startMoney;
             EnemyControllerScript.Instance.baseHealth = startBaseHealth;
 
+            EnemyControllerScript.Instance.currentWave = 0;
+            EnemyControllerScript.Instance.isStarted = false;
+
+            TurretInfoCanvas.gameObject.SetActive(false);
+
             UpdateMoneyText();
             UpdateLivesText();
             //foreach (BaseEnemy obj in FindObjectsOfType<BaseEnemy>())

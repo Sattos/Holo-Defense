@@ -158,13 +158,23 @@ public abstract class BaseTower : MonoBehaviour {
         AppState.Instance.TurretInfoCanvas.Activate(this);
     }
 
-    public abstract void Upgrade();
+    public void Upgrade()
+    {
+        if (level >= Stats.UpgradeLevels[towerType].Length - 1)
+        {
+            return;
+        }
+        SetStats(++level);
+    }
 
     protected abstract void SetStats(int level);
 
     public abstract object GetNextUpgradeStats();
 
-    public abstract bool IsMaxLevel();
+    public bool IsMaxLevel()
+    {
+        return level == Stats.UpgradeLevels[towerType].Length - 1;
+    }
 
     public virtual void FinalizePlacement()
     {

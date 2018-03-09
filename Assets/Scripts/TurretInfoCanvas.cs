@@ -118,6 +118,7 @@ public class TurretInfoCanvas : MonoBehaviour {
         if(tower.IsMaxLevel())
         {
             upgradeText.text = "MAX";
+            upgradeButton.interactable = false;
         }
         else
         {

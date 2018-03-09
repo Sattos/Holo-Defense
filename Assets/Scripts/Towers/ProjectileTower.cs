@@ -90,15 +90,6 @@ public class ProjectileTower : BaseTower {
         return true;
     }
 
-    public override void Upgrade()
-    {
-        if (level >= Stats.UpgradeLevels[towerType].Length)
-        {
-            return;
-        }
-        SetStats(++level);
-    }
-
     protected override void SetStats(int val)
     {
         if (val >= Stats.UpgradeLevels[towerType].Length)
@@ -123,10 +114,5 @@ public class ProjectileTower : BaseTower {
             return null;
         }
         return Stats.UpgradeLevels[towerType][level+1];
-    }
-
-    public override bool IsMaxLevel()
-    {
-        return level == Stats.UpgradeLevels[towerType].Length;
     }
 }

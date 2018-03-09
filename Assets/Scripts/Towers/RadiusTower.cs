@@ -40,15 +40,6 @@ public class RadiusTower : BaseTower {
     //    new UpgradeStats(1, 800, 2.4f, 0, 0, 0.3f, 2.5f, 0, 32)
     //};
 
-    public override void Upgrade()
-    {
-        if (level >= Stats.UpgradeLevels[towerType].Length)
-        {
-            return;
-        }
-        SetStats(++level);
-    }
-
     protected override void SetStats(int val)
     {
         if (val >= Stats.UpgradeLevels[towerType].Length)
@@ -73,11 +64,6 @@ public class RadiusTower : BaseTower {
             return null;
         }
         return Stats.UpgradeLevels[towerType][level + 1];
-    }
-
-    public override bool IsMaxLevel()
-    {
-        return level == Stats.UpgradeLevels[towerType].Length;
     }
 
     protected override bool Attack()

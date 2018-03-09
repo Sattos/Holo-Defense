@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using HoloToolkit.Examples.SpatialUnderstandingFeatureOverview;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -25,23 +26,30 @@ public class PurchasableClick : RaycastButton {
             {
                 //InfoPanel.ShowStatsForTowerType(towerType);
                 InfoPanel.ShowStats((TowerType)towerType, 0);
-                if (gameObject.GetComponent<RectTransform>().anchoredPosition.x > 200.0f)
+                if (AppState.Instance.currentGameState == AppState.GameStates.GoodInterface)
                 {
-                    if (rectTransform.anchoredPosition.x > -100.0f)
+                    if (gameObject.GetComponent<RectTransform>().anchoredPosition.x > 200.0f)
                     {
-                        rectTransform.anchoredPosition += new Vector2(-200.0f, 0);
-                        GoodUI.Instance.ActivateRight();
-                        GoodUI.Instance.DeactivateLeft();
+                        if (rectTransform.anchoredPosition.x > -100.0f)
+                        {
+                            rectTransform.anchoredPosition += new Vector2(-200.0f, 0);
+                            GoodUI.Instance.ActivateRight();
+                            GoodUI.Instance.DeactivateLeft();
+                        }
+                    }
+                    else
+                    {
+                        if (rectTransform.anchoredPosition.x < -100.0f)
+                        {
+                            rectTransform.anchoredPosition += new Vector2(200.0f, 0);
+                            GoodUI.Instance.ActivateLeft();
+                            GoodUI.Instance.DeactivateRight();
+                        }
                     }
                 }
-                else
+                else if (AppState.Instance.currentGameState == AppState.GameStates.NormalInterface)
                 {
-                    if (rectTransform.anchoredPosition.x < -100.0f)
-                    {
-                        rectTransform.anchoredPosition += new Vector2(200.0f, 0);
-                        GoodUI.Instance.ActivateLeft();
-                        GoodUI.Instance.DeactivateRight();
-                    }
+                    rectTransform.anchoredPosition = new Vector3(gameObject.GetComponent<RectTransform>().anchoredPosition.x, 100);
                 }
             }
             //TurretInfoCanvas.gameObject.SetActive(true);
@@ -72,7 +80,7 @@ public class PurchasableClick : RaycastButton {
 	
 	// Update is called once per frame
 	void Update () {
-		if(isRotating)
+		if(isRotating && RotatingObject != null)
         {
             RotatingObject.transform.Rotate(0, 60 * Time.deltaTime, 0);
         }
