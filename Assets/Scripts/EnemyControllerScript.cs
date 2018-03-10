@@ -141,6 +141,7 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
     {
         if(!isBasePlaced)
         {
+            AppState.Instance.Prompt("PLACE BASE FIRST", Color.red, 2.5f);
             return;
         }
         isStarted = true;

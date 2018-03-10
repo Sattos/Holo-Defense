@@ -89,9 +89,10 @@ GameObject:
   - component: {fileID: 114439811113962014}
   - component: {fileID: 114660059527573436}
   - component: {fileID: 64260088373871148}
+  - component: {fileID: 114869749405023402}
   m_Layer: 5
   m_Name: td_humans_Balista_stage1
-  m_TagString: Untagged
+  m_TagString: BlockPlacement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -602,6 +603,7 @@ MonoBehaviour:
   areaOfEffect: 0
   UpgradeCost: 0
   SellValue: 0
+  towerType: 0
   Missile: {fileID: 114461490501051894, guid: e23c7cd7539651e4988561601b84a64d, type: 2}
   ProjectileSource: {fileID: 1671988813564298}
   RotatingObject: {fileID: 1219219609773826}
@@ -659,3 +661,15 @@ MonoBehaviour:
         m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114869749405023402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1307453450430546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27b421ace5308145b1d634f8f308af5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  count: 0

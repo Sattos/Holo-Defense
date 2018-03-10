@@ -43,6 +43,8 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
 
     public bool isPlacing;
 
+    public GameObject InvalidPlaceText;
+
     public PlaceableObject curretObject;
     private GameObject objectToPlace;
     public ObjectsToPlace currentEnum { get; private set; }
@@ -118,6 +120,12 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         currentEnum = obj;
         curretObject = Objects[(int)obj];
         objectToPlace = Instantiate(curretObject.obj);
+
+        //for detecting collisions with placeable objects
+        {
+            objectToPlace.GetComponentInChildren<MeshCollider>().convex = true;
+            objectToPlace.GetComponentInChildren<MeshCollider>().isTrigger = true;
+        }
         SpatialUnderstandingCursor.Instance.CursorText.text = "start placing";
         clickTime = DateTime.Now;
         isPlacing = true;
@@ -151,6 +159,19 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                 //case ObjectsToPlace.cannonPrefab:
                     //(objectToPlace.GetComponentInChildren<RadiusTower>()).FinalizePlacement();
                     //break;
+            }
+
+            //for detecting collisions with placeable objects
+            {
+                objectToPlace.GetComponentInChildren<MeshCollider>().isTrigger = false;
+                objectToPlace.GetComponentInChildren<MeshCollider>().convex = false;
+
+                GameObject child = objectToPlace.transform.GetChild(0).gameObject;
+                child.AddComponent<Rigidbody>();
+                //child.GetComponent<Rigidbody>().freezeRotation = true;
+                child.GetComponent<Rigidbody>().isKinematic = true;
+                child.GetComponent<Rigidbody>().useGravity = false;
+                child.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
 
             objectToPlace = null;
@@ -201,6 +222,19 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
                 //break;
         }
 
+        //for detecting collisions with placeable objects
+        {
+            objectToPlace.GetComponentInChildren<MeshCollider>().isTrigger = false;
+            objectToPlace.GetComponentInChildren<MeshCollider>().convex = false;
+
+            GameObject child = objectToPlace.transform.GetChild(0).gameObject;
+            child.AddComponent<Rigidbody>();
+            //child.GetComponent<Rigidbody>().freezeRotation = true;
+            child.GetComponent<Rigidbody>().isKinematic = true;
+            child.GetComponent<Rigidbody>().useGravity = false;
+            child.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        }
+
         objectToPlace = null;
         //AppState.Instance.currentGameState = AppState.GameStates.Game;
         SpatialUnderstandingCursor.Instance.CursorText.text = "finalize placing";
@@ -226,7 +260,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         }
     }
 
-    public float refreshRate = 0.0f;
+    public float refreshRate = 0.1f;
     private float nextRefresh = 0.0f;
 
     private SpatialUnderstandingDllTopology.TopologyResult testRes;
@@ -298,6 +332,7 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
             //objectToPlace.GetComponentInChildren<Collision>().testGreen();
             AppState.Instance.DebugDisplay.text = "OK";
             isValidLocation = true;
+            InvalidPlaceText.SetActive(false);
         }
         else
         {
@@ -306,8 +341,15 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
             //objectToPlace.GetComponentInChildren<Collision>().testRed();
             //objectToPlace.SetActive(false);
             isValidLocation = false;
+            InvalidPlaceText.SetActive(true);
         }
-        
+
+        if (objectToPlace.GetComponentInChildren<PlacementCollision>().IsBlocked())
+        {
+            InvalidPlaceText.SetActive(true);
+            isValidLocation = false;
+        }
+
         return false;
     }
 

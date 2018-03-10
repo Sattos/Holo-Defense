@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 114779845655633230}
   - component: {fileID: 64735488127176864}
   - component: {fileID: 114156646045325224}
+  - component: {fileID: 114690259845854160}
   m_Layer: 5
   m_Name: td_humans_Balista_stage1
   m_TagString: Untagged
@@ -467,6 +468,18 @@ MonoBehaviour:
   - {fileID: 4745415183076730}
   rotation_axis: 1
   rotation_speed: -50
+--- !u!114 &114690259845854160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1911413653130172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27b421ace5308145b1d634f8f308af5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  count: 0
 --- !u!114 &114779845655633230
 MonoBehaviour:
   m_ObjectHideFlags: 1

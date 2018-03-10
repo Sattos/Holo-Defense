@@ -71,6 +71,7 @@ GameObject:
   - component: {fileID: 114915554486050558}
   - component: {fileID: 114872547392211758}
   - component: {fileID: 64679143817564644}
+  - component: {fileID: 114993894637875104}
   m_Layer: 5
   m_Name: td_humans_Cannon_stage1
   m_TagString: Untagged
@@ -607,3 +608,15 @@ MonoBehaviour:
   RotatingObject: {fileID: 1154130089451888}
   rotate: 1
   targetingMode: 0
+--- !u!114 &114993894637875104
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1546313660340160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27b421ace5308145b1d634f8f308af5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  count: 0

@@ -21,8 +21,8 @@ public class StartUI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+        //gameObject.GetComponent<FixedAngularSize>().SetSizeRatio(0.2f);
+    }
 	
 	// Update is called once per frame
 	void Update () {

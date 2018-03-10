@@ -260,6 +260,16 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             {
                 { "Toggle Scanned Mesh", ToggleScannedMesh },
                 { "Toggle Processed Mesh", ToggleProcessedMesh },
+                { "Archer Tower", SpeechPlacementArcher },
+                { "Cannon Tower", SpeechPlacementCannon },
+                { "Mage Tower", SpeechPlacementMage },
+                { "Base", SpeechPlacementBase },
+                { "Spawn", SpeechPlacementSpawner },
+                { "Place", SpeechPlace },
+                { "Cancel", SpeechCancelPlacement },
+                { "Start", SpeechStart },
+                { "Next Wave", SpeechNextWave },
+                { "Menu", SpeechMenu },
             };
 
             keywordRecognizer = new KeywordRecognizer(keywordsToActions.Keys.ToArray());
@@ -572,6 +582,66 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         public void UpdateLivesText()
         {
             LivesText.text = string.Format("{0:0}", EnemyControllerScript.Instance.baseHealth);
+        }
+
+        private static void SpeechPlacementArcher()
+        {
+            ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.archerTowerPrefab);
+            Instance.Prompt("test", Color.red, 1.0f);
+        }
+
+        private static void SpeechPlacementCannon()
+        {
+            ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.cannonTowerPrefab);
+            Instance.Prompt("test", Color.red, 1.0f);
+        }
+
+        private static void SpeechPlacementMage()
+        {
+            ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.mageTowerPrefab);
+            Instance.Prompt("test", Color.red, 1.0f);
+        }
+
+        private static void SpeechPlacementBase()
+        {
+            ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.basePrefab);
+            Instance.Prompt("test", Color.red, 1.0f);
+        }
+
+        private static void SpeechPlacementSpawner()
+        {
+            ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.spawnerPrefab);
+            Instance.Prompt("test", Color.red, 1.0f);
+        }
+
+        private static void SpeechCancelPlacement()
+        {
+            ObjectPlacer.Instance.CancelPlacement();
+            Instance.Prompt("test", Color.red, 1.0f);
+        }
+
+        private static void SpeechPlace()
+        {
+            ObjectPlacer.Instance.FinalizePlacement();
+            Instance.Prompt("test", Color.red, 1.0f);
+        }
+
+        private static void SpeechStart()
+        {
+            EnemyControllerScript.Instance.SendFirstWave();
+            Instance.Prompt("test", Color.red, 1.0f);
+        }
+
+        private static void SpeechNextWave()
+        {
+            EnemyControllerScript.Instance.SendNextWave();
+            Instance.Prompt("test", Color.red, 1.0f);
+        }
+
+        private static void SpeechMenu()
+        {
+            AppState.Instance.SwitchUIState();
+            Instance.Prompt("test", Color.red, 1.0f);
         }
     }
 }

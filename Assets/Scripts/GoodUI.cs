@@ -15,6 +15,7 @@ public class GoodUI : MonoBehaviour {
 
     public void Awake()
     {
+        //gameObject.GetComponent<FixedAngularSize>().SetSizeRatio(0.2f);
         Instance = this;
     }
 
