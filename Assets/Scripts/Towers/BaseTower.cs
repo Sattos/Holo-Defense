@@ -77,15 +77,15 @@ public class UpgradeStats
     }
 
     public static UpgradeStats[] ArcherUpgradeLevels = {
-        new UpgradeStats(2, 700, 2, 0, 0, 0, 0, 1, 0, 0.06f, 10, 8),
-        new UpgradeStats(3.5f, 650, 2.2f, 0, 0, 0, 0, 1, 0, 0.07f, 30, 16),
-        new UpgradeStats(6, 500, 2.6f, 0, 0, 0, 0, 1, 0, 0.08f, 0, 40)
+        new UpgradeStats(2, 700, 2, 0, 0, 0, 0, 1, 0, 6.0f, 10, 8),
+        new UpgradeStats(3.5f, 650, 2.2f, 0, 0, 0, 0, 1, 0, 7.0f, 30, 16),
+        new UpgradeStats(6, 500, 2.6f, 0, 0, 0, 0, 1, 0, 8.0f, 0, 40)
     };
 
     public static UpgradeStats[] CannonUpgradeLevels = {
-        new UpgradeStats(3.0f, 1500, 2.4f, 0, 0, 0, 0, 1, 0, 0.06f, 10, 8),
-        new UpgradeStats(5.0f, 1250, 2.6f, 0, 0, 0, 0, 1, 0.6f, 0.07f, 30, 16),
-        new UpgradeStats(8.5f, 1200, 3.0f, 0, 0, 0, 0, 1, 1.5f, 0.08f, 0, 40)
+        new UpgradeStats(3.0f, 1500, 2.4f, 0, 0, 0, 0, 1, 0, 6.0f, 10, 8),
+        new UpgradeStats(5.0f, 1250, 2.6f, 0, 0, 0, 0, 1, 0.6f, 7.0f, 30, 16),
+        new UpgradeStats(8.5f, 1200, 3.0f, 0, 0, 0, 0, 1, 1.5f, 8.0f, 0, 40)
     };
 
     public static UpgradeStats[] MageUpgradeLevels = {

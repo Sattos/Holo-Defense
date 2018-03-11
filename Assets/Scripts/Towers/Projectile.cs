@@ -53,7 +53,8 @@ public class Projectile : MonoBehaviour {
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, Target.transform.position, stats.velocity);
+            transform.position = Vector3.MoveTowards(transform.position, Target.GetTargetPosition().position, stats.velocity * Time.deltaTime);
+            transform.eulerAngles = Vector3.RotateTowards(transform.position, EnemyControllerScript.Instance.Base.transform.position, 360, 0);
         }
 	}
 }

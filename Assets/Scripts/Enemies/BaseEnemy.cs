@@ -25,6 +25,8 @@ public class BaseEnemy : MonoBehaviour {
     public float currentSlow;
     public float currentDamageOverTime;
 
+    public Transform projectileTarget;
+
     private bool hasHitBase;
 
     private Dictionary<GameObject, Effect> slowEffects = new Dictionary<GameObject, Effect>();
@@ -130,6 +132,18 @@ public class BaseEnemy : MonoBehaviour {
         }
     }
 
+    public Transform GetTargetPosition()
+    {
+        if(projectileTarget != null)
+        {
+            return projectileTarget;
+        }
+        else
+        {
+            return transform;
+        }
+    }
+
     public void OnTriggerEnter(Collider collider)
     {
         if(collider.gameObject.tag == "Base")
@@ -158,7 +172,14 @@ public class BaseEnemy : MonoBehaviour {
 	void Update () {
         DamageOverTime();
         Slow();
-        transform.position = Vector3.MoveTowards(transform.position, EnemyControllerScript.Instance.Base.transform.position, speed * currentSlow);
-        transform.rotation = Quaternion.FromToRotation(transform.position, EnemyControllerScript.Instance.Base.transform.position);
+        transform.position = Vector3.MoveTowards(transform.position, EnemyControllerScript.Instance.Base.transform.position, speed * currentSlow * Time.deltaTime);
+        //transform.rotation = Quaternion.FromToRotation(transform.position, EnemyControllerScript.Instance.Base.transform.position);
+
+        //Vector3 _direction = (EnemyControllerScript.Instance.Base.transform.position - transform.position).normalized;
+
+        ////create the rotation we need to be in to look at the target
+        //Quaternion _lookRotation = Quaternion.LookRotation(_direction);
+
+        //transform.eulerAngles = Vector3.RotateTowards(transform.position, EnemyControllerScript.Instance.Base.transform.position, 360, 0) + new Vector3(0,90,0);
 	}
 }

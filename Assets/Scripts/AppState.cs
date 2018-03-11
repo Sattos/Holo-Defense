@@ -568,6 +568,20 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             //}
         }
 
+        public void Pause()
+        {
+            Debug.Log(Time.timeScale);
+            if(Time.timeScale == 0)
+            {
+                Time.timeScale = 1;
+            }
+            else
+            {
+                Time.timeScale = 0;
+            }
+            //EnemyControllerScript.Instance.Pause();
+        }
+
         public PromptFadeout PromptFadeout;
 
         public void Prompt(string text, Color color, float duration)

@@ -1121,7 +1121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyType: 0
-  Enemy: {fileID: 114188595483320822, guid: cc9a221f9619a0a4fb680b76e0d3b8a5, type: 2}
+  Enemy: {fileID: 114855217549127114, guid: cc9a221f9619a0a4fb680b76e0d3b8a5, type: 2}
   count: 0
   delay: 0
 --- !u!114 &114283849454020130

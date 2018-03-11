@@ -72,7 +72,7 @@ public class ProjectileTower : BaseTower {
         {
             if (rotate)
             {
-                RotatingObject.transform.LookAt(tar.transform, transform.up);
+                RotatingObject.transform.LookAt(tar.GetTargetPosition(), transform.up);
                 Vector3 rotation = RotatingObject.transform.localRotation.eulerAngles;
                 rotation.x = 0;
                 rotation.z = 0;

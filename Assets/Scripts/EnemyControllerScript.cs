@@ -42,16 +42,16 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
     public int currentWave = 0;
     public int maxWave = 10;
     public WaveParameters[] waves =
-        {   new WaveParameters(0.7f, 5, 10, 0.01f, 3),
-            new WaveParameters(0.7f, 10, 7, 0.01f, 2),
-            new WaveParameters(0.7f, 5, 20, 0.007f, 5),
-            new WaveParameters(0.7f, 15, 10, 0.018f, 2),
-            new WaveParameters(0.7f, 2, 60, 0.01f, 15),
-            new WaveParameters(0.7f, 10, 25, 0.01f, 5),
-            new WaveParameters(0.7f, 5, 10, 0.01f, 3),
-            new WaveParameters(0.7f, 5, 10, 0.01f, 3),
-            new WaveParameters(0.7f, 30, 25, 0.015f, 2),
-            new WaveParameters(0.7f, 1, 300, 0.005f, 50),
+        {   new WaveParameters(0.7f, 5, 10, 0.3f, 3),
+            new WaveParameters(0.7f, 10, 7, 0.3f, 2),
+            new WaveParameters(0.7f, 5, 20, 0.15f, 5),
+            new WaveParameters(0.7f, 15, 10, 0.5f, 2),
+            new WaveParameters(0.7f, 2, 60, 0.3f, 15),
+            new WaveParameters(0.7f, 10, 25, 0.3f, 5),
+            new WaveParameters(0.7f, 5, 10, 0.3f, 3),
+            new WaveParameters(0.7f, 5, 10, 0.3f, 3),
+            new WaveParameters(0.7f, 30, 25, 0.6f, 2),
+            new WaveParameters(0.7f, 1, 300, 0.1f, 50),
             };
 
     public float waveTime;
@@ -134,7 +134,7 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
             spawner.StartNextWave(waves[currentWave]);
         }
         currentWave++;
-        time = Time.time + waveTime;
+        time = waveTime;//Time.time + waveTime;
     }
 
     public void SendFirstWave()
@@ -150,7 +150,7 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
             return;
         }
         isStarted = true;
-        time = Time.time + 2.0f;
+        time = 2.0f;//Time.time + 2.0f;
         //SendNextWave();
     }
 
@@ -197,15 +197,16 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 	void Update () {
         if(currentWave == maxWave)
         {
-            waveText.text = "";
+            waveText.text = "END";
             return;
         }
 		if(isStarted)
         {
-            float timeToNext = time - Time.time;
+            //float timeToNext = time - Time.time;
+            time -= Time.deltaTime;
 
-            waveText.text = String.Format("{0:0.0}s", timeToNext);
-            if (timeToNext <= 0)
+            waveText.text = String.Format("{0:0.0}s", time);
+            if (time <= 0)
             {
                 SendNextWave();
             }
@@ -228,5 +229,18 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
         isBasePlaced = false;
         Spawners.Clear();
         Enemies.Clear();
+    }
+
+    public void Pause()
+    {
+        foreach (Spawner spawner in Spawners)
+        {
+            //spawner.paused = !spawner.paused;
+        }
+        foreach (BaseEnemy enemy in Enemies)
+        {
+            enemy.enabled = false;
+        }
+        isStarted = !isStarted;
     }
 }

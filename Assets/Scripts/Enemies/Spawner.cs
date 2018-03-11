@@ -25,6 +25,15 @@ public class Spawner : MonoBehaviour {
         enemy.speed = stats.speed;
         enemy.money = stats.money;
         enemy.transform.position = transform.position;
+
+        Vector3 _direction = (EnemyControllerScript.Instance.Base.transform.position - transform.position).normalized;
+
+        //create the rotation we need to be in to look at the target
+        Quaternion _lookRotation = Quaternion.LookRotation(_direction);
+
+        enemy.transform.rotation = _lookRotation;
+        enemy.transform.eulerAngles += new Vector3(0, 90, 0);
+
         EnemyControllerScript.Instance.AddEnemy(enemy);
         if(++spawnedCount == count)
         {
