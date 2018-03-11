@@ -68,6 +68,8 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         public TextMesh MoneyText;
         public TextMesh LivesText;
 
+        public float menuDistance;
+
         // Properties
         public string SpaceQueryDescription
         {
@@ -452,7 +454,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             
         }
 
-        public void SetUI(int i)
+        public void SetUI(int newGameState)
         {
             switch(currentGameState)
             {
@@ -475,9 +477,10 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     break;
             }
 
-            switch(i)
+            switch(newGameState)
             {
                 case 1:
+                    MainUI.transform.position = CameraCache.Main.transform.position + CameraCache.Main.transform.forward * menuDistance;
                     MainUI.SetActive(true);
                     MainUI.GetComponent<StartUI>().enabled = true;
                     currentGameState = GameStates.MainMenu;
@@ -513,6 +516,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     currentGameState = GameStates.NormalInterface;
                     break;
                 case 4:
+                    OptimalUI.transform.position = CameraCache.Main.transform.position + CameraCache.Main.transform.forward * menuDistance;
                     OptimalUI.SetActive(true);
                     OptimalUI.GetComponent<GoodUI>().enabled = true;
                     if (EnemyControllerScript.Instance.isBasePlaced)

@@ -19,6 +19,7 @@ public class Spawner : MonoBehaviour {
     public void SpawnEnemy(BaseEnemy.BaseStats stats)
     {
         BaseEnemy enemy = Instantiate(Enemy);
+        enemy.GetComponent<playerControl>().FlyForward();
         enemy.stats = stats;
         enemy.health = stats.health;
         enemy.speed = stats.speed;

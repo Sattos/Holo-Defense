@@ -152,12 +152,13 @@ public class BaseEnemy : MonoBehaviour {
     // Use this for initialization
     void Start () {
         stats = new BaseStats(health, speed, money);
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
         DamageOverTime();
         Slow();
         transform.position = Vector3.MoveTowards(transform.position, EnemyControllerScript.Instance.Base.transform.position, speed * currentSlow);
+        transform.rotation = Quaternion.FromToRotation(transform.position, EnemyControllerScript.Instance.Base.transform.position);
 	}
 }

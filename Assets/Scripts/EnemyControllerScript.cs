@@ -144,6 +144,11 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
             AppState.Instance.Prompt("PLACE BASE FIRST", Color.red, 2.5f);
             return;
         }
+        if(Spawners.Count == 0)
+        {
+            AppState.Instance.Prompt("PLACE SPAWNER FIRST", Color.red, 2.5f);
+            return;
+        }
         isStarted = true;
         time = Time.time + 2.0f;
         //SendNextWave();
