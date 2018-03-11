@@ -32,7 +32,7 @@ public class PlacementCollision : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if(collider.tag == "BlockPlacement")
+        if(collider.tag == "BlockPlacement" || collider.tag == "Base")
         {
             count++;
         }
@@ -43,7 +43,7 @@ public class PlacementCollision : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
-        if (collider.tag == "BlockPlacement")
+        if (collider.tag == "BlockPlacement" || collider.tag == "Base")
         {
             count--;
         }

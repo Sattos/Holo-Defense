@@ -122,9 +122,14 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         objectToPlace = Instantiate(curretObject.obj);
 
         //for detecting collisions with placeable objects
+        if(obj < ObjectsToPlace.basePrefab)     //towers have single mesh
         {
             objectToPlace.GetComponentInChildren<MeshCollider>().convex = true;
             objectToPlace.GetComponentInChildren<MeshCollider>().isTrigger = true;
+        }
+        else                                    //base and spawner have simple box collider
+        {
+            objectToPlace.GetComponentInChildren<BoxCollider>().isTrigger = true;
         }
         SpatialUnderstandingCursor.Instance.CursorText.text = "start placing";
         clickTime = DateTime.Now;
@@ -162,10 +167,16 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
             }
 
             //for detecting collisions with placeable objects
+            if (currentEnum < ObjectsToPlace.basePrefab)     //towers have single mesh
             {
                 objectToPlace.GetComponentInChildren<MeshCollider>().isTrigger = false;
                 objectToPlace.GetComponentInChildren<MeshCollider>().convex = false;
-
+            }
+            else                                    //base and spawner have simple box collider
+            {
+                objectToPlace.GetComponentInChildren<BoxCollider>().isTrigger = false;
+            }
+            {
                 GameObject child = objectToPlace.transform.GetChild(0).gameObject;
                 child.AddComponent<Rigidbody>();
                 //child.GetComponent<Rigidbody>().freezeRotation = true;
@@ -223,10 +234,16 @@ public class ObjectPlacer : Singleton<ObjectPlacer>
         }
 
         //for detecting collisions with placeable objects
+        if (currentEnum < ObjectsToPlace.basePrefab)     //towers have single mesh
         {
             objectToPlace.GetComponentInChildren<MeshCollider>().isTrigger = false;
             objectToPlace.GetComponentInChildren<MeshCollider>().convex = false;
-
+        }
+        else                                    //base and spawner have simple box collider
+        {
+            objectToPlace.GetComponentInChildren<BoxCollider>().isTrigger = false;
+        }
+        {
             GameObject child = objectToPlace.transform.GetChild(0).gameObject;
             child.AddComponent<Rigidbody>();
             //child.GetComponent<Rigidbody>().freezeRotation = true;
