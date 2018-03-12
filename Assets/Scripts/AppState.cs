@@ -381,6 +381,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     break;
                 case GameStates.Scanning:
                     SpatialUnderstanding.Instance.RequestFinishScan();
+                    ToggleProcessedMesh();
                     SetUI(1);
                     break;
                 case GameStates.BadInterface:

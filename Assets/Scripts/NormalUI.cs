@@ -42,6 +42,9 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         public Button PrefabButton;
         public LayerMask UILayerMask;
 
+        public GameObject mainPanel;
+        public GameObject towerPanel;
+
         // Properties
         public bool HasPlacedMenu { get; private set; }
         public AnimatedBox MenuAnimatedBox { get; private set; }
@@ -299,6 +302,18 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
 
             // And mark that we've done it
             HasPlacedMenu = true;
+        }
+
+        public void TowerPanel()
+        {
+            towerPanel.SetActive(true);
+            mainPanel.SetActive(false);
+        }
+
+        public void MainPanel()
+        {
+            towerPanel.SetActive(false);
+            mainPanel.SetActive(true);
         }
 
         private void Update()

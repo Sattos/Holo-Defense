@@ -17,6 +17,9 @@ public class PurchasableClick : RaycastButton {
 
     private RectTransform rectTransform;
 
+    private Vector2 left = new Vector2(-200, 0);
+    private Vector2 right = new Vector2(0, 0);
+
     public void ActivateRotation()
     {
         isRotating = true;
@@ -25,23 +28,26 @@ public class PurchasableClick : RaycastButton {
             if (InfoPanel != null)
             {
                 //InfoPanel.ShowStatsForTowerType(towerType);
+                InfoPanel.gameObject.SetActive(true);
                 InfoPanel.ShowStats((TowerType)towerType, 0);
                 if (AppState.Instance.currentGameState == AppState.GameStates.GoodInterface)
                 {
                     if (gameObject.GetComponent<RectTransform>().anchoredPosition.x > 200.0f)
                     {
-                        if (rectTransform.anchoredPosition.x > -100.0f)
+                        //if (rectTransform.anchoredPosition.x > -100.0f)
                         {
-                            rectTransform.anchoredPosition += new Vector2(-200.0f, 0);
+                            //rectTransform.anchoredPosition += new Vector2(-200.0f, 0);
+                            InfoPanel.GetComponent<RectTransform>().anchoredPosition = left;
                             GoodUI.Instance.ActivateRight();
                             GoodUI.Instance.DeactivateLeft();
                         }
                     }
                     else
                     {
-                        if (rectTransform.anchoredPosition.x < -100.0f)
+                        //if (rectTransform.anchoredPosition.x < -100.0f)
                         {
-                            rectTransform.anchoredPosition += new Vector2(200.0f, 0);
+                            //rectTransform.anchoredPosition += new Vector2(200.0f, 0);
+                            InfoPanel.GetComponent<RectTransform>().anchoredPosition = right;
                             GoodUI.Instance.ActivateLeft();
                             GoodUI.Instance.DeactivateRight();
                         }
@@ -53,6 +59,40 @@ public class PurchasableClick : RaycastButton {
                 }
             }
             //TurretInfoCanvas.gameObject.SetActive(true);
+        }
+        else if(towerType == ObjectPlacer.ObjectsToPlace.basePrefab)
+        {
+            InfoPanel.gameObject.SetActive(true);
+            InfoPanel.valuesPanel.SetActive(false);
+            InfoPanel.ShowName("Base");
+
+            GoodUI.Instance.DeactivateRight();
+
+            if (AppState.Instance.currentGameState == AppState.GameStates.GoodInterface)
+            {
+                InfoPanel.GetComponent<RectTransform>().anchoredPosition = right;
+            }
+            else if (AppState.Instance.currentGameState == AppState.GameStates.NormalInterface)
+            {
+                rectTransform.anchoredPosition = new Vector3(gameObject.GetComponent<RectTransform>().anchoredPosition.x, 100);
+            }
+        }
+        else if (towerType == ObjectPlacer.ObjectsToPlace.spawnerPrefab)
+        {
+            InfoPanel.gameObject.SetActive(true);
+            InfoPanel.valuesPanel.SetActive(false);
+            InfoPanel.ShowName("Spawner");
+
+            GoodUI.Instance.DeactivateRight();
+
+            if (AppState.Instance.currentGameState == AppState.GameStates.GoodInterface)
+            {
+                InfoPanel.GetComponent<RectTransform>().anchoredPosition = right;
+            }
+            else if (AppState.Instance.currentGameState == AppState.GameStates.NormalInterface)
+            {
+                rectTransform.anchoredPosition = new Vector3(gameObject.GetComponent<RectTransform>().anchoredPosition.x, 100);
+            }
         }
     }
 

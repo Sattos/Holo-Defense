@@ -64,7 +64,8 @@ public class InfoPanel : MonoBehaviour {
     {
         if (!upgrade || level == Stats.UpgradeLevels[type].Length - 1)
         {
-            gameObject.SetActive(true);
+            //gameObject.SetActive(true);
+            valuesPanel.SetActive(true);
 
             ShowName(TurretInfoCanvas.descriptionDictionary[(int)type][0]);
 
@@ -92,7 +93,8 @@ public class InfoPanel : MonoBehaviour {
                     Values[7].text = "-";//String.Format(FormatDecimal, RadiusTower.UpgradeLevels[0].velocity);
                     break;
                 default:
-                    gameObject.SetActive(false);
+                    //gameObject.SetActive(false);
+                    valuesPanel.SetActive(false);
                     break;
             }
         }

@@ -69,6 +69,7 @@ namespace HoloToolkit.Unity.InputModule
             if (HostTransform == null)
             {
                 HostTransform = transform;
+                rectTransform = GetComponent<RectTransform>();
             }
         }
 
@@ -179,6 +180,10 @@ namespace HoloToolkit.Unity.InputModule
         /// <summary>
         /// Update the position of the object being dragged.
         /// </summary>
+
+        private RectTransform rectTransform;
+        public float bottomLimit;
+
         private void UpdateDragging()
         {
             Vector3 newHandPosition;
@@ -218,6 +223,19 @@ namespace HoloToolkit.Unity.InputModule
 
             // Apply Final Position
             HostTransform.position = Vector3.Lerp(HostTransform.position, draggingPosition + cameraTransform.TransformDirection(objRefGrabPoint), PositionLerpSpeed);
+
+            //RectTransform for scrolling list
+            float y = rectTransform.anchoredPosition.y;
+            if(y < 0)
+            {
+                y = 0;
+            }
+            if(y > bottomLimit)
+            {
+                y = bottomLimit;
+            }
+            rectTransform.anchoredPosition3D = new Vector3(0, y, 0);
+
             // Apply Final Rotation
             HostTransform.rotation = Quaternion.Lerp(HostTransform.rotation, draggingRotation, RotationLerpSpeed);
 

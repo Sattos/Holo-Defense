@@ -100,6 +100,7 @@ public class TurretInfoCanvas : MonoBehaviour {
         AppState.Instance.money += tower.SellValue;
         AppState.Instance.UpdateMoneyText();
         Destroy(tower.gameObject);
+        gameObject.SetActive(false);
     }
 
     public void Activate(BaseTower tower)
@@ -160,6 +161,6 @@ public class TurretInfoCanvas : MonoBehaviour {
             return;
         Vector3 lookDirTarget = CameraCache.Main.transform.position - canvas.transform.position;
         lookDirTarget = (new Vector3(lookDirTarget.x, 0.0f, lookDirTarget.z)).normalized;
-        canvas.transform.rotation = Quaternion.Slerp(canvas.transform.rotation, Quaternion.LookRotation(-lookDirTarget), Time.deltaTime * 10.0f);
+        canvas.transform.rotation = Quaternion.Slerp(canvas.transform.rotation, Quaternion.LookRotation(-lookDirTarget), Time.unscaledDeltaTime * 10.0f);
     }
 }

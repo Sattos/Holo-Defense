@@ -36,6 +36,10 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
 
     public TextMesh waveText;
 
+    public Text badStartText;
+    public Text normalStartText;
+    public Text goodStartText;
+
     public int baseHealth;
 
     public bool isBasePlaced = false;
@@ -113,6 +117,10 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
     {
         Enemies.Remove(enemy);
         Destroy(enemy.gameObject);
+        if(currentWave == maxWave && Enemies.Count == 0)
+        {
+            AppState.Instance.Prompt("YOU WIN", Color.red, 5.0f);
+        }
     }
 
     public void AddEnemy(BaseEnemy enemy)
@@ -153,8 +161,12 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
         }
         isStarted = true;
         time = 2.0f;//Time.time + 2.0f;
-        //SendNextWave();
-    }
+        badStartText.text = "Next wave";
+        normalStartText.text = "Next wave";
+        goodStartText.text = "Next wave";
+
+    //SendNextWave();
+}
 
     public void SendWave()
     {
@@ -173,6 +185,8 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
         AppState.Instance.UpdateLivesText();
         if(--baseHealth <= 0)
         {
+            Time.timeScale = 0;
+            AppState.Instance.Prompt("YOU LOSE\nPRESS MENU TO EXIT", Color.red, 5.0f);
             //AppState.Instance.Restart();
             //AppState.Instance.SetUI(1);
             //GAME OVER
@@ -200,6 +214,9 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
         if(currentWave == maxWave)
         {
             waveText.text = "END";
+            badStartText.text = "END";
+            normalStartText.text = "END";
+            goodStartText.text = "END";
             return;
         }
 		if(isStarted)
@@ -225,11 +242,14 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
         foreach (BaseEnemy enemy in Enemies)
         {
             if(enemy != null)
-                DestroyEnemy(enemy);
+                Destroy(enemy.gameObject);
         }
         Destroy(Base.gameObject);
         isBasePlaced = false;
         Spawners.Clear();
         Enemies.Clear();
+        badStartText.text = "Start";
+        normalStartText.text = "Start";
+        goodStartText.text = "Start";
     }
 }

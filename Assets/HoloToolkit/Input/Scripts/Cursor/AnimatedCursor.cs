@@ -151,7 +151,7 @@ namespace HoloToolkit.Unity.InputModule
             base.OnInputDown(eventData);
             handId = eventData.SourceId;
             eventData.InputSource.TryGetPointerPosition(handId, out downPos);
-            downTime = Time.time;
+            downTime = Time.unscaledTime;
             //Debug.Log(downTime);
         }
 
@@ -162,11 +162,11 @@ namespace HoloToolkit.Unity.InputModule
             {
                 eventData.InputSource.TryGetPointerPosition(handId, out upPos);
             }
-            if((downTime - upTime < 0.8f) && Vector3.Distance(downPos, upPos) > 0.1f)
+            if((downTime - upTime > 0.8f) && (downTime - upTime < 1.5f) && Vector3.Distance(downPos, upPos) > 0.1f)
             {
                 AppState.Instance.SwitchUIState();
             }  
-            upTime = Time.time;
+            upTime = Time.unscaledTime;
             //Debug.Log(upTime);
         }
 
