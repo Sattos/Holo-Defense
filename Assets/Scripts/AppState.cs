@@ -275,11 +275,11 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             {
                 { "Toggle Scanned Mesh", ToggleScannedMesh },
                 { "Toggle Processed Mesh", ToggleProcessedMesh },
-                { "Archer Tower", SpeechPlacementArcher },
-                { "Cannon Tower", SpeechPlacementCannon },
-                { "Mage Tower", SpeechPlacementMage },
+                { "Archer", SpeechPlacementArcher },
+                { "Cannon", SpeechPlacementCannon },
+                { "Mage", SpeechPlacementMage },
                 { "Base", SpeechPlacementBase },
-                { "Spawn", SpeechPlacementSpawner },
+                { "Enemy", SpeechPlacementSpawner },
                 { "Place", SpeechPlace },
                 { "Cancel", SpeechCancelPlacement },
                 { "Start", SpeechStart },
@@ -521,7 +521,8 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     }
                     else
                     {
-                        ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.basePrefab);
+                        //ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.basePrefab);
+                        StartCoroutine(StartPlacingBase());
                     }
                     currentGameState = GameStates.NormalInterface;
                     break;
@@ -540,6 +541,13 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
                     currentGameState = GameStates.GoodInterface;
                     break;
             }
+        }
+
+        private IEnumerator StartPlacingBase()
+        {
+            yield return new WaitForSecondsRealtime(0.2f);
+            ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.basePrefab);
+
         }
 
         public void SwitchUIState()
@@ -568,12 +576,17 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             EnemyControllerScript.Instance.currentWave = 0;
             EnemyControllerScript.Instance.isStarted = false;
 
+            EnemyControllerScript.Instance.isBasePlaced = false;
+
             TurretInfoCanvas.gameObject.SetActive(false);
 
             UpdateMoneyText();
             UpdateLivesText();
 
             Time.timeScale = 1;
+            badPauseText.text = "PAUSE";
+            normalPauseText.text = "PAUSE";
+            goodPauseText.text = "PAUSE";
             //foreach (BaseEnemy obj in FindObjectsOfType<BaseEnemy>())
             //{
             //    Destroy(obj.gameObject);
@@ -652,7 +665,7 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         private static void SpeechPlacementSpawner()
         {
             ObjectPlacer.Instance.StartPlacingObject(ObjectPlacer.ObjectsToPlace.spawnerPrefab);
-            Instance.Prompt("Spawn", Color.red, 1.0f);
+            Instance.Prompt("Enemy", Color.red, 1.0f);
         }
 
         private static void SpeechCancelPlacement()

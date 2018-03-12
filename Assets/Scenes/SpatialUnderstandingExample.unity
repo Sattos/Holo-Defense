@@ -17742,7 +17742,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -18635,7 +18635,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -19160,7 +19160,7 @@ MonoBehaviour:
   LivesText: {fileID: 421444548}
   menuDistance: 6
   badPauseText: {fileID: 493569731}
-  normalPauseText: {fileID: 1132937762}
+  normalPauseText: {fileID: 1532276477}
   goodPauseText: {fileID: 227109480}
   PromptFadeout: {fileID: 1668460531}
 --- !u!114 &1372945796
