@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 #if UNITY_WSA || UNITY_STANDALONE_WIN
 using UnityEngine.Windows.Speech;
@@ -69,6 +70,10 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
         public TextMesh LivesText;
 
         public float menuDistance;
+
+        public Text badPauseText;
+        public Text normalPauseText;
+        public Text goodPauseText;
 
         // Properties
         public string SpaceQueryDescription
@@ -257,6 +262,14 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             OptimalUI.SetActive(false);
             OptimalUI.GetComponent<GoodUI>().enabled = false;
 
+            Prompt("TAP TO FINISH SCAN", Color.red, 5.0f);
+
+            EnemyControllerScript.Instance.baseHealth = startBaseHealth;
+            money = startMoney;
+
+            UpdateMoneyText();
+            UpdateLivesText();
+
 
             var keywordsToActions = new Dictionary<string, Action>
             {
@@ -277,10 +290,6 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             keywordRecognizer = new KeywordRecognizer(keywordsToActions.Keys.ToArray());
             keywordRecognizer.OnPhraseRecognized += args => keywordsToActions[args.text].Invoke();
             keywordRecognizer.Start();
-
-
-            money = startMoney;
-            EnemyControllerScript.Instance.baseHealth = startBaseHealth;
         }
 #endif
 
@@ -562,6 +571,8 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
 
             UpdateMoneyText();
             UpdateLivesText();
+
+            Time.timeScale = 1;
             //foreach (BaseEnemy obj in FindObjectsOfType<BaseEnemy>())
             //{
             //    Destroy(obj.gameObject);
@@ -574,13 +585,24 @@ namespace HoloToolkit.Examples.SpatialUnderstandingFeatureOverview
             if(Time.timeScale == 0)
             {
                 Time.timeScale = 1;
+                Prompt("RESUMED", Color.red, 2.5f);
+                badPauseText.text = "PAUSE";
+                normalPauseText.text = "PAUSE";
+                goodPauseText.text = "PAUSE";
             }
             else
             {
+                Prompt("PAUSED", Color.red, 2.5f);
                 Time.timeScale = 0;
+                badPauseText.text = "RESUME";
+                normalPauseText.text = "RESUME";
+                goodPauseText.text = "RESUME";
             }
-            //EnemyControllerScript.Instance.Pause();
-        }
+
+            
+
+        //EnemyControllerScript.Instance.Pause();
+    }
 
         public PromptFadeout PromptFadeout;
 

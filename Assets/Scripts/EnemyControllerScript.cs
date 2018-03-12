@@ -11,6 +11,7 @@ public class WaveParameters
     public float delay;
     public int count;
     public BaseEnemy.BaseStats stats;
+    public float nextWaveTime;
 
     public WaveParameters(float delay, int count, BaseEnemy.BaseStats stats)
     {
@@ -19,11 +20,12 @@ public class WaveParameters
         this.stats = stats;
     }
 
-    public WaveParameters(float delay, int count, float health, float speed, int money)
+    public WaveParameters(float delay, int count, float health, float speed, int money, float nextWaveTime)
     {
         this.delay = delay;
         this.count = count;
         this.stats = new BaseEnemy.BaseStats(health, speed, money);
+        this.nextWaveTime = nextWaveTime;
     }
 }
 
@@ -42,16 +44,16 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
     public int currentWave = 0;
     public int maxWave = 10;
     public WaveParameters[] waves =
-        {   new WaveParameters(0.7f, 5, 10, 0.3f, 3),
-            new WaveParameters(0.7f, 10, 7, 0.3f, 2),
-            new WaveParameters(0.7f, 5, 20, 0.15f, 5),
-            new WaveParameters(0.7f, 15, 10, 0.5f, 2),
-            new WaveParameters(0.7f, 2, 60, 0.3f, 15),
-            new WaveParameters(0.7f, 10, 25, 0.3f, 5),
-            new WaveParameters(0.7f, 5, 10, 0.3f, 3),
-            new WaveParameters(0.7f, 5, 10, 0.3f, 3),
-            new WaveParameters(0.7f, 30, 25, 0.6f, 2),
-            new WaveParameters(0.7f, 1, 300, 0.1f, 50),
+        {   new WaveParameters(0.7f, 5, 10, 0.3f, 3, 20),
+            new WaveParameters(0.7f, 10, 7, 0.3f, 2, 20),
+            new WaveParameters(0.7f, 5, 20, 0.15f, 5, 20),
+            new WaveParameters(0.7f, 15, 10, 0.5f, 2, 20),
+            new WaveParameters(0.7f, 2, 60, 0.3f, 15, 20),
+            new WaveParameters(0.7f, 10, 25, 0.3f, 5, 20),
+            new WaveParameters(0.7f, 5, 10, 0.3f, 3, 20),
+            new WaveParameters(0.7f, 5, 10, 0.3f, 3, 20),
+            new WaveParameters(0.7f, 30, 25, 0.6f, 2, 30),
+            new WaveParameters(0.7f, 1, 300, 0.1f, 50, 0),
             };
 
     public float waveTime;
@@ -133,8 +135,8 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
         {
             spawner.StartNextWave(waves[currentWave]);
         }
+        time = waves[currentWave].nextWaveTime;
         currentWave++;
-        time = waveTime;//Time.time + waveTime;
     }
 
     public void SendFirstWave()
@@ -229,18 +231,5 @@ public class EnemyControllerScript : Singleton<EnemyControllerScript> {
         isBasePlaced = false;
         Spawners.Clear();
         Enemies.Clear();
-    }
-
-    public void Pause()
-    {
-        foreach (Spawner spawner in Spawners)
-        {
-            //spawner.paused = !spawner.paused;
-        }
-        foreach (BaseEnemy enemy in Enemies)
-        {
-            enemy.enabled = false;
-        }
-        isStarted = !isStarted;
     }
 }
